@@ -1,0 +1,162 @@
+{% comment %}
+  Shipping Progress Bar Snippet
+  Add this as a new snippet file: snippets/shipping-progress-bar.liquid
+{% endcomment %}
+
+{%- liquid
+  assign threshold = settings.free_shipping_threshold | default: 50 | times: 100
+  assign cart_total = cart.total_price
+  assign progress = cart_total | times: 100 | divided_by: threshold
+  if progress > 100
+    assign progress = 100
+  endif
+  assign amount_remaining = threshold | minus: cart_total
+  assign is_qualified = false
+  if cart_total >= threshold
+    assign is_qualified = true
+  endif
+-%}
+
+<div class="shipping-progress-bar" data-shipping-progress data-threshold="{{ threshold }}" data-cart-total="{{ cart_total }}">
+  <div class="shipping-message">
+    {%- if is_qualified -%}
+      <div class="message-content qualified">
+        <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        {{ settings.shipping_qualified_message | default: "You qualify for free shipping!" }}
+      </div>
+    {%- else -%}
+      <div class="message-content">
+        {% assign remaining_formatted = amount_remaining | money %}
+        {{ settings.shipping_progress_message | default: "You are [amount] away from free shipping" | replace: '[amount]', remaining_formatted }}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="progress-bar-container">
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill{% if is_qualified %} complete{% endif %}" style="width: {{ progress }}%;"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .shipping-progress-bar {
+    padding: 16px var(--cart-drawer-padding) 20px;
+    background-color: var(--color-background);
+  }
+
+  @media screen and (min-width: 750px) {
+    .shipping-progress-bar {
+      padding: 16px var(--cart-drawer-padding-desktop) 20px;
+    }
+  }
+
+  .shipping-message {
+    margin-bottom: 12px;
+  }
+
+  .message-content {
+    font-size: 14px;
+    color: var(--color-foreground);
+    text-align: left;
+    line-height: 1.4;
+  }
+
+  .message-content.qualified {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #22c55e;
+    font-weight: 500;
+  }
+
+  .check-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .progress-bar-container {
+    position: relative;
+  }
+
+  .progress-bar-track {
+    width: 100%;
+    height: 8px;
+    background-color: #e5e5e5;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    transition: width 0.5s ease-out;
+    background-color: #000000;
+  }
+
+  .progress-bar-fill.complete {
+    background-color: #22c55e;
+  }
+</style>
+
+<script>
+(function() {
+  function updateShippingProgress() {
+    fetch('/cart.js')
+      .then(response => response.json())
+      .then(cart => {
+        const progressBar = document.querySelector('[data-shipping-progress]');
+        if (!progressBar) return;
+
+        const threshold = parseInt(progressBar.dataset.threshold);
+        const cartTotal = cart.total_price;
+        const progress = Math.min((cartTotal / threshold) * 100, 100);
+        const amountRemaining = Math.max(threshold - cartTotal, 0);
+        const isQualified = cartTotal >= threshold;
+
+        const progressFill = progressBar.querySelector('.progress-bar-fill');
+        const messageContent = progressBar.querySelector('.message-content');
+        
+        if (progressFill) {
+          progressFill.style.width = progress + '%';
+          progressFill.className = 'progress-bar-fill' + (isQualified ? ' complete' : '');
+        }
+
+        if (messageContent) {
+          const currency = '{{ cart.currency.symbol }}';
+          const remaining = (amountRemaining / 100).toFixed(2);
+          const progressMessage = '{{ settings.shipping_progress_message | default: "You are [amount] away from free shipping" }}';
+          const qualifiedMessage = '{{ settings.shipping_qualified_message | default: "You qualify for free shipping!" }}';
+
+          if (isQualified) {
+            messageContent.className = 'message-content qualified';
+            messageContent.innerHTML = `
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              ${qualifiedMessage}
+            `;
+          } else {
+            messageContent.className = 'message-content';
+            messageContent.textContent = progressMessage.replace('[amount]', currency + remaining);
+          }
+        }
+      })
+      .catch(error => console.error('Error updating shipping progress:', error));
+  }
+
+  // Listen for cart updates
+  document.addEventListener('cart:updated', updateShippingProgress);
+  document.addEventListener('cart:refresh', updateShippingProgress);
+  
+  // Update on quantity changes
+  document.addEventListener('change', function(e) {
+    if (e.target.matches('[name="updates[]"]')) {
+      setTimeout(updateShippingProgress, 300);
+    }
+  });
+})();
+</script>
