@@ -991,6 +991,54 @@
         "color_scheme": "scheme-9f06691e-150e-4433-acc5-5b462cc1a6e3"
       }
     },
+    "176110944021911981": {
+      "type": "_blocks",
+      "blocks": {
+        "juniper_tiktok_feed_juniper_autoplay_7FdnwQ": {
+          "type": "shopify://apps/juniper-tiktok-feed/blocks/juniper-autoplay/fa514c33-5475-4484-b270-5f1e7eb87a9a",
+          "settings": {
+            "title": "FOLLOW US ON TIKTOK",
+            "autoplay": true,
+            "rows_desktop": 1,
+            "columns_desktop": 5,
+            "rows_mobile": 1,
+            "columns_mobile": 2,
+            "html_area": "",
+            "feed_id": ""
+          }
+        }
+      },
+      "block_order": [
+        "juniper_tiktok_feed_juniper_autoplay_7FdnwQ"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "17609527891566051c": {
       "type": "_blocks",
       "blocks": {
@@ -1115,6 +1163,7 @@
     "1760952768843ceac3",
     "product_list_UwRqN4",
     "featured_product_GDjJUy",
+    "176110944021911981",
     "17609527891566051c",
     "marquee_7QQWai"
   ]
