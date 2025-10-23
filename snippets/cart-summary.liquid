@@ -5,7 +5,6 @@
 {%- enddoc -%}
 
 <div class="cart__summary-totals">
-  {% # We need to keep this node in place to allow morphing to work properly # %}
   <div class="cart__original-total-container cart-primary-typography">
     {%- if cart.cart_level_discount_applications.size > 0 -%}
       <span class="cart__summary-item cart__original-total">
@@ -68,7 +67,6 @@
         ref="cartTotal"
         value="{{ total_price | strip_html }}"
         class="cart__total-value cart-secondary-typography"
-        {% comment %} Used by payment_terms web component {% endcomment %}
         data-cart-subtotal
       >
         {{ total_price }}
@@ -88,7 +86,6 @@
 </div>
 
 <div class="cart__ctas">
-  {%- comment -%} Terms of Service Checkbox {%- endcomment -%}
   <div class="cart__terms-checkbox">
     <label class="cart__terms-label">
       <input 
@@ -153,7 +150,6 @@
     color: var(--color-foreground);
   }
 
-  /* Terms of Service Checkbox Styles */
   .cart__terms-checkbox {
     margin-bottom: 12px;
     padding: 12px;
@@ -195,7 +191,6 @@
     opacity: 0.7;
   }
 
-  /* Disabled checkout button styling */
   .cart__checkout-button[data-terms-required][disabled] {
     opacity: 0.5;
     cursor: not-allowed;
