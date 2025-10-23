@@ -88,6 +88,20 @@
 </div>
 
 <div class="cart__ctas">
+  {%- comment -%} Terms of Service Checkbox {%- endcomment -%}
+  <div class="cart__terms-checkbox">
+    <label class="cart__terms-label">
+      <input 
+        type="checkbox" 
+        id="cart-terms-checkbox" 
+        class="cart__terms-input"
+      >
+      <span class="cart__terms-text">
+        I agree to the <a href="/pages/terms-of-service" target="_blank" class="cart__terms-link">Terms of Service</a>
+      </span>
+    </label>
+  </div>
+
   <button
     type="submit"
     id="checkout"
@@ -97,6 +111,8 @@
       disabled
     {% endif %}
     form="cart-form"
+    data-terms-required
+    disabled
   >
     {{ 'content.checkout' | t }}
   </button>
@@ -135,5 +151,53 @@
 
   .cart__installments {
     color: var(--color-foreground);
+  }
+
+  /* Terms of Service Checkbox Styles */
+  .cart__terms-checkbox {
+    margin-bottom: 12px;
+    padding: 12px;
+    background-color: rgba(var(--color-foreground-rgb), 0.03);
+    border-radius: 4px;
+  }
+
+  .cart__terms-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .cart__terms-input {
+    margin-top: 2px;
+    min-width: 18px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--color-button-primary-background, #000);
+  }
+
+  .cart__terms-text {
+    flex: 1;
+    color: var(--color-foreground);
+  }
+
+  .cart__terms-link {
+    color: var(--color-button-primary-background, #000);
+    text-decoration: underline;
+    transition: opacity 0.2s ease;
+  }
+
+  .cart__terms-link:hover {
+    opacity: 0.7;
+  }
+
+  /* Disabled checkout button styling */
+  .cart__checkout-button[data-terms-required][disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 {% endstylesheet %}
