@@ -70,11 +70,6 @@
         "type": "shopify://apps/juniper-tiktok-feed/blocks/head-block/fa514c33-5475-4484-b270-5f1e7eb87a9a",
         "disabled": false,
         "settings": {}
-      },
-      "4935202709820522637": {
-        "type": "shopify://apps/trustshop-reviews/blocks/review-embed/18b0c4cc-5411-4b6e-922d-34fdc2f30ab9",
-        "disabled": false,
-        "settings": {}
       }
     },
     "color_schemes": {
@@ -87,8 +82,8 @@
           "primary_hover": "#000000",
           "border": "#e6e6e6",
           "shadow": "#000000",
-          "primary_button_background": "#ffffff",
-          "primary_button_text": "#000000",
+          "primary_button_background": "#000000",
+          "primary_button_text": "#ffffff",
           "primary_button_border": "#000000",
           "primary_button_hover_background": "#383838",
           "primary_button_hover_text": "#ffffff",
@@ -126,8 +121,8 @@
           "primary_hover": "#666666",
           "border": "#0000001c",
           "shadow": "#000000",
-          "primary_button_background": "#000000",
-          "primary_button_text": "#ffffff",
+          "primary_button_background": "#f5f5f5",
+          "primary_button_text": "#000000",
           "primary_button_border": "#000000",
           "primary_button_hover_background": "#383838",
           "primary_button_hover_text": "#ffffff",
