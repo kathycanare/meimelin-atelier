@@ -219,7 +219,7 @@
                       {%- endfor -%}
                     </ul>
                   {% endif %}
-
+{% comment %}
                   <div>
                     {% if item.original_price != item.final_price %}
                       <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
@@ -248,6 +248,7 @@
                     {% endif %}
                   </div>
                 </td>
+                {% endcomment %}
                 <td
                   class="cart-items__quantity"
                   role="cell"
