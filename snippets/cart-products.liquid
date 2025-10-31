@@ -222,9 +222,9 @@
 
                   <div>
                     {% if item.original_price != item.final_price %}
-                      {% comment %}<span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
+                      <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
                       <span>{{ item.final_price | money }}</span>
-                      <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>{% endcomment %}
+                      <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
                       <s class="compare-at-price">
                         {% if item.variant.compare_at_price > item.original_price %}
                           {{ item.variant.compare_at_price | money }}
@@ -234,15 +234,15 @@
                       </s>
                     {% else %}
                       {% if item.variant.compare_at_price > item.original_price %}
-                        {% comment %}<span class="visually-hidden">{{ 'content.price_sale' | t }}</span>{% endcomment %}
+                        <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
                       {% else %}
-                        {% comment %}<span class="visually-hidden">{{ 'content.price' | t }}</span>{% endcomment %}
+                        <span class="visually-hidden">{{ 'content.price' | t }}</span>
                       {% endif %}
 
                       <span>{{ item.original_price | money }}</span>
 
                       {% if item.variant.compare_at_price > item.original_price %}
-                       {% comment %} <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>{% endcomment %}
+                        <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
                         <s class="compare-at-price">{{ item.variant.compare_at_price | money }}</s>
                       {% endif %}
                     {% endif %}
