@@ -48,7 +48,7 @@
     "cart_type": "drawer",
     "cart_price_font": "primary",
     "auto_open_cart_drawer": true,
-    "show_add_discount_code": true,
+    "show_add_discount_code": false,
     "icon_stroke": "thin",
     "input_border_width": 1,
     "inputs_border_radius": 0,
