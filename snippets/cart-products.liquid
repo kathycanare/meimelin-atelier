@@ -236,7 +236,7 @@
                       {% if item.variant.compare_at_price > item.original_price %}
                         <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
                       {% else %}
-                        <span class="visually-hidden">{{ 'content.price' | t }}</span>
+                        {% comment %}<span class="visually-hidden">{{ 'content.price' | t }}</span>{% endcomment %}
                       {% endif %}
 
                       <span>{{ item.original_price | money }}</span>
@@ -764,9 +764,6 @@
     display: inline;
   }
   .cart-items__details > div:last-child {
-  display: none !important;
-}
-td.cart-items__details span.visually-hidden {
   display: none !important;
 }
 {% endstylesheet %}
