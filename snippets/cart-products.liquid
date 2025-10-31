@@ -242,7 +242,7 @@
                       <span>{{ item.original_price | money }}</span>
 
                       {% if item.variant.compare_at_price > item.original_price %}
-                        <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
+                       {% comment %} <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>{% endcomment %}
                         <s class="compare-at-price">{{ item.variant.compare_at_price | money }}</s>
                       {% endif %}
                     {% endif %}
