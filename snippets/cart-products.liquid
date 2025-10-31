@@ -219,7 +219,7 @@
                       {%- endfor -%}
                     </ul>
                   {% endif %}
-{% comment %}
+
                   <div>
                     {% if item.original_price != item.final_price %}
                       <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
@@ -247,7 +247,6 @@
                       {% endif %}
                     {% endif %}
                   </div>
-                  {% endcomment %}
                 </td>
                 
                 <td
@@ -332,6 +331,11 @@
 </div>
 
 {% stylesheet %}
+
+.cart-items__details > div:last-of-type {
+  display: none !important;
+}
+
   .cart-items {
     --cart-item-media-width-min: 2.5rem;
     --cart-item-media-width-max: 7.5rem;
