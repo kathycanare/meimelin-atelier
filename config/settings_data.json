@@ -46,7 +46,7 @@
     "button_border_radius_secondary": 0,
     "button_text_case_secondary": "uppercase",
     "cart_type": "drawer",
-    "cart_price_font": "primary",
+    "cart_price_font": "heading",
     "auto_open_cart_drawer": true,
     "show_add_discount_code": false,
     "icon_stroke": "thin",
