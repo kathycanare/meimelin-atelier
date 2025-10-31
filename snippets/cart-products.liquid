@@ -234,7 +234,7 @@
                       </s>
                     {% else %}
                       {% if item.variant.compare_at_price > item.original_price %}
-                        <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
+                        {% comment %}<span class="visually-hidden">{{ 'content.price_sale' | t }}</span>{% endcomment %}
                       {% else %}
                         {% comment %}<span class="visually-hidden">{{ 'content.price' | t }}</span>{% endcomment %}
                       {% endif %}
