@@ -14,6 +14,26 @@
     "footer": {
       "type": "Footer",
       "blocks": {
+        "logo_TQe3gL": {
+          "type": "logo",
+          "name": "t:names.logo",
+          "settings": {
+            "inverse": false,
+            "font": "heading",
+            "unit": "percent",
+            "percent_width": 30,
+            "pixel_height": 48,
+            "custom_mobile_size": false,
+            "unit_mobile": "percent",
+            "percent_width_mobile": 100,
+            "pixel_height_mobile": 120,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
         "group_acXtYY": {
           "type": "group",
           "name": "Links",
@@ -31,7 +51,7 @@
             "vertical_alignment_flex_direction_column": "center",
             "gap": 100,
             "width": "custom",
-            "custom_width": 80,
+            "custom_width": 50,
             "width_mobile": "fill",
             "custom_width_mobile": 100,
             "height": "fit",
@@ -58,26 +78,6 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "logo_LLLJTf": {
-              "type": "logo",
-              "name": "t:names.logo",
-              "settings": {
-                "inverse": false,
-                "font": "heading",
-                "unit": "percent",
-                "percent_width": 50,
-                "pixel_height": 104,
-                "custom_mobile_size": true,
-                "unit_mobile": "percent",
-                "percent_width_mobile": 49,
-                "pixel_height_mobile": 120,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
             "group_MTNPDR": {
               "type": "group",
               "name": "Navigation",
@@ -301,17 +301,17 @@
             }
           },
           "block_order": [
-            "logo_LLLJTf",
             "group_MTNPDR",
             "group_gz8NPq"
           ]
         }
       },
       "block_order": [
+        "logo_TQe3gL",
         "group_acXtYY"
       ],
       "settings": {
-        "section_width": "page-width",
+        "section_width": "full-width",
         "gap": 0,
         "color_scheme": "",
         "padding-block-start": 40,
