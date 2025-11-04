@@ -476,28 +476,6 @@
     "section_7J46eT": {
       "type": "section",
       "blocks": {
-        "image_RnA8jX": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/IMG_3488.webp",
-            "link": "",
-            "image_ratio": "square",
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
         "group_nYbxMt": {
           "type": "group",
           "settings": {
@@ -612,11 +590,33 @@
             "text_4cdz6w",
             "button_6cr9hg"
           ]
+        },
+        "image_RnA8jX": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/IMG_3488.webp",
+            "link": "",
+            "image_ratio": "square",
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "image_RnA8jX",
-        "group_nYbxMt"
+        "group_nYbxMt",
+        "image_RnA8jX"
       ],
       "custom_css": [
         ".group-block-content {padding: 30px; gap: 15px;}"
@@ -625,7 +625,7 @@
       "settings": {
         "content_direction": "row",
         "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
+        "horizontal_alignment": "center",
         "vertical_alignment": "center",
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "flex-start",
