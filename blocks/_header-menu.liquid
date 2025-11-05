@@ -893,6 +893,20 @@
       opacity: 1;
     }
   }
+  /* Hide arrow for sidebar items without children */
+.mega-menu__sidebar-item[data-has-children="false"] svg {
+  display: none;
+}
+
+/* Make clickable items without children more obvious */
+.mega-menu__sidebar-item[data-has-children="false"] .mega-menu__sidebar-link {
+  cursor: pointer;
+}
+
+.mega-menu__sidebar-item[data-has-children="false"]:hover .mega-menu__sidebar-link {
+  background-color: #fff;
+  color: #000;
+}
 {% endstylesheet %}
 
 {% schema %}
