@@ -24,6 +24,27 @@ class MarqueeComponent extends Component {
     const { marqueeItems } = this.refs;
     if (marqueeItems.length === 0) return;
 
+    // Wait for next frame to ensure elements are rendered
+    requestAnimationFrame(() => {
+      // Double-check dimensions are available
+      if (this.offsetWidth === 0 || !marqueeItems[0]?.offsetWidth) {
+        // Retry after a short delay
+        setTimeout(() => this.#initialize(), 100);
+      } else {
+        this.#initialize();
+      }
+    });
+  }
+
+  #initialize() {
+    const { marqueeItems } = this.refs;
+    
+    // Final safety check
+    if (marqueeItems.length === 0 || this.offsetWidth === 0) {
+      console.warn('Marquee: Unable to initialize - no dimensions available');
+      return;
+    }
+
     this.#addRepeatedItems();
     this.#duplicateContent();
     this.#setSpeed();
@@ -48,7 +69,8 @@ class MarqueeComponent extends Component {
   #slowDown = debounce(() => {
     if (this.#animation) return;
 
-    const animation = this.refs.wrapper.getAnimations()[0];
+    const animations = this.refs.wrapper.getAnimations?.();
+    const animation = animations?.[0];
 
     if (!animation) return;
 
@@ -66,7 +88,8 @@ class MarqueeComponent extends Component {
   #speedUp() {
     this.#slowDown.cancel();
 
-    const animation = this.refs.wrapper.getAnimations()[0];
+    const animations = this.refs.wrapper.getAnimations?.();
+    const animation = animations?.[0];
 
     if (!animation || animation.playbackRate === 1) return;
 
@@ -96,34 +119,58 @@ class MarqueeComponent extends Component {
   }
 
   #calculateSpeed() {
-    const speedFactor = Number(this.getAttribute('data-speed-factor'));
+    const speedFactor = Number(this.getAttribute('data-speed-factor')) || 25;
     const { marqueeItems } = this.refs;
     const marqueeWidth = this.offsetWidth;
 
-    const marqueeRepeatedItemWidth = marqueeItems[0]?.offsetWidth ?? 1;
-    const count = marqueeRepeatedItemWidth === 0 ? 1 : Math.ceil(marqueeWidth / marqueeRepeatedItemWidth);
+    if (marqueeWidth === 0) {
+      console.warn('Marquee: Container has no width');
+      return 20; // Return sensible default
+    }
+
+    const marqueeRepeatedItemWidth = marqueeItems[0]?.offsetWidth ?? 0;
+    
+    if (marqueeRepeatedItemWidth === 0) {
+      console.warn('Marquee: Items have no width');
+      return 20; // Return sensible default
+    }
+
+    const count = Math.max(1, Math.ceil(marqueeWidth / marqueeRepeatedItemWidth));
     const speed = Math.sqrt(count) * speedFactor;
-    return speed;
+    
+    return Math.max(5, speed); // Ensure minimum speed
   }
 
   #handleResize = debounce(() => {
-    const { marqueeItems } = this.refs;
-    const newNumberOfCopies = this.#calculateNumberOfCopies();
-    const currentNumberOfCopies = marqueeItems.length;
+    try {
+      const { marqueeItems } = this.refs;
+      
+      // Skip if no dimensions
+      if (this.offsetWidth === 0 || !marqueeItems[0]?.offsetWidth) {
+        return;
+      }
 
-    if (newNumberOfCopies > currentNumberOfCopies) {
-      this.#addRepeatedItems(newNumberOfCopies - currentNumberOfCopies);
-    } else if (newNumberOfCopies < currentNumberOfCopies) {
-      this.#removeRepeatedItems(currentNumberOfCopies - newNumberOfCopies);
+      const newNumberOfCopies = this.#calculateNumberOfCopies();
+      const currentNumberOfCopies = marqueeItems.length;
+
+      if (newNumberOfCopies > currentNumberOfCopies) {
+        this.#addRepeatedItems(newNumberOfCopies - currentNumberOfCopies);
+      } else if (newNumberOfCopies < currentNumberOfCopies) {
+        this.#removeRepeatedItems(currentNumberOfCopies - newNumberOfCopies);
+      }
+
+      this.#duplicateContent();
+      this.#setSpeed();
+      this.#restartAnimation();
+    } catch (error) {
+      console.error('Marquee resize error:', error);
     }
-
-    this.#duplicateContent();
-    this.#setSpeed();
-    this.#restartAnimation();
   }, 250);
 
   #restartAnimation() {
-    const animations = this.refs.wrapper.getAnimations();
+    const animations = this.refs.wrapper.getAnimations?.();
+
+    if (!animations || animations.length === 0) return;
 
     requestAnimationFrame(() => {
       for (const animation of animations) {
