@@ -200,22 +200,27 @@ function findMenuItem(element) {
   return element?.querySelector('[ref="menuitem"]');
 }
 
-/**
- * Find the closest submenu.
- * @param {Element | null | undefined} element
- * @returns {HTMLElement | null}
- */
-function findSubmenu(element) {
-  const submenu = element?.parentElement?.querySelector('[ref="submenu[]"]');
-  return submenu instanceof HTMLElement ? submenu : null;
-}
+// Sidebar mega menu interaction
 document.addEventListener('DOMContentLoaded', function() {
+  initializeSidebarMenu();
+});
+
+function initializeSidebarMenu() {
   const sidebarItems = document.querySelectorAll('.mega-menu__sidebar-item');
   
+  if (sidebarItems.length === 0) return;
+  
   sidebarItems.forEach(item => {
-    item.addEventListener('mouseenter', function() {
-      // Remove active class from all items
-      sidebarItems.forEach(i => i.classList.remove('active'));
+    item.addEventListener('mouseenter', function(e) {
+      e.preventDefault();
+      
+      // Get the parent submenu container
+      const submenu = this.closest('.menu-list__submenu--sidebar');
+      if (!submenu) return;
+      
+      // Remove active class from all items in this submenu
+      const allItems = submenu.querySelectorAll('.mega-menu__sidebar-item');
+      allItems.forEach(i => i.classList.remove('active'));
       
       // Add active class to hovered item
       this.classList.add('active');
@@ -223,15 +228,49 @@ document.addEventListener('DOMContentLoaded', function() {
       // Get the index
       const index = this.dataset.submenuIndex;
       
-      // Hide all content
-      const allContent = document.querySelectorAll('.mega-menu__submenu-content');
+      // Hide all content panels in this submenu
+      const allContent = submenu.querySelectorAll('.mega-menu__content-panel');
       allContent.forEach(content => content.classList.remove('active'));
       
       // Show corresponding content
-      const targetContent = document.querySelector(`[data-submenu-content="${index}"]`);
+      const targetContent = submenu.querySelector(`[data-submenu-content="${index}"]`);
       if (targetContent) {
         targetContent.classList.add('active');
       }
     });
+    
+    // Also handle click to prevent navigation when hovering sidebar
+    const link = item.querySelector('.mega-menu__sidebar-link');
+    if (link) {
+      link.addEventListener('click', function(e) {
+        // Only prevent default if there are subcategories to show
+        const index = item.dataset.submenuIndex;
+        const submenu = item.closest('.menu-list__submenu--sidebar');
+        const targetContent = submenu?.querySelector(`[data-submenu-content="${index}"]`);
+        
+        if (targetContent && targetContent.querySelector('.mega-menu__subcategories')) {
+          e.preventDefault();
+        }
+      });
+    }
   });
-});
+}
+
+// Re-initialize when the mega menu opens (for dynamic content)
+if (typeof MutationObserver !== 'undefined') {
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.attributeName === 'aria-expanded') {
+        const target = mutation.target;
+        if (target.getAttribute('aria-expanded') === 'true') {
+          setTimeout(initializeSidebarMenu, 50);
+        }
+      }
+    });
+  });
+  
+  // Observe all menu items
+  document.querySelectorAll('[ref="menuitem"]').forEach(item => {
+    observer.observe(item, { attributes: true });
+  });
+}
