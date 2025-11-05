@@ -1,6 +1,581 @@
+{% doc %}
+  @prompt
+    PLEASE CREATE A a marquee where i can add text, icons and images and change speed and direction and as well as change the color scheme. pls make sure its responsive on all devices
+    
+    it should be full screen and i should be able to change color scheme pls, should be full page width, should be an infinite loop so it should never be blank
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-marquee-wrapper-{{ ai_gen_id }} {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    overflow: hidden;
+    background-color: rgb(var(--color-background));
+    color: rgb(var(--color-foreground));
+    padding: {{ block.settings.vertical_padding }}px 0;
+  }
+
+  .ai-marquee-container-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.item_spacing }}px;
+    width: max-content;
+    animation: ai-marquee-scroll-{{ ai_gen_id }} {{ block.settings.speed }}s linear infinite;
+    {% if block.settings.direction == 'right' %}
+      animation-direction: reverse;
+    {% endif %}
+  }
+
+  .ai-marquee-wrapper-{{ ai_gen_id }}:hover .ai-marquee-container-{{ ai_gen_id }} {
+    {% if block.settings.pause_on_hover %}
+      animation-play-state: paused;
+    {% endif %}
+  }
+
+  .ai-marquee-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.content_gap }}px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .ai-marquee-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    font-weight: {{ block.settings.text_weight }};
+    text-transform: {{ block.settings.text_transform }};
+    letter-spacing: {{ block.settings.letter_spacing }}px;
+  }
+
+  .ai-marquee-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    flex-shrink: 0;
+  }
+
+  .ai-marquee-icon-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+
+  .ai-marquee-image-{{ ai_gen_id }} {
+    width: {{ block.settings.image_width }}px;
+    height: {{ block.settings.image_height }}px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  @keyframes ai-marquee-scroll-{{ ai_gen_id }} {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-marquee-wrapper-{{ ai_gen_id }} {
+      padding: {{ block.settings.vertical_padding | times: 0.7 }}px 0;
+    }
+
+    .ai-marquee-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.8 }}px;
+    }
+
+    .ai-marquee-icon-{{ ai_gen_id }} {
+      width: {{ block.settings.icon_size | times: 0.8 }}px;
+      height: {{ block.settings.icon_size | times: 0.8 }}px;
+    }
+
+    .ai-marquee-image-{{ ai_gen_id }} {
+      width: {{ block.settings.image_width | times: 0.8 }}px;
+      height: {{ block.settings.image_height | times: 0.8 }}px;
+    }
+
+    .ai-marquee-container-{{ ai_gen_id }} {
+      gap: {{ block.settings.item_spacing | times: 0.7 }}px;
+    }
+
+    .ai-marquee-item-{{ ai_gen_id }} {
+      gap: {{ block.settings.content_gap | times: 0.7 }}px;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="ai-marquee-wrapper-{{ ai_gen_id }} color-{{ block.settings.color_scheme }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-marquee-container-{{ ai_gen_id }}">
+    {% for repeat in (1..4) %}
+      {% if block.settings.text_1 != blank %}
+        <div class="ai-marquee-item-{{ ai_gen_id }}">
+          {% if block.settings.icon_1 != blank %}
+            <div class="ai-marquee-icon-{{ ai_gen_id }}">
+              {{ block.settings.icon_1 }}
+            </div>
+          {% endif %}
+          {% if block.settings.image_1 %}
+            <img
+              src="{{ block.settings.image_1 | image_url: width: 200 }}"
+              alt="{{ block.settings.image_1.alt | escape }}"
+              class="ai-marquee-image-{{ ai_gen_id }}"
+              loading="lazy"
+              width="200"
+              height="200"
+            >
+          {% endif %}
+          <span class="ai-marquee-text-{{ ai_gen_id }}">{{ block.settings.text_1 }}</span>
+        </div>
+      {% endif %}
+
+      {% if block.settings.text_2 != blank %}
+        <div class="ai-marquee-item-{{ ai_gen_id }}">
+          {% if block.settings.icon_2 != blank %}
+            <div class="ai-marquee-icon-{{ ai_gen_id }}">
+              {{ block.settings.icon_2 }}
+            </div>
+          {% endif %}
+          {% if block.settings.image_2 %}
+            <img
+              src="{{ block.settings.image_2 | image_url: width: 200 }}"
+              alt="{{ block.settings.image_2.alt | escape }}"
+              class="ai-marquee-image-{{ ai_gen_id }}"
+              loading="lazy"
+              width="200"
+              height="200"
+            >
+          {% endif %}
+          <span class="ai-marquee-text-{{ ai_gen_id }}">{{ block.settings.text_2 }}</span>
+        </div>
+      {% endif %}
+
+      {% if block.settings.text_3 != blank %}
+        <div class="ai-marquee-item-{{ ai_gen_id }}">
+          {% if block.settings.icon_3 != blank %}
+            <div class="ai-marquee-icon-{{ ai_gen_id }}">
+              {{ block.settings.icon_3 }}
+            </div>
+          {% endif %}
+          {% if block.settings.image_3 %}
+            <img
+              src="{{ block.settings.image_3 | image_url: width: 200 }}"
+              alt="{{ block.settings.image_3.alt | escape }}"
+              class="ai-marquee-image-{{ ai_gen_id }}"
+              loading="lazy"
+              width="200"
+              height="200"
+            >
+          {% endif %}
+          <span class="ai-marquee-text-{{ ai_gen_id }}">{{ block.settings.text_3 }}</span>
+        </div>
+      {% endif %}
+
+      {% if block.settings.text_4 != blank %}
+        <div class="ai-marquee-item-{{ ai_gen_id }}">
+          {% if block.settings.icon_4 != blank %}
+            <div class="ai-marquee-icon-{{ ai_gen_id }}">
+              {{ block.settings.icon_4 }}
+            </div>
+          {% endif %}
+          {% if block.settings.image_4 %}
+            <img
+              src="{{ block.settings.image_4 | image_url: width: 200 }}"
+              alt="{{ block.settings.image_4.alt | escape }}"
+              class="ai-marquee-image-{{ ai_gen_id }}"
+              loading="lazy"
+              width="200"
+              height="200"
+            >
+          {% endif %}
+          <span class="ai-marquee-text-{{ ai_gen_id }}">{{ block.settings.text_4 }}</span>
+        </div>
+      {% endif %}
+
+      {% if block.settings.text_5 != blank %}
+        <div class="ai-marquee-item-{{ ai_gen_id }}">
+          {% if block.settings.icon_5 != blank %}
+            <div class="ai-marquee-icon-{{ ai_gen_id }}">
+              {{ block.settings.icon_5 }}
+            </div>
+          {% endif %}
+          {% if block.settings.image_5 %}
+            <img
+              src="{{ block.settings.image_5 | image_url: width: 200 }}"
+              alt="{{ block.settings.image_5.alt | escape }}"
+              class="ai-marquee-image-{{ ai_gen_id }}"
+              loading="lazy"
+              width="200"
+              height="200"
+            >
+          {% endif %}
+          <span class="ai-marquee-text-{{ ai_gen_id }}">{{ block.settings.text_5 }}</span>
+        </div>
+      {% endif %}
+
+      {% if block.settings.text_6 != blank %}
+        <div class="ai-marquee-item-{{ ai_gen_id }}">
+          {% if block.settings.icon_6 != blank %}
+            <div class="ai-marquee-icon-{{ ai_gen_id }}">
+              {{ block.settings.icon_6 }}
+            </div>
+          {% endif %}
+          {% if block.settings.image_6 %}
+            <img
+              src="{{ block.settings.image_6 | image_url: width: 200 }}"
+              alt="{{ block.settings.image_6.alt | escape }}"
+              class="ai-marquee-image-{{ ai_gen_id }}"
+              loading="lazy"
+              width="200"
+              height="200"
+            >
+          {% endif %}
+          <span class="ai-marquee-text-{{ ai_gen_id }}">{{ block.settings.text_6 }}</span>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Marquee",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Direction",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 5,
+      "max": 100,
+      "step": 5,
+      "unit": "s",
+      "label": "Speed",
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "Pause on hover",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "item_spacing",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Item spacing",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "min": 5,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Content gap",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Text style"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Text size",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Text weight",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text transform",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "uppercase",
+          "label": "Uppercase"
+        },
+        {
+          "value": "lowercase",
+          "label": "Lowercase"
+        },
+        {
+          "value": "capitalize",
+          "label": "Capitalize"
+        }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Letter spacing",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Icon style"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 16,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Image style"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Image width",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Image height",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "text",
+      "id": "text_1",
+      "label": "Text",
+      "default": "Free Shipping"
+    },
+    {
+      "type": "html",
+      "id": "icon_1",
+      "label": "Icon SVG",
+      "default": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M20 7h-9M14 3v4M6 21V10a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v11M3 21h18'/></svg>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "text",
+      "id": "text_2",
+      "label": "Text",
+      "default": "24/7 Support"
+    },
+    {
+      "type": "html",
+      "id": "icon_2",
+      "label": "Icon SVG",
+      "default": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><circle cx='12' cy='12' r='10'/><path d='M12 6v6l4 2'/></svg>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "text",
+      "id": "text_3",
+      "label": "Text",
+      "default": "Easy Returns"
+    },
+    {
+      "type": "html",
+      "id": "icon_3",
+      "label": "Icon SVG",
+      "default": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><polyline points='9 14 4 9 9 4'/><path d='M20 20v-7a4 4 0 0 0-4-4H4'/></svg>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Item 4"
+    },
+    {
+      "type": "text",
+      "id": "text_4",
+      "label": "Text",
+      "default": "Secure Payment"
+    },
+    {
+      "type": "html",
+      "id": "icon_4",
+      "label": "Icon SVG",
+      "default": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><rect x='3' y='11' width='18' height='11' rx='2' ry='2'/><path d='M7 11V7a5 5 0 0 1 10 0v4'/></svg>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Item 5"
+    },
+    {
+      "type": "text",
+      "id": "text_5",
+      "label": "Text"
+    },
+    {
+      "type": "html",
+      "id": "icon_5",
+      "label": "Icon SVG"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_5",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Item 6"
+    },
+    {
+      "type": "text",
+      "id": "text_6",
+      "label": "Text"
+    },
+    {
+      "type": "html",
+      "id": "icon_6",
+      "label": "Icon SVG"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_6",
+      "label": "Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee"
+    }
+  ]
+}
 {% endschema %}
