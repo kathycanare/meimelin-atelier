@@ -1,6 +1,7 @@
 {% liquid
   assign block_settings = block.settings
   assign menu_content_type = block_settings.menu_style | default: 'text'
+  assign menu_layout = block_settings.menu_layout | default: 'default'
   assign image_border_radius = block_settings.image_border_radius
   assign color_scheme_classes = ''
   assign color_scheme_setting_id = 'color_scheme_' | append: section.settings.menu_row
@@ -11,7 +12,6 @@
     assign color_scheme_classes = ' color-' | append: current_color_scheme
   endif
 
-  # Check if header and menu colors match. This is used to apply different padding styles in css
   if parent_color_scheme.settings.background.rgb == current_color_scheme.settings.background.rgb
     assign color_scheme_classes = color_scheme_classes | append: ' color-scheme-matches-parent'
   endif
@@ -33,7 +33,7 @@
       on:pointerenter="/activate"
       on:pointerleave="/deactivate"
     >
-      <a
+      
         href="{{ link.url }}"
         data-skip-node-update="true"
         class="menu-list__link{% if link.active %} menu-list__link--active{% endif %}"
@@ -47,85 +47,235 @@
         <span class="menu-list__link-title">{{- link.title -}}</span>
       </a>
       {%- if link.links != blank -%}
-        <div class="menu-list__submenu{{ color_scheme_classes }}" ref="submenu[]">
-          <div
-            id="submenu-{{ forloop.index }}"
-            class="menu-list__submenu-inner"
-            style="{% render 'submenu-font-styles', settings: block_settings %}"
-          >
-            {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
-            {% render 'mega-menu',
-              section: section,
-              parent_link: link,
-              id: list_id,
-              menu_content_type: menu_content_type,
-              content_aspect_ratio: ratio,
-              image_border_radius: image_border_radius
-            %}
-
-            {%- comment -%} Menu Promotional Banner {%- endcomment -%}
-            {%- if block_settings.show_menu_banner -%}
-              <div class="menu-promo-banner" 
-                   style="
-                     --banner-bg-color: {{ block_settings.banner_bg_color }};
-                     --banner-text-color: {{ block_settings.banner_text_color }};
-                   ">
-                <div class="menu-promo-banner__inner">
-                  
-                  {%- if block_settings.banner_text_1 != blank -%}
-                    <div class="menu-promo-banner__item">
-                      {%- if block_settings.banner_icon_1 != blank -%}
-                        <img 
-                          src="{{ block_settings.banner_icon_1 | image_url: width: 64 }}"
-                          alt=""
-                          width="24"
-                          height="24"
-                          loading="lazy"
-                          class="menu-promo-banner__icon"
-                        >
-                      {%- endif -%}
-                      <p class="menu-promo-banner__text">{{ block_settings.banner_text_1 }}</p>
-                    </div>
-                  {%- endif -%}
-                  
-                  {%- if block_settings.banner_text_2 != blank -%}
-                    <div class="menu-promo-banner__item">
-                      {%- if block_settings.banner_icon_2 != blank -%}
-                        <img 
-                          src="{{ block_settings.banner_icon_2 | image_url: width: 64 }}"
-                          alt=""
-                          width="24"
-                          height="24"
-                          loading="lazy"
-                          class="menu-promo-banner__icon"
-                        >
-                      {%- endif -%}
-                      <p class="menu-promo-banner__text menu-promo-banner__text--uppercase">{{ block_settings.banner_text_2 }}</p>
-                    </div>
-                  {%- endif -%}
-                  
-                  {%- if block_settings.banner_text_3 != blank -%}
-                    <div class="menu-promo-banner__item">
-                      {%- if block_settings.banner_icon_3 != blank -%}
-                        <img 
-                          src="{{ block_settings.banner_icon_3 | image_url: width: 64 }}"
-                          alt=""
-                          width="24"
-                          height="24"
-                          loading="lazy"
-                          class="menu-promo-banner__icon"
-                        >
-                      {%- endif -%}
-                      <p class="menu-promo-banner__text menu-promo-banner__text--uppercase">{{ block_settings.banner_text_3 }}</p>
-                    </div>
-                  {%- endif -%}
-
-                </div>
+        {% if menu_layout == 'sidebar' %}
+          {%- comment -%} SIDEBAR LAYOUT {%- endcomment -%}
+          <div class="menu-list__submenu menu-list__submenu--sidebar{{ color_scheme_classes }}" ref="submenu[]">
+            <div
+              id="submenu-{{ forloop.index }}"
+              class="menu-list__submenu-inner menu-list__submenu-inner--sidebar"
+            >
+              {%- comment -%} Left Sidebar with Main Categories {%- endcomment -%}
+              <div class="mega-menu__sidebar">
+                <ul class="mega-menu__sidebar-list list-unstyled">
+                  {% for child_link in link.links %}
+                    <li class="mega-menu__sidebar-item {% if forloop.first %}active{% endif %}"
+                        data-submenu-index="{{ forloop.index }}">
+                      <a href="{{ child_link.url }}" class="mega-menu__sidebar-link">
+                        <span>{{ child_link.title }}</span>
+                        {% if child_link.links != blank %}
+                          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        {% endif %}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
               </div>
-            {%- endif -%}
 
+              {%- comment -%} Right Content Area {%- endcomment -%}
+              <div class="mega-menu__main-content">
+                {% for child_link in link.links %}
+                  <div class="mega-menu__content-panel {% if forloop.first %}active{% endif %}" 
+                       data-submenu-content="{{ forloop.index }}">
+                    
+                    {%- comment -%} Two-Column Subcategories {%- endcomment -%}
+                    {% if child_link.links != blank %}
+                      <div class="mega-menu__subcategories">
+                        {% assign half = child_link.links.size | divided_by: 2.0 | ceil %}
+                        
+                        {%- comment -%} Left Column {%- endcomment -%}
+                        <div class="mega-menu__subcategory-column">
+                          <h3 class="mega-menu__subcategory-title">{{ child_link.title }}</h3>
+                          <ul class="mega-menu__subcategory-list list-unstyled">
+                            {% for sub_link in child_link.links limit: half %}
+                              <li>
+                                <a href="{{ sub_link.url }}" class="mega-menu__subcategory-link">
+                                  {{ sub_link.title }}
+                                </a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+
+                        {%- comment -%} Right Column {%- endcomment -%}
+                        <div class="mega-menu__subcategory-column">
+                          <h3 class="mega-menu__subcategory-title" style="visibility: hidden;">{{ child_link.title }}</h3>
+                          <ul class="mega-menu__subcategory-list list-unstyled">
+                            {% for sub_link in child_link.links offset: half %}
+                              <li>
+                                <a href="{{ sub_link.url }}" class="mega-menu__subcategory-link">
+                                  {{ sub_link.title }}
+                                </a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                      </div>
+                    {% endif %}
+
+                    {%- comment -%} Featured Image {%- endcomment -%}
+                    <div class="mega-menu__featured-image">
+                      {% if child_link.object.image %}
+                        <img 
+                          src="{{ child_link.object.image | image_url: width: 400 }}"
+                          alt="{{ child_link.title }}"
+                          loading="lazy"
+                          width="400"
+                          height="400"
+                        >
+                      {% else %}
+                        <div class="mega-menu__placeholder-image">
+                          <span>{{ child_link.title }}</span>
+                        </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+
+              {%- comment -%} Promotional Banner {%- endcomment -%}
+              {%- if block_settings.show_menu_banner -%}
+                <div class="menu-promo-banner" 
+                     style="background-color: {{ block_settings.banner_bg_color }};">
+                  <div class="menu-promo-banner__inner">
+                    
+                    {%- if block_settings.banner_text_1 != blank -%}
+                      <div class="menu-promo-banner__item">
+                        {%- if block_settings.banner_icon_1 != blank -%}
+                          <img 
+                            src="{{ block_settings.banner_icon_1 | image_url: width: 64 }}"
+                            alt=""
+                            width="24"
+                            height="24"
+                            loading="lazy"
+                            class="menu-promo-banner__icon"
+                          >
+                        {%- endif -%}
+                        <p class="menu-promo-banner__text" style="color: {{ block_settings.banner_text_color }};">{{ block_settings.banner_text_1 }}</p>
+                      </div>
+                    {%- endif -%}
+                    
+                    {%- if block_settings.banner_text_2 != blank -%}
+                      <div class="menu-promo-banner__item">
+                        {%- if block_settings.banner_icon_2 != blank -%}
+                          <img 
+                            src="{{ block_settings.banner_icon_2 | image_url: width: 64 }}"
+                            alt=""
+                            width="24"
+                            height="24"
+                            loading="lazy"
+                            class="menu-promo-banner__icon"
+                          >
+                        {%- endif -%}
+                        <p class="menu-promo-banner__text menu-promo-banner__text--uppercase" style="color: {{ block_settings.banner_text_color }};">{{ block_settings.banner_text_2 }}</p>
+                      </div>
+                    {%- endif -%}
+                    
+                    {%- if block_settings.banner_text_3 != blank -%}
+                      <div class="menu-promo-banner__item">
+                        {%- if block_settings.banner_icon_3 != blank -%}
+                          <img 
+                            src="{{ block_settings.banner_icon_3 | image_url: width: 64 }}"
+                            alt=""
+                            width="24"
+                            height="24"
+                            loading="lazy"
+                            class="menu-promo-banner__icon"
+                          >
+                        {%- endif -%}
+                        <p class="menu-promo-banner__text menu-promo-banner__text--uppercase" style="color: {{ block_settings.banner_text_color }};">{{ block_settings.banner_text_3 }}</p>
+                      </div>
+                    {%- endif -%}
+
+                  </div>
+                </div>
+              {%- endif -%}
+
+            </div>
           </div>
-        </div>
+        {% else %}
+          {%- comment -%} DEFAULT LAYOUT (ORIGINAL) {%- endcomment -%}
+          <div class="menu-list__submenu{{ color_scheme_classes }}" ref="submenu[]">
+            <div
+              id="submenu-{{ forloop.index }}"
+              class="menu-list__submenu-inner"
+              style="{% render 'submenu-font-styles', settings: block_settings %}"
+            >
+              {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
+              {% render 'mega-menu',
+                section: section,
+                parent_link: link,
+                id: list_id,
+                menu_content_type: menu_content_type,
+                content_aspect_ratio: ratio,
+                image_border_radius: image_border_radius
+              %}
+
+              {%- comment -%} Menu Promotional Banner {%- endcomment -%}
+              {%- if block_settings.show_menu_banner -%}
+                <div class="menu-promo-banner" 
+                     style="
+                       --banner-bg-color: {{ block_settings.banner_bg_color }};
+                       --banner-text-color: {{ block_settings.banner_text_color }};
+                     ">
+                  <div class="menu-promo-banner__inner">
+                    
+                    {%- if block_settings.banner_text_1 != blank -%}
+                      <div class="menu-promo-banner__item">
+                        {%- if block_settings.banner_icon_1 != blank -%}
+                          <img 
+                            src="{{ block_settings.banner_icon_1 | image_url: width: 64 }}"
+                            alt=""
+                            width="24"
+                            height="24"
+                            loading="lazy"
+                            class="menu-promo-banner__icon"
+                          >
+                        {%- endif -%}
+                        <p class="menu-promo-banner__text">{{ block_settings.banner_text_1 }}</p>
+                      </div>
+                    {%- endif -%}
+                    
+                    {%- if block_settings.banner_text_2 != blank -%}
+                      <div class="menu-promo-banner__item">
+                        {%- if block_settings.banner_icon_2 != blank -%}
+                          <img 
+                            src="{{ block_settings.banner_icon_2 | image_url: width: 64 }}"
+                            alt=""
+                            width="24"
+                            height="24"
+                            loading="lazy"
+                            class="menu-promo-banner__icon"
+                          >
+                        {%- endif -%}
+                        <p class="menu-promo-banner__text menu-promo-banner__text--uppercase">{{ block_settings.banner_text_2 }}</p>
+                      </div>
+                    {%- endif -%}
+                    
+                    {%- if block_settings.banner_text_3 != blank -%}
+                      <div class="menu-promo-banner__item">
+                        {%- if block_settings.banner_icon_3 != blank -%}
+                          <img 
+                            src="{{ block_settings.banner_icon_3 | image_url: width: 64 }}"
+                            alt=""
+                            width="24"
+                            height="24"
+                            loading="lazy"
+                            class="menu-promo-banner__icon"
+                          >
+                        {%- endif -%}
+                        <p class="menu-promo-banner__text menu-promo-banner__text--uppercase">{{ block_settings.banner_text_3 }}</p>
+                      </div>
+                    {%- endif -%}
+
+                  </div>
+                </div>
+              {%- endif -%}
+
+            </div>
+          </div>
+        {% endif %}
       {%- endif -%}
     </li>
   {% endfor %}
