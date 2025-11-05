@@ -66,6 +66,7 @@
             "menu_font_style": "regular",
             "type_font_primary_link": "primary",
             "type_case_primary_link": "none",
+            "menu_layout": "sidebar",
             "menu_style": "featured_collections",
             "featured_products_aspect_ratio": "adapt",
             "featured_collections_aspect_ratio": "adapt",
