@@ -184,23 +184,6 @@ if (!customElements.get('header-menu')) {
   customElements.define('header-menu', HeaderMenu);
 }
 
-/**
- * Find the closest menu item.
- * @param {Element | null | undefined} element
- * @returns {HTMLElement | null}
- */
-function findMenuItem(element) {
-  if (!(element instanceof Element)) return null;
-
-  if (element?.matches('[slot="more"')) {
-    // Select the first overflowing menu item when hovering over the "More" item
-    return findMenuItem(element.parentElement?.querySelector('[slot="overflow"]'));
-  }
-
-  return element?.querySelector('[ref="menuitem"]');
-}
-
-// Sidebar mega menu interaction
 document.addEventListener('DOMContentLoaded', function() {
   initializeSidebarMenu();
 });
@@ -211,10 +194,9 @@ function initializeSidebarMenu() {
   if (sidebarItems.length === 0) return;
   
   sidebarItems.forEach(item => {
+    const hasChildren = item.dataset.hasChildren === 'true';
+    
     item.addEventListener('mouseenter', function(e) {
-      e.preventDefault();
-      
-      // Get the parent submenu container
       const submenu = this.closest('.menu-list__submenu--sidebar');
       if (!submenu) return;
       
@@ -239,24 +221,18 @@ function initializeSidebarMenu() {
       }
     });
     
-    // Also handle click to prevent navigation when hovering sidebar
+    // Handle clicks - only prevent default for items with children
     const link = item.querySelector('.mega-menu__sidebar-link');
-    if (link) {
+    if (link && hasChildren) {
       link.addEventListener('click', function(e) {
-        // Only prevent default if there are subcategories to show
-        const index = item.dataset.submenuIndex;
-        const submenu = item.closest('.menu-list__submenu--sidebar');
-        const targetContent = submenu?.querySelector(`[data-submenu-content="${index}"]`);
-        
-        if (targetContent && targetContent.querySelector('.mega-menu__subcategories')) {
-          e.preventDefault();
-        }
+        e.preventDefault();
+        e.stopPropagation();
       });
     }
   });
 }
 
-// Re-initialize when the mega menu opens (for dynamic content)
+// Re-initialize when the mega menu opens
 if (typeof MutationObserver !== 'undefined') {
   const observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
@@ -269,7 +245,6 @@ if (typeof MutationObserver !== 'undefined') {
     });
   });
   
-  // Observe all menu items
   document.querySelectorAll('[ref="menuitem"]').forEach(item => {
     observer.observe(item, { attributes: true });
   });
