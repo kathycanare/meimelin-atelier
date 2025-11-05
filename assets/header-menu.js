@@ -184,6 +184,33 @@ if (!customElements.get('header-menu')) {
   customElements.define('header-menu', HeaderMenu);
 }
 
+/**
+ * Find the closest menu item.
+ * @param {Element | null | undefined} element
+ * @returns {HTMLElement | null}
+ */
+function findMenuItem(element) {
+  if (!(element instanceof Element)) return null;
+
+  if (element?.matches('[slot="more"')) {
+    // Select the first overflowing menu item when hovering over the "More" item
+    return findMenuItem(element.parentElement?.querySelector('[slot="overflow"]'));
+  }
+
+  return element?.querySelector('[ref="menuitem"]');
+}
+
+/**
+ * Find the closest submenu.
+ * @param {Element | null | undefined} element
+ * @returns {HTMLElement | null}
+ */
+function findSubmenu(element) {
+  const submenu = element?.parentElement?.querySelector('[ref="submenu[]"]');
+  return submenu instanceof HTMLElement ? submenu : null;
+}
+
+// Sidebar switching logic
 document.addEventListener('DOMContentLoaded', function() {
   initializeSidebarMenu();
 });
@@ -200,28 +227,22 @@ function initializeSidebarMenu() {
       const submenu = this.closest('.menu-list__submenu--sidebar');
       if (!submenu) return;
       
-      // Remove active class from all items in this submenu
       const allItems = submenu.querySelectorAll('.mega-menu__sidebar-item');
       allItems.forEach(i => i.classList.remove('active'));
       
-      // Add active class to hovered item
       this.classList.add('active');
       
-      // Get the index
       const index = this.dataset.submenuIndex;
       
-      // Hide all content panels in this submenu
       const allContent = submenu.querySelectorAll('.mega-menu__content-panel');
       allContent.forEach(content => content.classList.remove('active'));
       
-      // Show corresponding content
       const targetContent = submenu.querySelector(`[data-submenu-content="${index}"]`);
       if (targetContent) {
         targetContent.classList.add('active');
       }
     });
     
-    // Only prevent default click for items with children
     if (hasChildren) {
       const link = item.querySelector('.mega-menu__sidebar-link');
       if (link) {
@@ -233,7 +254,7 @@ function initializeSidebarMenu() {
   });
 }
 
-// Re-initialize when the mega menu opens
+// Re-initialize when mega menu opens
 if (typeof MutationObserver !== 'undefined') {
   const observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
@@ -250,30 +271,3 @@ if (typeof MutationObserver !== 'undefined') {
     observer.observe(item, { attributes: true });
   });
 }
-
-window.addEventListener('load', () => {
-  const headerMenu = document.querySelector('header-menu');
-
-  if (!headerMenu) return;
-
-  // Hook into Shopify’s existing hover logic
-  headerMenu.addEventListener('mouseover', (e) => {
-    const menuItem = e.target.closest('.menu-list__list-item');
-    if (!menuItem) return;
-
-    const submenu = menuItem.querySelector('.menu-list__submenu--sidebar');
-    if (submenu) {
-      submenu.style.visibility = 'visible';
-      submenu.style.opacity = '1';
-    }
-  });
-
-  headerMenu.addEventListener('mouseleave', (e) => {
-    const submenu = headerMenu.querySelector('.menu-list__submenu--sidebar');
-    if (submenu) {
-      submenu.style.visibility = 'hidden';
-      submenu.style.opacity = '0';
-    }
-  });
-});
-
