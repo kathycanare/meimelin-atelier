@@ -620,7 +620,7 @@
     }
   }
 
-  /* Header row background - THIS WAS MISSING */
+  /* Header row background */
   .header__row {
     background: white;
   }
@@ -642,7 +642,6 @@
     align-items: center;
     opacity: 1 !important;
 
-    /* Remove the pink ::after pseudo-element effect */
     &::after {
       display: none;
     }
@@ -669,12 +668,13 @@
     }
   }
 
- /* ========================================
+  /* ========================================
      SIDEBAR MEGA MENU LAYOUT
      ======================================== */
 
   .menu-list__submenu--sidebar {
     min-height: 500px;
+    position: relative;
   }
 
   .menu-list__submenu-inner--sidebar {
@@ -684,15 +684,18 @@
     gap: 0;
     padding: 0 !important;
     max-height: 600px;
+    position: relative;
   }
 
   /* Left Sidebar */
   .mega-menu__sidebar {
     grid-column: 1;
-    grid-row: 1 / 3;
+    grid-row: 1;
     background-color: #fafafa;
     padding: var(--padding-xl) 0;
     border-right: 1px solid #e8e8e8;
+    overflow-y: auto;
+    max-height: calc(600px - 100px);
   }
 
   .mega-menu__sidebar-list {
@@ -745,7 +748,8 @@
     grid-row: 1;
     position: relative;
     padding: var(--padding-2xl) var(--padding-3xl);
-    overflow: hidden;
+    overflow-y: auto;
+    max-height: calc(600px - 100px);
     background: #fff;
   }
 
@@ -832,13 +836,24 @@
     letter-spacing: 1px;
   }
 
-  /* Promo Banner in Sidebar Layout */
+  /* Promo Banner in Sidebar Layout - FIXED AT BOTTOM */
   .menu-list__submenu--sidebar .menu-promo-banner {
+    position: sticky;
+    bottom: 0;
     grid-column: 1 / 3;
     grid-row: 2;
     margin: 0;
+    margin-top: 0;
+    padding: 20px 30px;
     border-radius: 0;
     border-top: 1px solid #e8e8e8;
+    z-index: 10;
+    background-color: #f5c6d6;
+  }
+
+  /* Hide sidebar items without children */
+  .mega-menu__sidebar-item[data-has-children="false"] {
+    display: none !important;
   }
 
   /* When there are no subcategories, center the image */
@@ -888,20 +903,6 @@
       opacity: 1;
     }
   }
-  /* Hide arrow for sidebar items without children */
-.mega-menu__sidebar-item[data-has-children="false"] svg {
-  display: none;
-}
-
-/* Make clickable items without children more obvious */
-.mega-menu__sidebar-item[data-has-children="false"] .mega-menu__sidebar-link {
-  cursor: pointer;
-}
-
-.mega-menu__sidebar-item[data-has-children="false"]:hover .mega-menu__sidebar-link {
-  background-color: #fff;
-  color: #000;
-}
 {% endstylesheet %}
 
 {% schema %}
