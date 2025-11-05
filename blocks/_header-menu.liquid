@@ -970,6 +970,27 @@
     },
     {
       "type": "header",
+      "content": "Menu Layout"
+    },
+    {
+      "type": "select",
+      "id": "menu_layout",
+      "label": "Layout Style",
+      "info": "Choose between default grid layout or sidebar layout with featured images",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default (Grid)"
+        },
+        {
+          "value": "sidebar",
+          "label": "Sidebar with Featured Image"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "header",
       "content": "t:content.submenu_feature"
     },
     {
@@ -995,24 +1016,9 @@
           "label": "t:options.featured_collections"
         }
       ],
-      "default": "collection_images"
+      "default": "collection_images",
+      "visible_if": "{{ block.settings.menu_layout == 'default' }}"
     },
-    {
-  "type": "select",
-  "id": "menu_layout",
-  "label": "Menu Layout Style",
-  "options": [
-    {
-      "value": "default",
-      "label": "Default (Grid)"
-    },
-    {
-      "value": "sidebar",
-      "label": "Sidebar with Featured Image"
-    }
-  ],
-  "default": "default"
-},
     {
       "type": "select",
       "id": "featured_products_aspect_ratio",
@@ -1032,7 +1038,7 @@
         }
       ],
       "default": "4 / 5",
-      "visible_if": "{{ block.settings.menu_style == 'featured_products' }}"
+      "visible_if": "{{ block.settings.menu_style == 'featured_products' and block.settings.menu_layout == 'default' }}"
     },
     {
       "type": "select",
@@ -1053,7 +1059,7 @@
         }
       ],
       "default": "16 / 9",
-      "visible_if": "{{ block.settings.menu_style == 'featured_collections' }}"
+      "visible_if": "{{ block.settings.menu_style == 'featured_collections' and block.settings.menu_layout == 'default' }}"
     },
     {
       "type": "range",
