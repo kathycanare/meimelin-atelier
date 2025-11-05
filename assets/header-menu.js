@@ -250,3 +250,30 @@ if (typeof MutationObserver !== 'undefined') {
     observer.observe(item, { attributes: true });
   });
 }
+
+window.addEventListener('load', () => {
+  const headerMenu = document.querySelector('header-menu');
+
+  if (!headerMenu) return;
+
+  // Hook into Shopify’s existing hover logic
+  headerMenu.addEventListener('mouseover', (e) => {
+    const menuItem = e.target.closest('.menu-list__list-item');
+    if (!menuItem) return;
+
+    const submenu = menuItem.querySelector('.menu-list__submenu--sidebar');
+    if (submenu) {
+      submenu.style.visibility = 'visible';
+      submenu.style.opacity = '1';
+    }
+  });
+
+  headerMenu.addEventListener('mouseleave', (e) => {
+    const submenu = headerMenu.querySelector('.menu-list__submenu--sidebar');
+    if (submenu) {
+      submenu.style.visibility = 'hidden';
+      submenu.style.opacity = '0';
+    }
+  });
+});
+
