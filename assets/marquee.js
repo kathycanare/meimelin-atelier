@@ -17,12 +17,19 @@ const ANIMATION_OPTIONS = {
  */
 class MarqueeComponent extends Component {
   requiredRefs = ['wrapper', 'content', 'marqueeItems'];
+  
+  // Store the original first item to prevent it from being removed
+  #originalItem = null;
+  #isInitialized = false;
 
   connectedCallback() {
     super.connectedCallback();
 
     const { marqueeItems } = this.refs;
     if (marqueeItems.length === 0) return;
+
+    // Store the original item before any cloning
+    this.#originalItem = marqueeItems[0];
 
     // Wait for next frame to ensure elements are rendered
     requestAnimationFrame(() => {
@@ -37,6 +44,8 @@ class MarqueeComponent extends Component {
   }
 
   #initialize() {
+    if (this.#isInitialized) return;
+    
     const { marqueeItems } = this.refs;
     
     // Final safety check
@@ -48,6 +57,7 @@ class MarqueeComponent extends Component {
     this.#addRepeatedItems();
     this.#duplicateContent();
     this.#setSpeed();
+    this.#isInitialized = true;
 
     window.addEventListener('resize', this.#handleResize);
     this.addEventListener('pointerenter', this.#slowDown);
@@ -59,6 +69,7 @@ class MarqueeComponent extends Component {
     window.removeEventListener('resize', this.#handleResize);
     this.removeEventListener('pointerenter', this.#slowDown);
     this.removeEventListener('pointerleave', this.#speedUp);
+    this.#isInitialized = false;
   }
 
   /**
@@ -124,14 +135,12 @@ class MarqueeComponent extends Component {
     const marqueeWidth = this.offsetWidth;
 
     if (marqueeWidth === 0) {
-      console.warn('Marquee: Container has no width');
       return 20; // Return sensible default
     }
 
     const marqueeRepeatedItemWidth = marqueeItems[0]?.offsetWidth ?? 0;
     
     if (marqueeRepeatedItemWidth === 0) {
-      console.warn('Marquee: Items have no width');
       return 20; // Return sensible default
     }
 
@@ -143,22 +152,24 @@ class MarqueeComponent extends Component {
 
   #handleResize = debounce(() => {
     try {
-      const { marqueeItems } = this.refs;
+      const { content } = this.refs;
       
       // Skip if no dimensions
-      if (this.offsetWidth === 0 || !marqueeItems[0]?.offsetWidth) {
+      if (this.offsetWidth === 0 || !this.#originalItem?.offsetWidth) {
         return;
       }
 
-      const newNumberOfCopies = this.#calculateNumberOfCopies();
-      const currentNumberOfCopies = marqueeItems.length;
+      // Clear all cloned items but keep the original
+      const children = Array.from(content.children);
+      children.forEach((child, index) => {
+        // Keep only the first (original) item
+        if (index > 0) {
+          child.remove();
+        }
+      });
 
-      if (newNumberOfCopies > currentNumberOfCopies) {
-        this.#addRepeatedItems(newNumberOfCopies - currentNumberOfCopies);
-      } else if (newNumberOfCopies < currentNumberOfCopies) {
-        this.#removeRepeatedItems(currentNumberOfCopies - newNumberOfCopies);
-      }
-
+      // Recalculate and add new items based on current width
+      this.#addRepeatedItems();
       this.#duplicateContent();
       this.#setSpeed();
       this.#restartAnimation();
@@ -191,30 +202,28 @@ class MarqueeComponent extends Component {
   }
 
   #addRepeatedItems(numberOfCopies = this.#calculateNumberOfCopies()) {
-    const { content, marqueeItems } = this.refs;
+    const { content } = this.refs;
 
-    if (!marqueeItems[0]) return;
+    if (!this.#originalItem) return;
 
+    // Only clone from the original item, not from already cloned items
     for (let i = 0; i < numberOfCopies - 1; i++) {
-      const clone = marqueeItems[0].cloneNode(true);
+      const clone = this.#originalItem.cloneNode(true);
+      // Remove ref attribute from clones to avoid conflicts
+      clone.removeAttribute('ref');
       content.appendChild(clone);
     }
   }
 
-  #removeRepeatedItems(numberOfCopies = this.#calculateNumberOfCopies()) {
-    const { content } = this.refs;
-
-    for (let i = 0; i < numberOfCopies; i++) {
-      content.lastElementChild?.remove();
-    }
-  }
-
   #calculateNumberOfCopies() {
-    const { marqueeItems } = this.refs;
     const marqueeWidth = this.offsetWidth;
-    const marqueeRepeatedItemWidth = marqueeItems[0]?.offsetWidth ?? 1;
+    const marqueeRepeatedItemWidth = this.#originalItem?.offsetWidth ?? 1;
 
-    return marqueeRepeatedItemWidth === 0 ? 1 : Math.ceil(marqueeWidth / marqueeRepeatedItemWidth);
+    if (marqueeRepeatedItemWidth === 0 || marqueeWidth === 0) {
+      return 1;
+    }
+
+    return Math.max(1, Math.ceil(marqueeWidth / marqueeRepeatedItemWidth));
   }
 }
 
