@@ -221,13 +221,14 @@ function initializeSidebarMenu() {
       }
     });
     
-    // Handle clicks - only prevent default for items with children
-    const link = item.querySelector('.mega-menu__sidebar-link');
-    if (link && hasChildren) {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-      });
+    // Only prevent default click for items with children
+    if (hasChildren) {
+      const link = item.querySelector('.mega-menu__sidebar-link');
+      if (link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+        });
+      }
     }
   });
 }
@@ -239,7 +240,7 @@ if (typeof MutationObserver !== 'undefined') {
       if (mutation.attributeName === 'aria-expanded') {
         const target = mutation.target;
         if (target.getAttribute('aria-expanded') === 'true') {
-          setTimeout(initializeSidebarMenu, 50);
+          setTimeout(initializeSidebarMenu, 100);
         }
       }
     });
