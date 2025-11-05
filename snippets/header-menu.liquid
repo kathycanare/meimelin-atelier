@@ -75,66 +75,65 @@
               </div>
 
               {%- comment -%} Right Content Area {%- endcomment -%}
-              <div class="mega-menu__main-content">
-                {% for child_link in link.links %}
-                  <div class="mega-menu__content-panel {% if forloop.first %}active{% endif %}" 
-                       data-submenu-content="{{ forloop.index }}">
-                    
-                    {%- comment -%} Two-Column Subcategories {%- endcomment -%}
-                    {% if child_link.links != blank %}
-                      <div class="mega-menu__subcategories">
-                        {% assign half = child_link.links.size | divided_by: 2.0 | ceil %}
-                        
-                        {%- comment -%} Left Column {%- endcomment -%}
-                        <div class="mega-menu__subcategory-column">
-                          <h3 class="mega-menu__subcategory-title">{{ child_link.title }}</h3>
-                          <ul class="mega-menu__subcategory-list list-unstyled">
-                            {% for sub_link in child_link.links limit: half %}
-                              <li>
-                                <a href="{{ sub_link.url }}" class="mega-menu__subcategory-link">
-                                  {{ sub_link.title }}
-                                </a>
-                              </li>
-                            {% endfor %}
-                          </ul>
-                        </div>
+<div class="mega-menu__main-content">
+  {% for child_link in link.links %}
+    {% if child_link.links != blank %}
+      <div class="mega-menu__content-panel {% if forloop.first %}active{% endif %}" 
+           data-submenu-content="{{ forloop.index }}">
+        
+        {%- comment -%} Two-Column Subcategories {%- endcomment -%}
+        <div class="mega-menu__subcategories">
+          {% assign half = child_link.links.size | divided_by: 2.0 | ceil %}
+          
+          {%- comment -%} Left Column {%- endcomment -%}
+          <div class="mega-menu__subcategory-column">
+            <h3 class="mega-menu__subcategory-title">{{ child_link.title }}</h3>
+            <ul class="mega-menu__subcategory-list list-unstyled">
+              {% for sub_link in child_link.links limit: half %}
+                <li>
+                  <a href="{{ sub_link.url }}" class="mega-menu__subcategory-link">
+                    {{ sub_link.title }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
 
-                        {%- comment -%} Right Column {%- endcomment -%}
-                        <div class="mega-menu__subcategory-column">
-                          <h3 class="mega-menu__subcategory-title" style="visibility: hidden;">{{ child_link.title }}</h3>
-                          <ul class="mega-menu__subcategory-list list-unstyled">
-                            {% for sub_link in child_link.links offset: half %}
-                              <li>
-                                <a href="{{ sub_link.url }}" class="mega-menu__subcategory-link">
-                                  {{ sub_link.title }}
-                                </a>
-                              </li>
-                            {% endfor %}
-                          </ul>
-                        </div>
-                      </div>
-                    {% endif %}
+          {%- comment -%} Right Column {%- endcomment -%}
+          <div class="mega-menu__subcategory-column">
+            <h3 class="mega-menu__subcategory-title" style="visibility: hidden;">{{ child_link.title }}</h3>
+            <ul class="mega-menu__subcategory-list list-unstyled">
+              {% for sub_link in child_link.links offset: half %}
+                <li>
+                  <a href="{{ sub_link.url }}" class="mega-menu__subcategory-link">
+                    {{ sub_link.title }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
 
-                    {%- comment -%} Featured Image {%- endcomment -%}
-                    <div class="mega-menu__featured-image">
-                      {% if child_link.object.image %}
-                        <img 
-                          src="{{ child_link.object.image | image_url: width: 400 }}"
-                          alt="{{ child_link.title }}"
-                          loading="lazy"
-                          width="400"
-                          height="400"
-                        >
-                      {% else %}
-                        <div class="mega-menu__placeholder-image">
-                          <span>{{ child_link.title }}</span>
-                        </div>
-                      {% endif %}
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-
+        {%- comment -%} Featured Image {%- endcomment -%}
+        <div class="mega-menu__featured-image">
+          {% if child_link.object.image %}
+            <img 
+              src="{{ child_link.object.image | image_url: width: 400 }}"
+              alt="{{ child_link.title }}"
+              loading="lazy"
+              width="400"
+              height="400"
+            >
+          {% else %}
+            <div class="mega-menu__placeholder-image">
+              <span>{{ child_link.title }}</span>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
               {%- comment -%} Promotional Banner {%- endcomment -%}
               {%- if block_settings.show_menu_banner -%}
                 <div class="menu-promo-banner" 
