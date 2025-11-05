@@ -55,25 +55,30 @@
               id="submenu-{{ forloop.index }}"
               class="menu-list__submenu-inner menu-list__submenu-inner--sidebar"
             >
-              {%- comment -%} Left Sidebar with Main Categories {%- endcomment -%}
+            {%- comment -%} Left Sidebar with Main Categories {%- endcomment -%}
               <div class="mega-menu__sidebar">
                 <ul class="mega-menu__sidebar-list list-unstyled">
                   {% for child_link in link.links %}
                     <li class="mega-menu__sidebar-item {% if forloop.first %}active{% endif %}"
-                        data-submenu-index="{{ forloop.index }}">
-                      <a href="{{ child_link.url }}" class="mega-menu__sidebar-link">
-                        <span>{{ child_link.title }}</span>
-                        {% if child_link.links != blank %}
+                        data-submenu-index="{{ forloop.index }}"
+                        data-has-children="{% if child_link.links != blank %}true{% else %}false{% endif %}">
+                      {% if child_link.links != blank %}
+                        <a href="{{ child_link.url }}" class="mega-menu__sidebar-link" onclick="event.preventDefault();">
+                          <span>{{ child_link.title }}</span>
                           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                             <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                           </svg>
-                        {% endif %}
-                      </a>
+                        </a>
+                      {% else %}
+                        <a href="{{ child_link.url }}" class="mega-menu__sidebar-link">
+                          <span>{{ child_link.title }}</span>
+                        </a>
+                      {% endif %}
                     </li>
                   {% endfor %}
                 </ul>
               </div>
-
+              
               {%- comment -%} Right Content Area {%- endcomment -%}
               <div class="mega-menu__main-content">
                 {% for child_link in link.links %}
