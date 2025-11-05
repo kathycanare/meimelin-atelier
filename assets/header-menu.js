@@ -200,3 +200,38 @@ function findMenuItem(element) {
   return element?.querySelector('[ref="menuitem"]');
 }
 
+/**
+ * Find the closest submenu.
+ * @param {Element | null | undefined} element
+ * @returns {HTMLElement | null}
+ */
+function findSubmenu(element) {
+  const submenu = element?.parentElement?.querySelector('[ref="submenu[]"]');
+  return submenu instanceof HTMLElement ? submenu : null;
+}
+document.addEventListener('DOMContentLoaded', function() {
+  const sidebarItems = document.querySelectorAll('.mega-menu__sidebar-item');
+  
+  sidebarItems.forEach(item => {
+    item.addEventListener('mouseenter', function() {
+      // Remove active class from all items
+      sidebarItems.forEach(i => i.classList.remove('active'));
+      
+      // Add active class to hovered item
+      this.classList.add('active');
+      
+      // Get the index
+      const index = this.dataset.submenuIndex;
+      
+      // Hide all content
+      const allContent = document.querySelectorAll('.mega-menu__submenu-content');
+      allContent.forEach(content => content.classList.remove('active'));
+      
+      // Show corresponding content
+      const targetContent = document.querySelector(`[data-submenu-content="${index}"]`);
+      if (targetContent) {
+        targetContent.classList.add('active');
+      }
+    });
+  });
+});
