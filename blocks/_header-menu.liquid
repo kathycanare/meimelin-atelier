@@ -1,229 +1,77 @@
+{%- doc -%}
+  Renders a header menu block.
+
+  @param {string} [variant] - What version of the menu to render. Defaults to header menu.
+  @param {string} [transparent] - Show a transparent menu
+{%- enddoc -%}
+
 {% liquid
   assign block_settings = block.settings
-  assign menu_content_type = block_settings.menu_style | default: 'text'
-  assign image_border_radius = block_settings.image_border_radius
-  assign color_scheme_classes = ''
-  assign color_scheme_setting_id = 'color_scheme_' | append: section.settings.menu_row
-  assign current_color_scheme = block_settings.color_scheme
-  assign parent_color_scheme = section.settings[color_scheme_setting_id]
-
-  if parent_color_scheme.id != current_color_scheme.id
-    assign color_scheme_classes = ' color-' | append: current_color_scheme
-  endif
-
-  if parent_color_scheme.settings.background.rgb == current_color_scheme.settings.background.rgb
-    assign color_scheme_classes = color_scheme_classes | append: ' color-scheme-matches-parent'
-  endif
-
-  if block_settings.menu_style == 'featured_collections'
-    assign ratio = block_settings.featured_collections_aspect_ratio
-  elsif block_settings.menu_style == 'featured_products'
-    assign ratio = block_settings.featured_products_aspect_ratio
-  endif
+  assign animation_speed = 200
 %}
 
-{% capture children %}
-  {% for link in block_settings.menu.links %}
-    <li
-      role="presentation"
-      class="menu-list__list-item"
-      on:focus="/activate"
-      on:blur="/deactivate"
-      on:pointerenter="/activate"
-      on:pointerleave="/deactivate"
+{% case variant %}
+  {% when 'mobile' %}
+    <div
+      class="header__drawer desktop:hidden"
+      ref="headerDrawerContainer"
+      {{ block.shopify_attributes }}
     >
-      
-        href="{{ link.url }}"
-        data-skip-node-update="true"
-        class="menu-list__link{% if link.active %} menu-list__link--active{% endif %}"
-        {%- if link.links != blank -%}
-          aria-controls="submenu-{{ forloop.index }}"
-          aria-haspopup="true"
-          aria-expanded="false"
-        {%- endif -%}
-        ref="menuitem"
+      {% render 'header-drawer',
+        class: 'header__drawer--mobile',
+        linklist: block_settings.menu,
+        data_header_drawer_type: 'mobile-drawer'
+      %}
+    </div>
+
+  {% when 'navigation_bar' %}
+    {% if block_settings.navigation_bar == true %}
+      <div
+        class="menu-list menu-list--mobile{% if transparent == blank %} color-{{ block_settings.color_scheme_navigation_bar }}{% endif %}"
+        style="--menu-horizontal-gap: 15px; --mobile-nav-margin: auto;"
       >
-        <span class="menu-list__link-title">{{- link.title -}}</span>
-      </a>
-      {%- if link.links != blank -%}
-        <div class="menu-list__submenu menu-list__submenu--sidebar{{ color_scheme_classes }}" ref="submenu[]">
-          <div
-            id="submenu-{{ forloop.index }}"
-            class="menu-list__submenu-inner menu-list__submenu-inner--sidebar"
-            style="{% render 'submenu-font-styles', settings: block_settings %}"
+        <div class="menu-list__scroll-container">
+          <ul
+            class="menu-list__list list-unstyled"
+            role="list"
           >
-            {%- comment -%} Sidebar Navigation {%- endcomment -%}
-            <div class="mega-menu__sidebar">
-              <ul class="mega-menu__sidebar-list list-unstyled">
-                {% for child_link in link.links %}
-                  <li class="mega-menu__sidebar-item {% if forloop.first %}active{% endif %}"
-                      data-submenu-index="{{ forloop.index }}">
-                    <a href="{{ child_link.url }}" class="mega-menu__sidebar-link">
-                      {{ child_link.title }}
-                      {% if child_link.links != blank %}
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                      {% endif %}
-                    </a>
-                  </li>
-                {% endfor %}
-              </ul>
-            </div>
-
-            {%- comment -%} Main Content Area {%- endcomment -%}
-            <div class="mega-menu__content-wrapper">
-              {% for child_link in link.links %}
-                <div class="mega-menu__submenu-content {% if forloop.first %}active{% endif %}" 
-                     data-submenu-content="{{ forloop.index }}">
-                  
-                  {%- comment -%} Two Column Layout for Sub-items {%- endcomment -%}
-                  {% if child_link.links != blank %}
-                    <div class="mega-menu__two-column">
-                      {% assign half = child_link.links.size | divided_by: 2.0 | ceil %}
-                      
-                      <div class="mega-menu__column">
-                        <h3 class="mega-menu__column-title">{{ child_link.title }}</h3>
-                        <ul class="mega-menu__column-list list-unstyled">
-                          {% for sub_link in child_link.links limit: half %}
-                            <li>
-                              <a href="{{ sub_link.url }}" class="mega-menu__link">
-                                {{ sub_link.title }}
-                              </a>
-                            </li>
-                          {% endfor %}
-                        </ul>
-                      </div>
-
-                      <div class="mega-menu__column">
-                        <h3 class="mega-menu__column-title" style="opacity: 0;">{{ child_link.title }}</h3>
-                        <ul class="mega-menu__column-list list-unstyled">
-                          {% for sub_link in child_link.links offset: half %}
-                            <li>
-                              <a href="{{ sub_link.url }}" class="mega-menu__link">
-                                {{ sub_link.title }}
-                              </a>
-                            </li>
-                          {% endfor %}
-                        </ul>
-                      </div>
-                    </div>
+            {% for link in block_settings.menu.links %}
+              <li>
+                
+                  href="{{ link.url }}"
+                  id="MenuItem-{{ link.handle }}"
+                  class="menu-list__item"
+                  {% if link.current %}
+                    aria-current="page"
                   {% endif %}
-
-                  {%- comment -%} Featured Image {%- endcomment -%}
-                  <div class="mega-menu__featured-image">
-                    {% if child_link.object.image %}
-                      <img 
-                        src="{{ child_link.object.image | image_url: width: 400 }}"
-                        alt="{{ child_link.title }}"
-                        loading="lazy"
-                        width="400"
-                        height="400"
-                      >
-                    {% else %}
-                      <img 
-                        src="https://via.placeholder.com/400x400/f5f5f5/cccccc?text={{ child_link.title | url_encode }}"
-                        alt="{{ child_link.title }}"
-                        loading="lazy"
-                        width="400"
-                        height="400"
-                      >
-                    {% endif %}
-                  </div>
-                </div>
-              {% endfor %}
-            </div>
-
-            {%- comment -%} Menu Promotional Banner {%- endcomment -%}
-            {%- if block_settings.show_menu_banner -%}
-              <div class="menu-promo-banner" 
-                   style="
-                     --banner-bg-color: {{ block_settings.banner_bg_color }};
-                     --banner-text-color: {{ block_settings.banner_text_color }};
-                   ">
-                <div class="menu-promo-banner__inner">
-                  
-                  {%- if block_settings.banner_text_1 != blank -%}
-                    <div class="menu-promo-banner__item">
-                      {%- if block_settings.banner_icon_1 != blank -%}
-                        <img 
-                          src="{{ block_settings.banner_icon_1 | image_url: width: 64 }}"
-                          alt=""
-                          width="24"
-                          height="24"
-                          loading="lazy"
-                          class="menu-promo-banner__icon"
-                        >
-                      {%- endif -%}
-                      <p class="menu-promo-banner__text">{{ block_settings.banner_text_1 }}</p>
-                    </div>
-                  {%- endif -%}
-                  
-                  {%- if block_settings.banner_text_2 != blank -%}
-                    <div class="menu-promo-banner__item">
-                      {%- if block_settings.banner_icon_2 != blank -%}
-                        <img 
-                          src="{{ block_settings.banner_icon_2 | image_url: width: 64 }}"
-                          alt=""
-                          width="24"
-                          height="24"
-                          loading="lazy"
-                          class="menu-promo-banner__icon"
-                        >
-                      {%- endif -%}
-                      <p class="menu-promo-banner__text menu-promo-banner__text--uppercase">{{ block_settings.banner_text_2 }}</p>
-                    </div>
-                  {%- endif -%}
-                  
-                  {%- if block_settings.banner_text_3 != blank -%}
-                    <div class="menu-promo-banner__item">
-                      {%- if block_settings.banner_icon_3 != blank -%}
-                        <img 
-                          src="{{ block_settings.banner_icon_3 | image_url: width: 64 }}"
-                          alt=""
-                          width="24"
-                          height="24"
-                          loading="lazy"
-                          class="menu-promo-banner__icon"
-                        >
-                      {%- endif -%}
-                      <p class="menu-promo-banner__text menu-promo-banner__text--uppercase">{{ block_settings.banner_text_3 }}</p>
-                    </div>
-                  {%- endif -%}
-
-                </div>
-              </div>
-            {%- endif -%}
-
-          </div>
+                >
+                  {{- link.title -}}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
         </div>
-      {%- endif -%}
-    </li>
-  {% endfor %}
-  <li
-    class="menu-list__list-item"
-    role="presentation"
-    slot="more"
-    on:focus="/activate"
-    on:blur="/deactivate"
-    on:pointerenter="/activate"
-    on:pointerleave="/deactivate"
-  >
-    <button role="menuitem" class="button menu-list__link button-unstyled">
-      <span class="menu-list__link-title">{{ 'actions.more' | t }}</span>
-    </button>
-  </li>
-{% endcapture %}
+      </div>
+    {% endif %}
+  {% else %}
+    <header-menu
+      ref="headerMenu"
+      class="header-menu mobile:hidden"
+      data-animation-delay="{{ animation_speed }}"
+      {{ block.shopify_attributes }}
+      style="--submenu-animation-speed: {{ animation_speed }}ms;"
+    >
+      <div class="header-menu__inner">
+        {%- render 'header-menu' %}
+      </div>
 
-<nav header-menu>
-  <div
-    class="menu-list"
-    style="{% render 'menu-font-styles', settings: block_settings %}"
-  >
-    {% assign class = 'overflow-menu' | append: color_scheme_classes %}
-    {% render 'overflow-list', class: class, ref: 'overflowMenu', children: children, minimum-items: 2, defer: true %}
-  </div>
-</nav>
+      <script
+        src="{{ 'header-menu.js' | asset_url }}"
+        type="module"
+        fetchpriority="low"
+      ></script>
+    </header-menu>
+{% endcase %}
 
 {% stylesheet %}
   .menu-list--mobile {
@@ -823,157 +671,6 @@
     .menu-list__link {
       color: var(--menu-top-level-font-color);
       opacity: 1;
-    }
-  }
-  /* Sidebar Mega Menu Styles */
-  .menu-list__submenu--sidebar {
-    min-height: 500px;
-  }
-
-  .menu-list__submenu-inner--sidebar {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    grid-template-rows: 1fr auto;
-    gap: 0;
-    padding: 0;
-    max-height: 600px;
-  }
-
-  /* Sidebar Navigation */
-  .mega-menu__sidebar {
-    grid-column: 1;
-    grid-row: 1 / 3;
-    background-color: #f8f8f8;
-    padding: var(--padding-xl) 0;
-    border-right: 1px solid #e5e5e5;
-  }
-
-  .mega-menu__sidebar-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .mega-menu__sidebar-item {
-    position: relative;
-  }
-
-  .mega-menu__sidebar-link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--padding-sm) var(--padding-xl);
-    color: #000;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: all 0.2s ease;
-  }
-
-  .mega-menu__sidebar-item:hover .mega-menu__sidebar-link,
-  .mega-menu__sidebar-item.active .mega-menu__sidebar-link {
-    background-color: #fff;
-    color: #000;
-  }
-
-  .mega-menu__sidebar-link svg {
-    opacity: 0.5;
-    transition: opacity 0.2s ease;
-  }
-
-  .mega-menu__sidebar-item:hover .mega-menu__sidebar-link svg,
-  .mega-menu__sidebar-item.active .mega-menu__sidebar-link svg {
-    opacity: 1;
-  }
-
-  /* Content Wrapper */
-  .mega-menu__content-wrapper {
-    grid-column: 2;
-    grid-row: 1;
-    position: relative;
-    padding: var(--padding-xl);
-    overflow-y: auto;
-  }
-
-  .mega-menu__submenu-content {
-    display: none;
-    grid-template-columns: 1fr 300px;
-    gap: var(--padding-xl);
-    align-items: start;
-  }
-
-  .mega-menu__submenu-content.active {
-    display: grid;
-  }
-
-  /* Two Column Layout */
-  .mega-menu__two-column {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--padding-xl);
-  }
-
-  .mega-menu__column-title {
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: var(--padding-md);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .mega-menu__column-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--padding-xs);
-  }
-
-  .mega-menu__column-list .mega-menu__link {
-    display: block;
-    padding: var(--padding-2xs) 0;
-    color: #666;
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.2s ease;
-  }
-
-  .mega-menu__column-list .mega-menu__link:hover {
-    color: #000;
-  }
-
-  /* Featured Image */
-  .mega-menu__featured-image {
-    position: sticky;
-    top: var(--padding-xl);
-  }
-
-  .mega-menu__featured-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 8px;
-    object-fit: cover;
-  }
-
-  /* Promo Banner in Sidebar Layout */
-  .menu-list__submenu--sidebar .menu-promo-banner {
-    grid-column: 1 / 3;
-    grid-row: 2;
-    margin-top: 0;
-    border-radius: 0;
-  }
-
-  /* Responsive */
-  @media (max-width: 1200px) {
-    .mega-menu__submenu-content {
-      grid-template-columns: 1fr 250px;
-    }
-  }
-
-  @media (max-width: 989px) {
-    .menu-list__submenu--sidebar {
-      display: none;
     }
   }
 {% endstylesheet %}
