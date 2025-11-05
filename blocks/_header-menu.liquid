@@ -565,7 +565,7 @@
   .menu-promo-banner {
     width: calc(100% + var(--section-padding-inline) * 2);
     margin: auto;
-    background-color: #fde2ff;;
+    background-color: #fde2ff;
     padding: 30px;
     margin-top: 40px;
     border-radius: 10px;
@@ -625,52 +625,54 @@
     }
   }
 
-.menu-list__link {
-  position: relative;
-  font-family: var(--menu-top-level-font-family);
-  font-style: var(--menu-top-level-font-style);
-  font-weight: var(--menu-top-level-font-weight);
-  font-size: var(--menu-top-level-font-size);
-  line-height: var(--menu-top-level-font-line-height);
-  text-transform: var(--menu-top-level-font-case);
-  color: var(--menu-top-level-font-color);
-  transition: color var(--animation-speed) var(--animation-easing);
-  text-decoration: none;
-  display: flex;
-  min-height: var(--minimum-touch-target);
-  align-items: center;
-  opacity: 1 !important;
-
-  /* Remove the pink ::after pseudo-element effect */
-  &::after {
-    display: none;
-  }
- .header__row  {
-  background: white;
-}
-
-
-  &:hover,
-  &:focus {
-    color: var(--menu-top-level-font-color);
-    text-decoration: underline;
-    text-decoration-color: black;
-    text-underline-offset: 4px;
+  /* Header row background - THIS WAS MISSING */
+  .header__row {
+    background: white;
   }
 
-  @media screen and (min-width: 750px) {
-    font-size: var(--menu-top-level-font-size-desktop);
-  }
-}
-
-.menu-list:where(:has(.menu-list__list-item:hover)),
-.menu-list:where(:has(.menu-list__list-item:focus-within)),
-.menu-list:where(:has(.menu-list__list-item:not([aria-hidden='true']) .menu-list__link--active)) {
+  /* Updated menu link styles with black underline */
   .menu-list__link {
+    position: relative;
+    font-family: var(--menu-top-level-font-family);
+    font-style: var(--menu-top-level-font-style);
+    font-weight: var(--menu-top-level-font-weight);
+    font-size: var(--menu-top-level-font-size);
+    line-height: var(--menu-top-level-font-line-height);
+    text-transform: var(--menu-top-level-font-case);
     color: var(--menu-top-level-font-color);
-    opacity: 1;
+    transition: color var(--animation-speed) var(--animation-easing);
+    text-decoration: none;
+    display: flex;
+    min-height: var(--minimum-touch-target);
+    align-items: center;
+    opacity: 1 !important;
+
+    /* Remove the pink ::after pseudo-element effect */
+    &::after {
+      display: none;
+    }
+
+    &:hover,
+    &:focus {
+      color: var(--menu-top-level-font-color);
+      text-decoration: underline;
+      text-decoration-color: black;
+      text-underline-offset: 4px;
+    }
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--menu-top-level-font-size-desktop);
+    }
   }
-}
+
+  .menu-list:where(:has(.menu-list__list-item:hover)),
+  .menu-list:where(:has(.menu-list__list-item:focus-within)),
+  .menu-list:where(:has(.menu-list__list-item:not([aria-hidden='true']) .menu-list__link--active)) {
+    .menu-list__link {
+      color: var(--menu-top-level-font-color);
+      opacity: 1;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
