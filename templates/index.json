@@ -520,7 +520,7 @@
       ],
       "name": "t:names.marquee_section",
       "settings": {
-        "movement_direction": "normal",
+        "movement_direction": "reverse",
         "color_scheme": "scheme-5",
         "padding-block-start": 24,
         "padding-block-end": 24,
