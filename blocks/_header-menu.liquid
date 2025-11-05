@@ -36,15 +36,10 @@
             role="list"
           >
             {% for link in block_settings.menu.links %}
-              <li>
-               <a 
-                  href="{{ link.url }}"
-                  id="MenuItem-{{ link.handle }}"
-                  class="menu-list__item"
-                  {% if link.current %}
-                    aria-current="page"
-                  {% endif %}
-                >
+  <li>
+    <a
+      href="{{ link.url }}"
+      id="MenuItem-{{ link.handle }}">
                   {{- link.title -}}
                 </a>
               </li>
