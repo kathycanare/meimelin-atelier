@@ -235,7 +235,7 @@
                 "accordion_row_NdBezV": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Description",
+                    "heading": "Detalizēts apraksts",
                     "open_by_default": false,
                     "icon": "none",
                     "width": 20
@@ -274,7 +274,7 @@
                 "accordion_row_iJM37V": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Care",
+                    "heading": "Izmēri",
                     "open_by_default": false,
                     "icon": "none",
                     "width": 20
@@ -313,7 +313,7 @@
                 "accordion_row_pLFDcD": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Design",
+                    "heading": "Piegāde un atgriešana",
                     "open_by_default": false,
                     "icon": "none",
                     "width": 20
