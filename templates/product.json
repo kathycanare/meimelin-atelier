@@ -20,11 +20,11 @@
             "media_columns": "two",
             "image_gap": 0,
             "large_first_image": true,
-            "icons_style": "arrows_large",
+            "icons_style": "chevron",
             "slideshow_controls_style": "thumbnails",
             "slideshow_mobile_controls_style": "hint",
             "thumbnail_position": "left",
-            "thumbnail_width": 57,
+            "thumbnail_width": 72,
             "aspect_ratio": "1/1.25",
             "constrain_to_viewport": false,
             "media_fit": "cover",
@@ -67,6 +67,32 @@
             "padding-inline-end": 0
           },
           "blocks": {
+            "text_zLkpcw": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "product_title_9WaLn7": {
               "type": "product-title",
               "name": "t:names.title",
@@ -97,8 +123,8 @@
               "settings": {
                 "show_sale_price_first": true,
                 "show_installments": true,
-                "show_tax_info": true,
-                "type_preset": "h5",
+                "show_tax_info": false,
+                "type_preset": "h4",
                 "width": "100%",
                 "alignment": "center",
                 "font": "var(--font-body--family)",
@@ -108,9 +134,21 @@
                 "case": "none",
                 "color": "var(--color-foreground)",
                 "padding-block-start": 0,
-                "padding-block-end": 50,
+                "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "review_Kbbbxp": {
+              "type": "review",
+              "name": "t:names.product_review_stars",
+              "settings": {
+                "stars_style": "shaded",
+                "show_number": true,
+                "rating_color": "primary",
+                "type_preset": "paragraph",
+                "alignment": "left"
               },
               "blocks": {}
             },
@@ -320,8 +358,10 @@
             }
           },
           "block_order": [
+            "text_zLkpcw",
             "product_title_9WaLn7",
             "price_a7krng",
+            "review_Kbbbxp",
             "divider_HrJgFt",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
