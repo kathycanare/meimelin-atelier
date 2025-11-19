@@ -714,7 +714,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>COLLECTION NAME</p>",
+                "text": "<h6>COLLECTION NAME</h6>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
