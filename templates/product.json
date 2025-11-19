@@ -729,7 +729,7 @@
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
-                "padding-block-start": 0,
+                "padding-block-start": 15,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
@@ -809,8 +809,7 @@
         }
       },
       "custom_css": [
-        "h2,p,.price {font-weight: 700;}",
-        ".h6 {color: #777777;}"
+        "h2,p,.price {font-weight: 700;}"
       ],
       "name": "t:names.products_grid",
       "settings": {
