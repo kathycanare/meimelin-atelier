@@ -670,25 +670,10 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
-            },
-            "product_list_button_UWxiqi": {
-              "type": "_product-list-button",
-              "name": "t:names.product_list_button",
-              "settings": {
-                "label": "View all",
-                "open_in_new_tab": false,
-                "style_class": "link",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
             }
           },
           "block_order": [
-            "product_list_text_6YAaLc",
-            "product_list_button_UWxiqi"
+            "product_list_text_6YAaLc"
           ]
         },
         "static-product-card": {
@@ -729,7 +714,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "{{ closest.product.metafields.shopify[\"jewelry-material\"] | metafield_tag: field: 'label' }}",
+                "text": "",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -758,9 +743,9 @@
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
+                "font_size": "1.125rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "uppercase",
@@ -798,16 +783,34 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "swatches_rhx66P": {
+              "type": "swatches",
+              "name": "t:names.swatches",
+              "settings": {
+                "product_swatches_alignment": "flex-start",
+                "product_swatches_alignment_mobile": "flex-start",
+                "hide_padding": false,
+                "product_swatches_padding_top": 4,
+                "product_swatches_padding_bottom": 0,
+                "product_swatches_padding_left": 0,
+                "product_swatches_padding_right": 0
+              },
+              "blocks": {}
             }
           },
           "block_order": [
             "product_card_gallery_7tdgph",
             "text_LEVa78",
             "product_title_q3eQ4G",
-            "price_9ggamQ"
+            "price_9ggamQ",
+            "swatches_rhx66P"
           ]
         }
       },
+      "custom_css": [
+        "p {font-weight: 700;}"
+      ],
       "name": "t:names.products_grid",
       "settings": {
         "collection": "frontpage",
