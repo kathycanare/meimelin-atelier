@@ -1064,7 +1064,7 @@
                 "text_KHmAKP": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Our goal is for every customer to be totally satisfied with their purchase. If this isn’t the case, let us know and we’ll do our best to work with you to make it right. </p>",
+                    "text": "<p>Mēs piedāvājam piegādi visā Latvijā. Ja pasūtījums tiek veikts darba dienā līdz noteiktam laikam (piemēram, līdz 14:00), mēs to nosūtām tajā pašā dienā. Standarta piegādes laiks parasti ir 1-3 darba dienas, atkarībā no jūsu atrašanās vietas. Ja pasūtījuma summa sasniedz noteiktu slieksni (piemēram, no 50 EUR), piegāde tiek bez maksas. (Šāds nosacījums redzams jūsu mājaslapā: “BEZMAKSAS PIEGĀDE NO 50 EUR”.)</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1134,7 +1134,7 @@
               "type": "_accordion-row",
               "name": "t:names.accordion_dash_row",
               "settings": {
-                "heading": "When will I get my order?",
+                "heading": "Vai rotaslietas piegādājas kādā dāvanu iesaiņojumā?",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
@@ -1175,7 +1175,7 @@
               "type": "_accordion-row",
               "name": "t:names.accordion_dash_row",
               "settings": {
-                "heading": "Where are your products manufactured?",
+                "heading": "Vai piedāvājat dāvanu kartes?",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
@@ -1216,7 +1216,7 @@
               "type": "_accordion-row",
               "name": "t:names.accordion_dash_row",
               "settings": {
-                "heading": "How much does shipping cost?",
+                "heading": "No kādiem materiāliem ir izgatavotas jūsu rotaslietas?",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
