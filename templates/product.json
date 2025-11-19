@@ -252,6 +252,24 @@
               },
               "block_order": []
             },
+            "ai_gen_block_cb72255_brYdwc": {
+              "type": "ai_gen_block_cb72255",
+              "settings": {
+                "delivery_label": "SAŅEM PASŪTĪJUMU:",
+                "start_days": 7,
+                "end_days": 14,
+                "date_format": "short",
+                "icon_size": 20,
+                "icon_color": "#000000",
+                "alignment": "center",
+                "background_color": "#FDEFEF",
+                "label_color": "#666666",
+                "date_color": "#000000",
+                "text_size": 12,
+                "border_radius": 8
+              },
+              "blocks": {}
+            },
             "accordion_NKWPiW": {
               "type": "accordion",
               "name": "t:names.accordion",
@@ -406,6 +424,7 @@
             "variant_picker_R3rGDr",
             "product_inventory_w3DUxw",
             "buy_buttons_eYQEYi",
+            "ai_gen_block_cb72255_brYdwc",
             "accordion_NKWPiW"
           ]
         }
