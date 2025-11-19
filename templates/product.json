@@ -287,8 +287,7 @@
                 "container_padding": 12,
                 "horizontal_alignment": "center",
                 "gap": 6,
-                "icon_max_height_desktop": 24,
-                "icon_max_height_mobile": 16,
+                "icon_max_height": 24,
                 "icon_mastercard": "shopify://shop_images/Mastercard.jpg",
                 "icon_maestro": "shopify://shop_images/Maestro.png",
                 "icon_paypal": "shopify://shop_images/PayPal.png",
@@ -811,7 +810,7 @@
       },
       "name": "t:names.products_grid",
       "settings": {
-        "collection": "",
+        "collection": "frontpage",
         "layout_type": "grid",
         "carousel_on_mobile": false,
         "max_products": 4,
