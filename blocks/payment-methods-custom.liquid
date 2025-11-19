@@ -21,28 +21,18 @@
     "
   >
     {% if block_settings.show_heading and block_settings.heading_text != blank %}
-      <div class="payment-methods-custom__heading-wrapper">
-        <span 
-          class="payment-methods-custom__line"
-          style="background-color: {{ block_settings.container_border }};"
-        ></span>
-        <h3 
-          class="payment-methods-custom__heading"
-          style="
-            font-size: {{ block_settings.heading_size }}px;
-            font-weight: {{ block_settings.heading_weight }};
-            color: {{ block_settings.heading_color }};
-          "
-        >
-          {{ block_settings.heading_text }}
-        </h3>
-        <span 
-          class="payment-methods-custom__line"
-          style="background-color: {{ block_settings.container_border }};"
-        ></span>
-      </div>
-    {% endif %}
-
+  <legend 
+    class="payment-methods-custom__legend"
+    style="
+      font-size: {{ block_settings.heading_size }}px;
+      font-weight: {{ block_settings.heading_weight }};
+      color: {{ block_settings.heading_color }};
+      padding: 0 12px;
+    "
+  >
+    {{ block_settings.heading_text }}
+  </legend>
+{% endif %}
     <ul 
       class="payment-methods-custom__list" 
       role="list"
@@ -204,6 +194,19 @@
     width: 100%;
     margin-bottom: 0;
   }
+  .payment-methods-custom__container {
+  position: relative;
+  padding-top: 20px !important;
+}
+
+.payment-methods-custom__legend {
+  margin: 0 auto;
+  text-align: center;
+  letter-spacing: 0.02em;
+  background: inherit;
+  white-space: nowrap;
+}
+
 
   .payment-methods-custom__line {
     flex: 1;
