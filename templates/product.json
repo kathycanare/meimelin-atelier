@@ -1624,36 +1624,11 @@
           "type": "text",
           "name": "t:names.heading",
           "settings": {
-            "text": "<h2>Subscribe to our emails</h2>",
+            "text": "<h2><strong>Abonē mūsu jaunumu lapu unuzzini par akcijām pirmais!</strong></h2>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "text_q4DwrB": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Be the first to know about new collections and special offers. </p>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "paragraph",
+            "type_preset": "h2",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
             "line_height": "normal",
@@ -1680,7 +1655,7 @@
             "heading": "",
             "heading_preset": "h3",
             "color_scheme": "",
-            "border_style": "all",
+            "border_style": "underline",
             "border_width": 1,
             "border_radius": 100,
             "input_type_preset": "paragraph",
@@ -1699,7 +1674,6 @@
       },
       "block_order": [
         "text_ExmVXw",
-        "text_q4DwrB",
         "email_signup_pxEWHw"
       ],
       "name": "t:names.email_signup",
@@ -1730,6 +1704,60 @@
         "padding-block-start": 40,
         "padding-block-end": 40
       }
+    },
+    "marquee_R6Ujnf": {
+      "type": "marquee",
+      "blocks": {
+        "icon_TFUrDJ": {
+          "type": "icon",
+          "name": "t:names.icon",
+          "settings": {
+            "icon": "price_tag",
+            "image_upload": "shopify://shop_images/Group.png",
+            "width": 102,
+            "link": "",
+            "open_in_new_tab": false
+          },
+          "blocks": {}
+        },
+        "text_NfQHp3": {
+          "type": "text",
+          "settings": {
+            "text": "<p>30% atlaide pirkumiem virs €50</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "tight",
+            "letter_spacing": "tight",
+            "case": "uppercase",
+            "wrap": "nowrap",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "icon_TFUrDJ",
+        "text_NfQHp3"
+      ],
+      "name": "t:names.marquee_section",
+      "settings": {
+        "movement_direction": "normal",
+        "color_scheme": "",
+        "padding-block-start": 24,
+        "padding-block-end": 24,
+        "gap_between_elements": 24
+      }
     }
   },
   "order": [
@@ -1739,6 +1767,7 @@
     "collection_list_Y3yXYb",
     "section_zyQBmY",
     "section_nFLdFC",
-    "section_kG7tGf"
+    "section_kG7tGf",
+    "marquee_R6Ujnf"
   ]
 }
