@@ -1,0 +1,876 @@
+{% comment %}
+  Shop the Look - Hotspot Section
+  Compatible with Shopify Online Store 2.0
+  Supports Horizon, Atelier, and other modern themes
+{% endcomment %}
+
+<style>
+  .shop-the-look-section {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .shop-the-look__container {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .shop-the-look__image-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .shop-the-look__image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .shop-the-look__image--desktop {
+    display: block;
+  }
+
+  .shop-the-look__image--mobile {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .shop-the-look__image--desktop {
+      display: none;
+    }
+    
+    .shop-the-look__image--mobile {
+      display: block;
+    }
+  }
+
+  .shop-the-look__hotspots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .shop-the-look__hotspot {
+    position: absolute;
+    pointer-events: all;
+    z-index: 10;
+    transform: translate(-50%, -50%);
+  }
+
+  .shop-the-look__hotspot-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+  }
+
+  .shop-the-look__hotspot-button:hover {
+    transform: scale(1.15);
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .shop-the-look__hotspot-button--dot::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #000;
+    display: block;
+  }
+
+  .shop-the-look__hotspot.is-active .shop-the-look__hotspot-button {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+  }
+
+  .shop-the-look__hotspot.is-active .shop-the-look__hotspot-button--dot::after {
+    background: #fff;
+  }
+
+  @media (max-width: 768px) {
+    .shop-the-look__hotspot-button {
+      width: 28px;
+      height: 28px;
+      font-size: 12px;
+    }
+  }
+
+  /* Tooltip Styles */
+  .shop-the-look__tooltip {
+    position: absolute;
+    width: 280px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 16px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 100;
+    pointer-events: none;
+  }
+
+  .shop-the-look__tooltip.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
+
+  .shop-the-look__tooltip--align-left {
+    right: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .shop-the-look__tooltip--align-right {
+    left: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .shop-the-look__tooltip--align-top {
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .shop-the-look__tooltip--align-bottom {
+    top: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @media (max-width: 768px) {
+    .shop-the-look__tooltip {
+      width: 260px;
+      padding: 12px;
+    }
+
+    .shop-the-look__tooltip--align-left,
+    .shop-the-look__tooltip--align-right,
+    .shop-the-look__tooltip--align-top,
+    .shop-the-look__tooltip--align-bottom {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      right: auto;
+      bottom: auto;
+      width: calc(100vw - 32px);
+      max-width: 320px;
+    }
+  }
+
+  .shop-the-look__tooltip-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #666;
+    padding: 0;
+  }
+
+  @media (max-width: 768px) {
+    .shop-the-look__tooltip-close {
+      display: flex;
+    }
+  }
+
+  .shop-the-look__tooltip-image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+
+  .shop-the-look__tooltip-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 8px;
+    line-height: 1.4;
+    color: #000;
+  }
+
+  .shop-the-look__tooltip-price {
+    font-size: 14px;
+    margin: 0 0 12px;
+    color: #666;
+  }
+
+  .shop-the-look__tooltip-variants {
+    margin-bottom: 12px;
+  }
+
+  .shop-the-look__tooltip-variant-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #000;
+  }
+
+  .shop-the-look__tooltip-variant-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #fff;
+    cursor: pointer;
+  }
+
+  .shop-the-look__tooltip-quantity {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .shop-the-look__tooltip-quantity-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #000;
+  }
+
+  .shop-the-look__tooltip-quantity-input {
+    width: 60px;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .shop-the-look__tooltip-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .shop-the-look__tooltip-button {
+    width: 100%;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+  }
+
+  .shop-the-look__tooltip-button--primary {
+    background: #000;
+    color: #fff;
+  }
+
+  .shop-the-look__tooltip-button--primary:hover {
+    background: #333;
+  }
+
+  .shop-the-look__tooltip-button--secondary {
+    background: transparent;
+    color: #000;
+    border: 1px solid #ddd;
+  }
+
+  .shop-the-look__tooltip-button--secondary:hover {
+    background: #f5f5f5;
+  }
+
+  /* Mobile Overlay */
+  .shop-the-look__overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+  }
+
+  .shop-the-look__overlay.is-visible {
+    display: block;
+  }
+
+  @media (min-width: 769px) {
+    .shop-the-look__overlay {
+      display: none !important;
+    }
+  }
+</style>
+
+<div class="shop-the-look-section" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
+  <div class="shop-the-look__container">
+    <div class="shop-the-look__image-wrapper" 
+         style="{% if section.settings.image_height == 'custom' %}height: {{ section.settings.custom_height }}px;{% elsif section.settings.image_height == 'viewport' %}height: {{ section.settings.viewport_height }}vh;{% endif %}">
+      
+      {% if section.settings.background_image %}
+        <img 
+          src="{{ section.settings.background_image | img_url: '2000x' }}"
+          alt="{{ section.settings.background_image.alt | escape }}"
+          class="shop-the-look__image shop-the-look__image--desktop"
+          loading="lazy"
+          style="{% if section.settings.image_height != 'auto' %}object-fit: cover; height: 100%;{% endif %}"
+        >
+      {% endif %}
+
+      {% if section.settings.mobile_background_image %}
+        <img 
+          src="{{ section.settings.mobile_background_image | img_url: '1000x' }}"
+          alt="{{ section.settings.mobile_background_image.alt | escape }}"
+          class="shop-the-look__image shop-the-look__image--mobile"
+          loading="lazy"
+          style="{% if section.settings.image_height != 'auto' %}object-fit: cover; height: 100%;{% endif %}"
+        >
+      {% elsif section.settings.background_image %}
+        <img 
+          src="{{ section.settings.background_image | img_url: '1000x' }}"
+          alt="{{ section.settings.background_image.alt | escape }}"
+          class="shop-the-look__image shop-the-look__image--mobile"
+          loading="lazy"
+          style="{% if section.settings.image_height != 'auto' %}object-fit: cover; height: 100%;{% endif %}"
+        >
+      {% endif %}
+
+      <div class="shop-the-look__hotspots">
+        {% for block in section.blocks %}
+          {% if block.settings.product != blank %}
+            {% assign product = block.settings.product %}
+            <div 
+              class="shop-the-look__hotspot" 
+              data-hotspot-id="{{ block.id }}"
+              style="left: {{ block.settings.position_x }}%; top: {{ block.settings.position_y }}%; {% if section.settings.mobile_hotspot_scale != 100 %}--mobile-scale: {{ section.settings.mobile_hotspot_scale | divided_by: 100.0 }};{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              <button 
+                class="shop-the-look__hotspot-button {% if block.settings.hotspot_style == 'dot' %}shop-the-look__hotspot-button--dot{% endif %}"
+                aria-label="View {{ product.title }}"
+                data-product-id="{{ product.id }}"
+              >
+                {% unless block.settings.hotspot_style == 'dot' %}
+                  {{ forloop.index }}
+                {% endunless %}
+              </button>
+
+              {% if block.settings.enable_tooltip %}
+                <div 
+                  class="shop-the-look__tooltip shop-the-look__tooltip--align-{{ block.settings.tooltip_horizontal }} shop-the-look__tooltip--align-{{ block.settings.tooltip_vertical }}"
+                  data-tooltip-id="{{ block.id }}"
+                >
+                  <button class="shop-the-look__tooltip-close" aria-label="Close">×</button>
+                  
+                  {% if product.featured_image %}
+                    <img 
+                      src="{{ product.featured_image | img_url: '400x' }}"
+                      alt="{{ product.featured_image.alt | escape }}"
+                      class="shop-the-look__tooltip-image"
+                      loading="lazy"
+                    >
+                  {% endif %}
+
+                  <h3 class="shop-the-look__tooltip-title">{{ product.title }}</h3>
+                  
+                  <div class="shop-the-look__tooltip-price">
+                    {{ product.price | money }}
+                    {% if product.compare_at_price > product.price %}
+                      <s style="color: #999; margin-left: 4px;">{{ product.compare_at_price | money }}</s>
+                    {% endif %}
+                  </div>
+
+                  <form class="shop-the-look__tooltip-form" action="/cart/add" method="post" enctype="multipart/form-data">
+                    {% if product.variants.size > 1 %}
+                      <div class="shop-the-look__tooltip-variants">
+                        <label class="shop-the-look__tooltip-variant-label" for="variant-{{ block.id }}">
+                          {{ product.options_with_values[0].name }}
+                        </label>
+                        <select 
+                          id="variant-{{ block.id }}"
+                          name="id" 
+                          class="shop-the-look__tooltip-variant-select"
+                        >
+                          {% for variant in product.variants %}
+                            <option 
+                              value="{{ variant.id }}"
+                              {% unless variant.available %}disabled{% endunless %}
+                            >
+                              {{ variant.title }}
+                              {% unless variant.available %} - Sold Out{% endunless %}
+                            </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                    {% else %}
+                      <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                    {% endif %}
+
+                    <div class="shop-the-look__tooltip-quantity">
+                      <label class="shop-the-look__tooltip-quantity-label" for="quantity-{{ block.id }}">Quantity</label>
+                      <input 
+                        type="number" 
+                        id="quantity-{{ block.id }}"
+                        name="quantity" 
+                        value="1" 
+                        min="1"
+                        class="shop-the-look__tooltip-quantity-input"
+                      >
+                    </div>
+
+                    <div class="shop-the-look__tooltip-actions">
+                      <button 
+                        type="submit" 
+                        class="shop-the-look__tooltip-button shop-the-look__tooltip-button--primary"
+                        {% unless product.available %}disabled{% endunless %}
+                      >
+                        {% if product.available %}
+                          Add to Cart
+                        {% else %}
+                          Sold Out
+                        {% endif %}
+                      </button>
+                      <a 
+                        href="{{ product.url }}" 
+                        class="shop-the-look__tooltip-button shop-the-look__tooltip-button--secondary"
+                      >
+                        View Product
+                      </a>
+                    </div>
+                  </form>
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="shop-the-look__overlay"></div>
+
+<script>
+  (function() {
+    const isMobile = window.innerWidth <= 768;
+    const hotspots = document.querySelectorAll('.shop-the-look__hotspot');
+    const overlay = document.querySelector('.shop-the-look__overlay');
+    let activeHotspot = null;
+
+    hotspots.forEach(hotspot => {
+      const button = hotspot.querySelector('.shop-the-look__hotspot-button');
+      const tooltip = hotspot.querySelector('.shop-the-look__tooltip');
+      const closeBtn = tooltip ? tooltip.querySelector('.shop-the-look__tooltip-close') : null;
+      const form = tooltip ? tooltip.querySelector('.shop-the-look__tooltip-form') : null;
+
+      if (!button || !tooltip) return;
+
+      // Mobile: Click to toggle
+      if (isMobile) {
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          if (activeHotspot === hotspot) {
+            closeTooltip();
+          } else {
+            if (activeHotspot) {
+              closeTooltip();
+            }
+            openTooltip(hotspot);
+          }
+        });
+
+        if (closeBtn) {
+          closeBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeTooltip();
+          });
+        }
+
+        if (overlay) {
+          overlay.addEventListener('click', closeTooltip);
+        }
+      } 
+      // Desktop: Hover to show
+      else {
+        hotspot.addEventListener('mouseenter', () => {
+          openTooltip(hotspot);
+        });
+
+        hotspot.addEventListener('mouseleave', () => {
+          closeTooltip();
+        });
+      }
+
+      // Handle form submission
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          
+          const formData = new FormData(form);
+          
+          fetch('/cart/add.js', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            // Trigger cart update event
+            if (window.Shopify && window.Shopify.theme) {
+              document.dispatchEvent(new CustomEvent('cart:updated'));
+            }
+            
+            // Optional: Show success message
+            const submitBtn = form.querySelector('[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Added!';
+            setTimeout(() => {
+              submitBtn.textContent = originalText;
+              if (isMobile) closeTooltip();
+            }, 1500);
+          })
+          .catch(error => {
+            console.error('Error adding to cart:', error);
+            alert('Error adding product to cart. Please try again.');
+          });
+        });
+      }
+    });
+
+    function openTooltip(hotspot) {
+      const tooltip = hotspot.querySelector('.shop-the-look__tooltip');
+      const button = hotspot.querySelector('.shop-the-look__hotspot-button');
+      
+      if (!tooltip) return;
+      
+      activeHotspot = hotspot;
+      hotspot.classList.add('is-active');
+      tooltip.classList.add('is-visible');
+      
+      if (isMobile && overlay) {
+        overlay.classList.add('is-visible');
+      }
+    }
+
+    function closeTooltip() {
+      if (!activeHotspot) return;
+      
+      const tooltip = activeHotspot.querySelector('.shop-the-look__tooltip');
+      
+      activeHotspot.classList.remove('is-active');
+      if (tooltip) {
+        tooltip.classList.remove('is-visible');
+      }
+      
+      if (overlay) {
+        overlay.classList.remove('is-visible');
+      }
+      
+      activeHotspot = null;
+    }
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && activeHotspot) {
+        closeTooltip();
+      }
+    });
+
+    // Apply mobile scale if set
+    if (isMobile) {
+      const mobileScale = getComputedStyle(document.documentElement).getPropertyValue('--mobile-scale');
+      if (mobileScale) {
+        hotspots.forEach(hotspot => {
+          const button = hotspot.querySelector('.shop-the-look__hotspot-button');
+          if (button) {
+            button.style.transform = `scale(${mobileScale})`;
+          }
+        });
+      }
+    }
+
+    // Reposition tooltips if they go off-screen (desktop only)
+    if (!isMobile) {
+      hotspots.forEach(hotspot => {
+        const tooltip = hotspot.querySelector('.shop-the-look__tooltip');
+        if (!tooltip) return;
+
+        hotspot.addEventListener('mouseenter', () => {
+          setTimeout(() => {
+            const rect = tooltip.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+            
+            if (rect.right > viewportWidth) {
+              tooltip.style.left = 'auto';
+              tooltip.style.right = '0';
+            }
+            if (rect.left < 0) {
+              tooltip.style.left = '0';
+              tooltip.style.right = 'auto';
+            }
+          }, 10);
+        });
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Shop the Look",
+  "tag": "section",
+  "class": "shop-the-look",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Desktop Background Image",
+      "info": "Recommended: 2000px wide or larger"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_background_image",
+      "label": "Mobile Background Image (Optional)",
+      "info": "If not set, desktop image will be used"
+    },
+    {
+      "type": "select",
+      "id": "image_height",
+      "label": "Image Height",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Auto (Natural)"
+        },
+        {
+          "value": "custom",
+          "label": "Custom (px)"
+        },
+        {
+          "value": "viewport",
+          "label": "Viewport Height (vh)"
+        }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "range",
+      "id": "custom_height",
+      "min": 300,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Custom Height",
+      "default": 600,
+      "info": "Only applies when 'Custom' is selected"
+    },
+    {
+      "type": "range",
+      "id": "viewport_height",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "Viewport Height",
+      "default": 80,
+      "info": "Only applies when 'Viewport Height' is selected"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "range",
+      "id": "mobile_hotspot_scale",
+      "min": 50,
+      "max": 150,
+      "step": 10,
+      "unit": "%",
+      "label": "Mobile Hotspot Scale",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Product Hotspot",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "header",
+          "content": "Position"
+        },
+        {
+          "type": "range",
+          "id": "position_x",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Horizontal Position (X)",
+          "default": 50,
+          "info": "0% = left edge, 100% = right edge"
+        },
+        {
+          "type": "range",
+          "id": "position_y",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Vertical Position (Y)",
+          "default": 50,
+          "info": "0% = top edge, 100% = bottom edge"
+        },
+        {
+          "type": "header",
+          "content": "Hotspot Style"
+        },
+        {
+          "type": "select",
+          "id": "hotspot_style",
+          "label": "Hotspot Style",
+          "options": [
+            {
+              "value": "number",
+              "label": "Number"
+            },
+            {
+              "value": "dot",
+              "label": "Dot"
+            }
+          ],
+          "default": "number"
+        },
+        {
+          "type": "header",
+          "content": "Tooltip Settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_tooltip",
+          "label": "Enable Product Tooltip",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "tooltip_horizontal",
+          "label": "Tooltip Horizontal Alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "right",
+          "info": "Position relative to hotspot (desktop only)"
+        },
+        {
+          "type": "select",
+          "id": "tooltip_vertical",
+          "label": "Tooltip Vertical Alignment",
+          "options": [
+            {
+              "value": "top",
+              "label": "Top"
+            },
+            {
+              "value": "bottom",
+              "label": "Bottom"
+            }
+          ],
+          "default": "top",
+          "info": "Fallback position (desktop only)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop the Look",
+      "blocks": [
+        {
+          "type": "hotspot",
+          "settings": {
+            "position_x": 30,
+            "position_y": 40
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "position_x": 70,
+            "position_y": 60
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
