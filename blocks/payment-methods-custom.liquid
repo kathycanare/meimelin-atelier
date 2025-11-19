@@ -1,33 +1,47 @@
-{%- assign block_settings = block.settings -%}
+{% liquid
+  assign block_settings = block.settings
+  assign product = closest.product
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+%}
 
 <div
   class="payment-methods-custom spacing-style"
-  style="
-    {% render 'spacing-padding', settings: block_settings %}
-    --icon-gap: {{ block_settings.gap }}px;
-    --alignment: {{ block_settings.horizontal_alignment }};
-    --icon-max-height: {{ block_settings.icon_max_height }}px;
-    --container-bg: {{ block_settings.container_bg }};
-    --container-border: {{ block_settings.container_border }};
-    --container-radius: {{ block_settings.container_radius }}px;
-    --container-padding: {{ block_settings.container_padding }}px;
-    --icon-box-bg: {{ block_settings.icon_box_bg }};
-    --icon-box-border: {{ block_settings.icon_box_border }};
-    --icon-box-radius: {{ block_settings.icon_box_radius }}px;
-    --icon-box-padding: {{ block_settings.icon_box_padding }}px;
-    --heading-size: {{ block_settings.heading_size }}px;
-    --heading-weight: {{ block_settings.heading_weight }};
-    --heading-color: {{ block_settings.heading_color }};
-    --heading-spacing: {{ block_settings.heading_spacing }}px;
-  "
+  style="{% render 'spacing-style', settings: block_settings %}"
   {{ block.shopify_attributes }}
 >
   {% if block_settings.show_heading and block_settings.heading_text != blank %}
-    <h3 class="payment-methods-custom__heading">{{ block_settings.heading_text }}</h3>
+    <h3 
+      class="payment-methods-custom__heading"
+      style="
+        font-size: {{ block_settings.heading_size }}px;
+        font-weight: {{ block_settings.heading_weight }};
+        color: {{ block_settings.heading_color }};
+        margin-bottom: {{ block_settings.heading_spacing }}px;
+      "
+    >
+      {{ block_settings.heading_text }}
+    </h3>
   {% endif %}
 
-  <div class="payment-methods-custom__container">
-    <ul class="payment-methods-custom__list" role="list">
+  <div 
+    class="payment-methods-custom__container"
+    style="
+      background: {{ block_settings.container_bg }};
+      border: 1px solid {{ block_settings.container_border }};
+      border-radius: {{ block_settings.container_radius }}px;
+      padding: {{ block_settings.container_padding }}px;
+    "
+  >
+    <ul 
+      class="payment-methods-custom__list" 
+      role="list"
+      style="
+        gap: {{ block_settings.gap }}px;
+        justify-content: {{ block_settings.horizontal_alignment }};
+      "
+    >
       {% if block_settings.icon_mastercard != blank %}
         <li class="payment-methods-custom__item">
           <img 
@@ -36,6 +50,7 @@
             loading="lazy"
             width="60"
             height="auto"
+            style="max-height: {{ block_settings.icon_max_height }}px;"
           >
         </li>
       {% endif %}
@@ -48,6 +63,7 @@
             loading="lazy"
             width="60"
             height="auto"
+            style="max-height: {{ block_settings.icon_max_height }}px;"
           >
         </li>
       {% endif %}
@@ -60,6 +76,7 @@
             loading="lazy"
             width="60"
             height="auto"
+            style="max-height: {{ block_settings.icon_max_height }}px;"
           >
         </li>
       {% endif %}
@@ -72,6 +89,7 @@
             loading="lazy"
             width="60"
             height="auto"
+            style="max-height: {{ block_settings.icon_max_height }}px;"
           >
         </li>
       {% endif %}
@@ -84,6 +102,7 @@
             loading="lazy"
             width="60"
             height="auto"
+            style="max-height: {{ block_settings.icon_max_height }}px;"
           >
         </li>
       {% endif %}
@@ -96,6 +115,7 @@
             loading="lazy"
             width="60"
             height="auto"
+            style="max-height: {{ block_settings.icon_max_height }}px;"
           >
         </li>
       {% endif %}
@@ -108,6 +128,7 @@
             loading="lazy"
             width="60"
             height="auto"
+            style="max-height: {{ block_settings.icon_max_height }}px;"
           >
         </li>
       {% endif %}
@@ -120,6 +141,7 @@
             loading="lazy"
             width="60"
             height="auto"
+            style="max-height: {{ block_settings.icon_max_height }}px;"
           >
         </li>
       {% endif %}
@@ -132,6 +154,7 @@
             loading="lazy"
             width="60"
             height="auto"
+            style="max-height: {{ block_settings.icon_max_height }}px;"
           >
         </li>
       {% endif %}
@@ -144,6 +167,7 @@
             loading="lazy"
             width="60"
             height="auto"
+            style="max-height: {{ block_settings.icon_max_height }}px;"
           >
         </li>
       {% endif %}
@@ -156,6 +180,7 @@
             loading="lazy"
             width="60"
             height="auto"
+            style="max-height: {{ block_settings.icon_max_height }}px;"
           >
         </li>
       {% endif %}
@@ -168,6 +193,7 @@
             loading="lazy"
             width="60"
             height="auto"
+            style="max-height: {{ block_settings.icon_max_height }}px;"
           >
         </li>
       {% endif %}
@@ -182,18 +208,11 @@
 
   .payment-methods-custom__heading {
     text-align: center;
-    font-size: var(--heading-size);
-    font-weight: var(--heading-weight);
-    color: var(--heading-color);
-    margin-bottom: var(--heading-spacing);
     letter-spacing: 0.02em;
+    margin: 0;
   }
 
   .payment-methods-custom__container {
-    background: var(--container-bg);
-    border: 1px solid var(--container-border);
-    border-radius: var(--container-radius);
-    padding: var(--container-padding);
     display: flex;
     justify-content: center;
   }
@@ -201,9 +220,7 @@
   .payment-methods-custom__list {
     display: flex;
     align-items: center;
-    justify-content: var(--alignment);
     flex-wrap: wrap;
-    gap: var(--icon-gap);
     margin: 0;
     padding: 0;
     max-width: 100%;
@@ -213,21 +230,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--icon-box-bg);
-    border: 1px solid var(--icon-box-border);
-    border-radius: var(--icon-box-radius);
-    padding: var(--icon-box-padding);
-    min-width: 50px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .payment-methods-custom__item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
 
   .payment-methods-custom__item img {
-    max-height: var(--icon-max-height);
     width: auto;
     height: auto;
     display: block;
@@ -236,24 +241,19 @@
 
   @media screen and (max-width: 749px) {
     .payment-methods-custom__heading {
-      font-size: calc(var(--heading-size) * 0.9);
+      font-size: calc(var(--heading-size, 16px) * 0.9) !important;
     }
     
     .payment-methods-custom__container {
-      padding: calc(var(--container-padding) * 0.75);
+      padding: calc(var(--container-padding, 20px) * 0.75) !important;
     }
 
     .payment-methods-custom__list {
-      gap: calc(var(--icon-gap) * 0.75);
-    }
-
-    .payment-methods-custom__item {
-      padding: calc(var(--icon-box-padding) * 0.75);
-      min-width: 45px;
+      gap: calc(var(--icon-gap, 12px) * 0.75) !important;
     }
 
     .payment-methods-custom__item img {
-      max-height: calc(var(--icon-max-height) * 0.85);
+      max-height: calc(var(--icon-max-height, 30px) * 0.85) !important;
     }
   }
 {% endstylesheet %}
@@ -263,6 +263,10 @@
   "name": "Payment Methods Custom",
   "tag": null,
   "settings": [
+    {
+      "type": "paragraph",
+      "content": "Display custom payment method icons with a styled container"
+    },
     {
       "type": "header",
       "content": "Heading"
@@ -367,42 +371,6 @@
     },
     {
       "type": "header",
-      "content": "Icon Boxes"
-    },
-    {
-      "type": "color",
-      "id": "icon_box_bg",
-      "label": "Icon box background",
-      "default": "#FFFFFF"
-    },
-    {
-      "type": "color",
-      "id": "icon_box_border",
-      "label": "Icon box border",
-      "default": "#E5E5E5"
-    },
-    {
-      "type": "range",
-      "id": "icon_box_radius",
-      "label": "Icon box radius",
-      "min": 0,
-      "max": 12,
-      "step": 1,
-      "unit": "px",
-      "default": 4
-    },
-    {
-      "type": "range",
-      "id": "icon_box_padding",
-      "label": "Icon box padding",
-      "min": 4,
-      "max": 20,
-      "step": 1,
-      "unit": "px",
-      "default": 8
-    },
-    {
-      "type": "header",
       "content": "Layout"
     },
     {
@@ -433,9 +401,9 @@
       "type": "range",
       "id": "gap",
       "label": "Gap between icons",
-      "min": 4,
-      "max": 24,
-      "step": 2,
+      "min": 0,
+      "max": 100,
+      "step": 1,
       "unit": "px",
       "default": 12
     },
@@ -541,12 +509,12 @@
     },
     {
       "type": "header",
-      "content": "Padding"
+      "content": "t:content.padding"
     },
     {
       "type": "range",
       "id": "padding-block-start",
-      "label": "Top",
+      "label": "t:settings.top",
       "min": 0,
       "max": 100,
       "step": 1,
@@ -556,7 +524,7 @@
     {
       "type": "range",
       "id": "padding-block-end",
-      "label": "Bottom",
+      "label": "t:settings.bottom",
       "min": 0,
       "max": 100,
       "step": 1,
@@ -566,7 +534,7 @@
     {
       "type": "range",
       "id": "padding-inline-start",
-      "label": "Left",
+      "label": "t:settings.left",
       "min": 0,
       "max": 100,
       "step": 1,
@@ -576,7 +544,7 @@
     {
       "type": "range",
       "id": "padding-inline-end",
-      "label": "Right",
+      "label": "t:settings.right",
       "min": 0,
       "max": 100,
       "step": 1,
@@ -587,7 +555,7 @@
   "presets": [
     {
       "name": "Payment Methods Custom",
-       "category": "t:categories.product"
+      "category": "t:categories.product"
     }
   ]
 }

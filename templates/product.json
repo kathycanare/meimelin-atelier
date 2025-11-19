@@ -263,11 +263,38 @@
                 "icon_size": 20,
                 "icon_color": "#000000",
                 "alignment": "center",
-                "background_color": "#FDEFEF",
+                "background_color": "#fdefef",
                 "label_color": "#666666",
                 "date_color": "#000000",
                 "text_size": 12,
                 "border_radius": 0
+              },
+              "blocks": {}
+            },
+            "payment_methods_custom_FxLP9a": {
+              "type": "payment-methods-custom",
+              "name": "Payment Methods Custom",
+              "settings": {
+                "show_heading": true,
+                "heading_text": "Maksājuma veidi:",
+                "heading_size": 16,
+                "heading_weight": "600",
+                "heading_color": "#000000",
+                "heading_spacing": 16,
+                "container_bg": "#FFFFFF",
+                "container_border": "#E5E5E5",
+                "container_radius": 8,
+                "container_padding": 20,
+                "horizontal_alignment": "center",
+                "gap": 12,
+                "icon_max_height": 30,
+                "icon_custom_1_alt": "Payment method",
+                "icon_custom_2_alt": "Payment method",
+                "icon_custom_3_alt": "Payment method",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
@@ -426,6 +453,7 @@
             "product_inventory_w3DUxw",
             "buy_buttons_eYQEYi",
             "ai_gen_block_cb72255_brYdwc",
+            "payment_methods_custom_FxLP9a",
             "accordion_NKWPiW"
           ]
         }
