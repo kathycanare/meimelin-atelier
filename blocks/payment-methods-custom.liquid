@@ -218,10 +218,29 @@
   max-height: var(--icon-max-height);
 }
 
-/* MOBILE OVERRIDE */
+/* --- MOBILE FIX: keep same layout as desktop --- */
 @media screen and (max-width: 749px) {
+
+  /* Ensure the list keeps wrapping like desktop */
+  .payment-methods-custom__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Each icon keeps a natural minimum width to prevent collapsing */
+  .payment-methods-custom__item {
+    flex: 0 1 auto;
+    min-width: 80px; /* ← KEY FIX */
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Mobile icon size override */
   .payment-methods-custom__item img {
-    --icon-max-height: {{ block_settings.icon_max_height_mobile }}px !important;
+    max-width: 100%;
+    height: auto;
+    --icon-max-height: {{ block_settings.icon_max_height_mobile }}px;
   }
 }
 
