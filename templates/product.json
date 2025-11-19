@@ -1014,10 +1014,11 @@
           "type": "image",
           "name": "t:names.image",
           "settings": {
+            "image": "shopify://shop_images/DSC04312.webp",
             "link": "",
             "image_ratio": "square",
-            "width": "fit-content",
-            "custom_width": 100,
+            "width": "custom",
+            "custom_width": 40,
             "width_mobile": "fill",
             "custom_width_mobile": 100,
             "height": "fit",
@@ -1038,7 +1039,7 @@
           "settings": {
             "icon": "caret",
             "dividers": true,
-            "type_preset": "h5",
+            "type_preset": "h4",
             "inherit_color_scheme": true,
             "color_scheme": "",
             "border": "none",
@@ -1054,7 +1055,7 @@
             "accordion_row_rxMrJe": {
               "type": "_accordion-row",
               "settings": {
-                "heading": "What is the return policy?",
+                "heading": "Kādas ir piegādes iespējas un cik ilgi jāgaida, līdz prece tiek piegādāta?",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
@@ -1093,7 +1094,7 @@
             "accordion_row_htkczq": {
               "type": "_accordion-row",
               "settings": {
-                "heading": "Are any purchases final sale?",
+                "heading": "Vai ir iespējams personalizēt rotaslietu?",
                 "open_by_default": false,
                 "icon": "none",
                 "width": 20
