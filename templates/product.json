@@ -266,7 +266,7 @@
                 "label_color": "#666666",
                 "date_color": "#000000",
                 "text_size": 12,
-                "border_radius": 8
+                "border_radius": 0
               },
               "blocks": {}
             },
