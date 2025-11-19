@@ -259,6 +259,7 @@
                 "start_days": 7,
                 "end_days": 14,
                 "date_format": "short",
+                "custom_icon": "shopify://shop_images/ic_Delivery_truck_1.png",
                 "icon_size": 20,
                 "icon_color": "#000000",
                 "alignment": "center",
