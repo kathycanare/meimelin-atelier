@@ -1,0 +1,593 @@
+{%- assign block_settings = block.settings -%}
+
+<div
+  class="payment-methods-custom spacing-style"
+  style="
+    {% render 'spacing-padding', settings: block_settings %}
+    --icon-gap: {{ block_settings.gap }}px;
+    --alignment: {{ block_settings.horizontal_alignment }};
+    --icon-max-height: {{ block_settings.icon_max_height }}px;
+    --container-bg: {{ block_settings.container_bg }};
+    --container-border: {{ block_settings.container_border }};
+    --container-radius: {{ block_settings.container_radius }}px;
+    --container-padding: {{ block_settings.container_padding }}px;
+    --icon-box-bg: {{ block_settings.icon_box_bg }};
+    --icon-box-border: {{ block_settings.icon_box_border }};
+    --icon-box-radius: {{ block_settings.icon_box_radius }}px;
+    --icon-box-padding: {{ block_settings.icon_box_padding }}px;
+    --heading-size: {{ block_settings.heading_size }}px;
+    --heading-weight: {{ block_settings.heading_weight }};
+    --heading-color: {{ block_settings.heading_color }};
+    --heading-spacing: {{ block_settings.heading_spacing }}px;
+  "
+  {{ block.shopify_attributes }}
+>
+  {% if block_settings.show_heading and block_settings.heading_text != blank %}
+    <h3 class="payment-methods-custom__heading">{{ block_settings.heading_text }}</h3>
+  {% endif %}
+
+  <div class="payment-methods-custom__container">
+    <ul class="payment-methods-custom__list" role="list">
+      {% if block_settings.icon_mastercard != blank %}
+        <li class="payment-methods-custom__item">
+          <img 
+            src="{{ block_settings.icon_mastercard | image_url: width: 120 }}" 
+            alt="Mastercard" 
+            loading="lazy"
+            width="60"
+            height="auto"
+          >
+        </li>
+      {% endif %}
+
+      {% if block_settings.icon_maestro != blank %}
+        <li class="payment-methods-custom__item">
+          <img 
+            src="{{ block_settings.icon_maestro | image_url: width: 120 }}" 
+            alt="Maestro" 
+            loading="lazy"
+            width="60"
+            height="auto"
+          >
+        </li>
+      {% endif %}
+
+      {% if block_settings.icon_paypal != blank %}
+        <li class="payment-methods-custom__item">
+          <img 
+            src="{{ block_settings.icon_paypal | image_url: width: 120 }}" 
+            alt="PayPal" 
+            loading="lazy"
+            width="60"
+            height="auto"
+          >
+        </li>
+      {% endif %}
+
+      {% if block_settings.icon_google_pay != blank %}
+        <li class="payment-methods-custom__item">
+          <img 
+            src="{{ block_settings.icon_google_pay | image_url: width: 120 }}" 
+            alt="Google Pay" 
+            loading="lazy"
+            width="60"
+            height="auto"
+          >
+        </li>
+      {% endif %}
+
+      {% if block_settings.icon_apple_pay != blank %}
+        <li class="payment-methods-custom__item">
+          <img 
+            src="{{ block_settings.icon_apple_pay | image_url: width: 120 }}" 
+            alt="Apple Pay" 
+            loading="lazy"
+            width="60"
+            height="auto"
+          >
+        </li>
+      {% endif %}
+
+      {% if block_settings.icon_klarna != blank %}
+        <li class="payment-methods-custom__item">
+          <img 
+            src="{{ block_settings.icon_klarna | image_url: width: 120 }}" 
+            alt="Klarna" 
+            loading="lazy"
+            width="60"
+            height="auto"
+          >
+        </li>
+      {% endif %}
+
+      {% if block_settings.icon_visa != blank %}
+        <li class="payment-methods-custom__item">
+          <img 
+            src="{{ block_settings.icon_visa | image_url: width: 120 }}" 
+            alt="Visa" 
+            loading="lazy"
+            width="60"
+            height="auto"
+          >
+        </li>
+      {% endif %}
+
+      {% if block_settings.icon_amex != blank %}
+        <li class="payment-methods-custom__item">
+          <img 
+            src="{{ block_settings.icon_amex | image_url: width: 120 }}" 
+            alt="American Express" 
+            loading="lazy"
+            width="60"
+            height="auto"
+          >
+        </li>
+      {% endif %}
+
+      {% if block_settings.icon_discover != blank %}
+        <li class="payment-methods-custom__item">
+          <img 
+            src="{{ block_settings.icon_discover | image_url: width: 120 }}" 
+            alt="Discover" 
+            loading="lazy"
+            width="60"
+            height="auto"
+          >
+        </li>
+      {% endif %}
+
+      {% if block_settings.icon_custom_1 != blank %}
+        <li class="payment-methods-custom__item">
+          <img 
+            src="{{ block_settings.icon_custom_1 | image_url: width: 120 }}" 
+            alt="{{ block_settings.icon_custom_1_alt | default: 'Payment method' }}" 
+            loading="lazy"
+            width="60"
+            height="auto"
+          >
+        </li>
+      {% endif %}
+
+      {% if block_settings.icon_custom_2 != blank %}
+        <li class="payment-methods-custom__item">
+          <img 
+            src="{{ block_settings.icon_custom_2 | image_url: width: 120 }}" 
+            alt="{{ block_settings.icon_custom_2_alt | default: 'Payment method' }}" 
+            loading="lazy"
+            width="60"
+            height="auto"
+          >
+        </li>
+      {% endif %}
+
+      {% if block_settings.icon_custom_3 != blank %}
+        <li class="payment-methods-custom__item">
+          <img 
+            src="{{ block_settings.icon_custom_3 | image_url: width: 120 }}" 
+            alt="{{ block_settings.icon_custom_3_alt | default: 'Payment method' }}" 
+            loading="lazy"
+            width="60"
+            height="auto"
+          >
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</div>
+
+{% stylesheet %}
+  .payment-methods-custom {
+    width: 100%;
+  }
+
+  .payment-methods-custom__heading {
+    text-align: center;
+    font-size: var(--heading-size);
+    font-weight: var(--heading-weight);
+    color: var(--heading-color);
+    margin-bottom: var(--heading-spacing);
+    letter-spacing: 0.02em;
+  }
+
+  .payment-methods-custom__container {
+    background: var(--container-bg);
+    border: 1px solid var(--container-border);
+    border-radius: var(--container-radius);
+    padding: var(--container-padding);
+    display: flex;
+    justify-content: center;
+  }
+
+  .payment-methods-custom__list {
+    display: flex;
+    align-items: center;
+    justify-content: var(--alignment);
+    flex-wrap: wrap;
+    gap: var(--icon-gap);
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .payment-methods-custom__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--icon-box-bg);
+    border: 1px solid var(--icon-box-border);
+    border-radius: var(--icon-box-radius);
+    padding: var(--icon-box-padding);
+    min-width: 50px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .payment-methods-custom__item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .payment-methods-custom__item img {
+    max-height: var(--icon-max-height);
+    width: auto;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  @media screen and (max-width: 749px) {
+    .payment-methods-custom__heading {
+      font-size: calc(var(--heading-size) * 0.9);
+    }
+    
+    .payment-methods-custom__container {
+      padding: calc(var(--container-padding) * 0.75);
+    }
+
+    .payment-methods-custom__list {
+      gap: calc(var(--icon-gap) * 0.75);
+    }
+
+    .payment-methods-custom__item {
+      padding: calc(var(--icon-box-padding) * 0.75);
+      min-width: 45px;
+    }
+
+    .payment-methods-custom__item img {
+      max-height: calc(var(--icon-max-height) * 0.85);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Payment Methods Custom",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "Show heading",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading text",
+      "default": "Maksājuma veidi:"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semibold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "label": "Space below heading",
+      "min": 8,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Container Style"
+    },
+    {
+      "type": "color",
+      "id": "container_bg",
+      "label": "Background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "container_border",
+      "label": "Border color",
+      "default": "#E5E5E5"
+    },
+    {
+      "type": "range",
+      "id": "container_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "container_padding",
+      "label": "Container padding",
+      "min": 8,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Icon Boxes"
+    },
+    {
+      "type": "color",
+      "id": "icon_box_bg",
+      "label": "Icon box background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "icon_box_border",
+      "label": "Icon box border",
+      "default": "#E5E5E5"
+    },
+    {
+      "type": "range",
+      "id": "icon_box_radius",
+      "label": "Icon box radius",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "icon_box_padding",
+      "label": "Icon box padding",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "horizontal_alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        },
+        {
+          "value": "space-between",
+          "label": "Space between"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between icons",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "icon_max_height",
+      "label": "Icon max height",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Payment Icons"
+    },
+    {
+      "type": "paragraph",
+      "content": "Upload your payment method logos. Only uploaded icons will display."
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_mastercard",
+      "label": "Mastercard"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_maestro",
+      "label": "Maestro"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_paypal",
+      "label": "PayPal"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_google_pay",
+      "label": "Google Pay"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_apple_pay",
+      "label": "Apple Pay"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_klarna",
+      "label": "Klarna"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_visa",
+      "label": "Visa"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_amex",
+      "label": "American Express"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_discover",
+      "label": "Discover"
+    },
+    {
+      "type": "header",
+      "content": "Custom Icons"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_custom_1",
+      "label": "Custom payment icon 1"
+    },
+    {
+      "type": "text",
+      "id": "icon_custom_1_alt",
+      "label": "Custom icon 1 alt text",
+      "default": "Payment method"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_custom_2",
+      "label": "Custom payment icon 2"
+    },
+    {
+      "type": "text",
+      "id": "icon_custom_2_alt",
+      "label": "Custom icon 2 alt text",
+      "default": "Payment method"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_custom_3",
+      "label": "Custom payment icon 3"
+    },
+    {
+      "type": "text",
+      "id": "icon_custom_3_alt",
+      "label": "Custom icon 3 alt text",
+      "default": "Payment method"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Payment Methods Custom"
+    }
+  ]
+}
+{% endschema %}
