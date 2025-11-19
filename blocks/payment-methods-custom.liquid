@@ -18,6 +18,7 @@
       border: 1px solid {{ block_settings.container_border }};
       border-radius: {{ block_settings.container_radius }}px;
       padding: {{ block_settings.container_padding }}px;
+      position: relative;
     "
   >
 
@@ -47,133 +48,100 @@
 
       {% if block_settings.icon_mastercard %}
         <li class="payment-methods-custom__item">
-          <img 
-            src="{{ block_settings.icon_mastercard | image_url: width: 120 }}"
-            alt="Mastercard" 
-            loading="lazy"
-            style="--icon-max-height: {{ block_settings.icon_max_height_desktop }}px;"
-          >
+          <img src="{{ block_settings.icon_mastercard | image_url: width: 120 }}"
+               alt="Mastercard" loading="lazy"
+               style="max-height: {{ block_settings.icon_max_height }}px;">
         </li>
       {% endif %}
 
       {% if block_settings.icon_maestro %}
         <li class="payment-methods-custom__item">
-          <img 
-            src="{{ block_settings.icon_maestro | image_url: width: 120 }}"
-            alt="Maestro" 
-            loading="lazy"
-            style="--icon-max-height: {{ block_settings.icon_max_height_desktop }}px;"
-          >
+          <img src="{{ block_settings.icon_maestro | image_url: width: 120 }}"
+               alt="Maestro" loading="lazy"
+               style="max-height: {{ block_settings.icon_max_height }}px;">
         </li>
       {% endif %}
 
       {% if block_settings.icon_paypal %}
         <li class="payment-methods-custom__item">
-          <img 
-            src="{{ block_settings.icon_paypal | image_url: width: 120 }}"
-            alt="PayPal" 
-            loading="lazy"
-            style="--icon-max-height: {{ block_settings.icon_max_height_desktop }}px;"
-          >
+          <img src="{{ block_settings.icon_paypal | image_url: width: 120 }}"
+               alt="PayPal" loading="lazy"
+               style="max-height: {{ block_settings.icon_max_height }}px;">
         </li>
       {% endif %}
 
       {% if block_settings.icon_google_pay %}
         <li class="payment-methods-custom__item">
-          <img 
-            src="{{ block_settings.icon_google_pay | image_url: width: 120 }}"
-            alt="Google Pay" 
-            loading="lazy"
-            style="--icon-max-height: {{ block_settings.icon_max_height_desktop }}px;"
-          >
+          <img src="{{ block_settings.icon_google_pay | image_url: width: 120 }}"
+               alt="Google Pay" loading="lazy"
+               style="max-height: {{ block_settings.icon_max_height }}px;">
         </li>
       {% endif %}
 
       {% if block_settings.icon_apple_pay %}
         <li class="payment-methods-custom__item">
-          <img 
-            src="{{ block_settings.icon_apple_pay | image_url: width: 120 }}"
-            alt="Apple Pay" 
-            loading="lazy"
-            style="--icon-max-height: {{ block_settings.icon_max_height_desktop }}px;"
-          >
+          <img src="{{ block_settings.icon_apple_pay | image_url: width: 120 }}"
+               alt="Apple Pay" loading="lazy"
+               style="max-height: {{ block_settings.icon_max_height }}px;">
         </li>
       {% endif %}
 
       {% if block_settings.icon_klarna %}
         <li class="payment-methods-custom__item">
-          <img 
-            src="{{ block_settings.icon_klarna | image_url: width: 120 }}"
-            alt="Klarna" 
-            loading="lazy"
-            style="--icon-max-height: {{ block_settings.icon_max_height_desktop }}px;"
-          >
+          <img src="{{ block_settings.icon_klarna | image_url: width: 120 }}"
+               alt="Klarna" loading="lazy"
+               style="max-height: {{ block_settings.icon_max_height }}px;">
         </li>
       {% endif %}
 
       {% if block_settings.icon_visa %}
         <li class="payment-methods-custom__item">
-          <img 
-            src="{{ block_settings.icon_visa | image_url: width: 120 }}"
-            alt="Visa" 
-            loading="lazy"
-            style="--icon-max-height: {{ block_settings.icon_max_height_desktop }}px;"
-          >
+          <img src="{{ block_settings.icon_visa | image_url: width: 120 }}"
+               alt="Visa" loading="lazy"
+               style="max-height: {{ block_settings.icon_max_height }}px;">
         </li>
       {% endif %}
 
       {% if block_settings.icon_amex %}
         <li class="payment-methods-custom__item">
-          <img 
-            src="{{ block_settings.icon_amex | image_url: width: 120 }}"
-            alt="American Express" 
-            loading="lazy"
-            style="--icon-max-height: {{ block_settings.icon_max_height_desktop }}px;"
-          >
+          <img src="{{ block_settings.icon_amex | image_url: width: 120 }}"
+               alt="American Express" loading="lazy"
+               style="max-height: {{ block_settings.icon_max_height }}px;">
         </li>
       {% endif %}
 
       {% if block_settings.icon_discover %}
         <li class="payment-methods-custom__item">
-          <img 
-            src="{{ block_settings.icon_discover | image_url: width: 120 }}"
-            alt="Discover" 
-            loading="lazy"
-            style="--icon-max-height: {{ block_settings.icon_max_height_desktop }}px;"
-          >
+          <img src="{{ block_settings.icon_discover | image_url: width: 120 }}"
+               alt="Discover" loading="lazy"
+               style="max-height: {{ block_settings.icon_max_height }}px;">
         </li>
       {% endif %}
 
       {% if block_settings.icon_custom_1 %}
         <li class="payment-methods-custom__item">
-          <img 
-            src="{{ block_settings.icon_custom_1 | image_url: width: 120 }}"
-            alt="{{ block_settings.icon_custom_1_alt }}"
-            loading="lazy"
-            style="--icon-max-height: {{ block_settings.icon_max_height_desktop }}px;"
-          >
+          <img src="{{ block_settings.icon_custom_1 | image_url: width: 120 }}"
+               alt="{{ block_settings.icon_custom_1_alt | default: 'Payment method' }}"
+               loading="lazy"
+               style="max-height: {{ block_settings.icon_max_height }}px;">
         </li>
       {% endif %}
 
       {% if block_settings.icon_custom_2 %}
         <li class="payment-methods-custom__item">
-          <img 
-            src="{{ block_settings.icon_custom_2 | image_url: width: 120 }}"
-            alt="{{ block_settings.icon_custom_2_alt }}"
-            loading="lazy"
-            style="--icon-max-height: {{ block_settings.icon_max_height_desktop }}px;"
-          >
+          <img src="{{ block_settings.icon_custom_2 | image_url: width: 120 }}"
+               alt="{{ block_settings.icon_custom_2_alt | default: 'Payment method' }}"
+               loading="lazy"
+               style="max-height: {{ block_settings.icon_max_height }}px;">
         </li>
       {% endif %}
 
       {% if block_settings.icon_custom_3 %}
         <li class="payment-methods-custom__item">
-          <img 
-            src="{{ block_settings.icon_custom_3 | image_url: width: 120 }}"
-            alt="{{ block_settings.icon_custom_3_alt }}"
-            loading="lazy"
-            style="--icon-max-height: {{ block_settings.icon_max_height_desktop }}px;"
-          >
+          <img src="{{ block_settings.icon_custom_3 | image_url: width: 120 }}"
+               alt="{{ block_settings.icon_custom_3_alt | default: 'Payment method' }}"
+               loading="lazy"
+               style="max-height: {{ block_settings.icon_max_height }}px;">
         </li>
       {% endif %}
 
@@ -181,9 +149,7 @@
   </fieldset>
 </div>
 
-
 {% stylesheet %}
-
 .payment-methods-custom {
   width: 100%;
 }
@@ -215,37 +181,15 @@
   height: auto;
   display: block;
   object-fit: contain;
-  max-height: var(--icon-max-height);
 }
 
-/* --- MOBILE FIX: keep same layout as desktop --- */
+/* MOBILE */
 @media screen and (max-width: 749px) {
-
-  /* Ensure the list keeps wrapping like desktop */
-  .payment-methods-custom__list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  /* Each icon keeps a natural minimum width to prevent collapsing */
-  .payment-methods-custom__item {
-    flex: 0 1 auto;
-    min-width: 80px; /* ← KEY FIX */
-    display: flex;
-    justify-content: center;
-  }
-
-  /* Mobile icon size override */
-  .payment-methods-custom__item img {
-    max-width: 100%;
-    height: auto;
-    --icon-max-height: {{ block_settings.icon_max_height_mobile }}px;
+  .payment-methods-custom__legend {
+    font-size: calc(var(--heading-size, 14px) * 0.9) !important;
   }
 }
-
 {% endstylesheet %}
-
 
 
 {% schema %}
@@ -390,28 +334,14 @@
       "default": 10
     },
     {
-      "type": "header",
-      "content": "Icon Sizes"
-    },
-    {
       "type": "range",
-      "id": "icon_max_height_desktop",
-      "label": "Icon max height (desktop)",
+      "id": "icon_max_height",
+      "label": "Icon max height",
       "min": 18,
-      "max": 60,
+      "max": 40,
       "step": 2,
       "unit": "px",
-      "default": 28
-    },
-    {
-      "type": "range",
-      "id": "icon_max_height_mobile",
-      "label": "Icon max height (mobile)",
-      "min": 16,
-      "max": 50,
-      "step": 2,
-      "unit": "px",
-      "default": 22
+      "default": 24
     },
     {
       "type": "header",
