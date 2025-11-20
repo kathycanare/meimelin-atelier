@@ -547,34 +547,71 @@
           if (!res.ok) throw new Error('Cart add failed');
           return res.json();
         })
-        .then(() => {
+        .then((item) => {
           btnText.textContent = 'Added!';
           
-          // Trigger multiple cart update events for Atelier compatibility
-          document.dispatchEvent(new CustomEvent('cart:updated'));
-          document.dispatchEvent(new CustomEvent('cart:refresh'));
-          document.dispatchEvent(new CustomEvent('product:added'));
+          // IMMEDIATE cart drawer opening - multiple methods for Atelier
           
-          // Try to trigger Atelier's cart drawer specifically
+          // Method 1: Atelier's theme object
           if (window.theme && window.theme.openCart) {
             window.theme.openCart();
           }
           
-          // Alternative cart drawer triggers
-          const cartDrawer = document.querySelector('[data-cart-drawer]') || 
-                           document.querySelector('.cart-drawer') ||
-                           document.querySelector('#cart-drawer');
-          if (cartDrawer) {
-            cartDrawer.classList.add('is-visible', 'active');
+          // Method 2: Trigger cart icon click (common in Atelier)
+          const cartIcon = document.querySelector('[data-action="open-cart"]') ||
+                          document.querySelector('.cart-link') ||
+                          document.querySelector('[href="/cart"]');
+          if (cartIcon && cartIcon.click) {
+            cartIcon.click();
           }
           
-          // Update cart count if available
+          // Method 3: Direct cart drawer manipulation
+          const cartDrawer = document.querySelector('[data-cart-drawer]') || 
+                           document.querySelector('.cart-drawer') ||
+                           document.querySelector('#cart-drawer') ||
+                           document.querySelector('.drawer--cart');
+          if (cartDrawer) {
+            cartDrawer.classList.add('is-visible', 'is-open', 'active', 'drawer--is-open');
+            cartDrawer.style.transform = 'translateX(0)';
+            cartDrawer.style.visibility = 'visible';
+          }
+          
+          // Method 4: Shopify Section Rendering (refresh cart contents)
+          fetch('/cart?section_id=cart-drawer')
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(html, 'text/html');
+              const newCart = doc.querySelector('[data-cart-drawer]') || doc.querySelector('.cart-drawer');
+              if (newCart && cartDrawer) {
+                cartDrawer.innerHTML = newCart.innerHTML;
+              }
+            })
+            .catch(err => console.log('Cart refresh failed:', err));
+          
+          // Method 5: Fire all possible cart events
+          document.dispatchEvent(new CustomEvent('cart:updated'));
+          document.dispatchEvent(new CustomEvent('cart:refresh'));
+          document.dispatchEvent(new CustomEvent('product:added', { detail: item }));
+          document.dispatchEvent(new CustomEvent('cart:open'));
+          
+          // Method 6: Update backdrop/overlay
+          const backdrop = document.querySelector('.drawer__backdrop') || 
+                          document.querySelector('[data-drawer-backdrop]');
+          if (backdrop) {
+            backdrop.classList.add('is-visible', 'active');
+          }
+          
+          // Update cart count
           fetch('/cart.js')
             .then(res => res.json())
             .then(cart => {
-              const cartCounts = document.querySelectorAll('[data-cart-count], .cart-count, .cart__count');
+              const cartCounts = document.querySelectorAll('[data-cart-count], .cart-count, .cart__count, [data-header-cart-count]');
               cartCounts.forEach(el => {
                 el.textContent = cart.item_count;
+                if (cart.item_count > 0) {
+                  el.classList.add('visible');
+                }
               });
             });
 
