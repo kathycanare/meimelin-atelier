@@ -322,7 +322,7 @@
                   "type": "_accordion-row",
                   "settings": {
                     "heading": "Detalizēts apraksts",
-                    "open_by_default": true,
+                    "open_by_default": false,
                     "icon": "none",
                     "width": 20
                   },
@@ -361,7 +361,7 @@
                   "type": "_accordion-row",
                   "settings": {
                     "heading": "Izmēri",
-                    "open_by_default": false,
+                    "open_by_default": true,
                     "icon": "none",
                     "width": 20
                   },
@@ -400,7 +400,7 @@
                   "type": "_accordion-row",
                   "settings": {
                     "heading": "Piegāde un atgriešana",
-                    "open_by_default": false,
+                    "open_by_default": true,
                     "icon": "none",
                     "width": 20
                   },
@@ -412,7 +412,7 @@
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
-                        "type_preset": "custom",
+                        "type_preset": "paragraph",
                         "font": "var(--font-secondary--family)",
                         "font_size": "var(--font-size--body-lg)",
                         "line_height": "normal",
