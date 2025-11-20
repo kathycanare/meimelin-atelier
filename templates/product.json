@@ -835,7 +835,7 @@
           "settings": {
             "product": "autumn-tones-brown-three-crystal-ring",
             "position_x": 23,
-            "position_y": 81,
+            "position_y": 77,
             "hotspot_style": "number",
             "enable_tooltip": true,
             "tooltip_horizontal": "right",
@@ -846,7 +846,19 @@
           "type": "hotspot",
           "settings": {
             "product": "",
-            "position_x": 60,
+            "position_x": 55,
+            "position_y": 72,
+            "hotspot_style": "number",
+            "enable_tooltip": true,
+            "tooltip_horizontal": "right",
+            "tooltip_vertical": "top"
+          }
+        },
+        "hotspot_FcyrJN": {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "position_x": 63,
             "position_y": 16,
             "hotspot_style": "number",
             "enable_tooltip": true,
@@ -857,7 +869,8 @@
       },
       "block_order": [
         "hotspot_9AfUQg",
-        "hotspot_UUnYzP"
+        "hotspot_UUnYzP",
+        "hotspot_FcyrJN"
       ],
       "name": "Shop the Look",
       "settings": {
