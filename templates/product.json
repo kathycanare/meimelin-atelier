@@ -459,6 +459,9 @@
           ]
         }
       },
+      "custom_css": [
+        ".jdgm-prev-badge {text-align: center;}"
+      ],
       "settings": {
         "content_width": "content-full-width",
         "desktop_media_position": "left",
