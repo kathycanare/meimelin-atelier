@@ -161,7 +161,7 @@
 
     if (!button) return;
 
-    /* TRIGGER QUICK-ADD MODAL ON HOTSPOT CLICK */
+    /* TRIGGER QUICK-ADD MODAL ON HOTSPOT CLICK - INSTANT LOADING */
     const productUrl = button.getAttribute('data-product-url');
     
     const openQuickAdd = async () => {
@@ -170,27 +170,34 @@
       const quickAddDialog = document.getElementById('quick-add-dialog');
       if (!quickAddDialog) return;
       
+      // INSTANT: Open modal immediately with loading state
+      const modalContent = document.getElementById('quick-add-modal-content');
+      if (modalContent) {
+        modalContent.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; min-height: 500px;"><div style="text-align: center;"><div style="width: 40px; height: 40px; border: 3px solid #f3f3f3; border-top: 3px solid #000; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px;"></div><p>Loading product...</p></div></div><style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>';
+      }
+      
+      // Open the modal right away (before fetching)
+      if (typeof quickAddDialog.showDialog === 'function') {
+        quickAddDialog.showDialog();
+      }
+      
       try {
-        // Fetch product page
+        // Fetch product page in background
         const response = await fetch(productUrl);
         const html = await response.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
         const productGrid = doc.querySelector('[data-product-grid-content]');
         
-        if (productGrid) {
-          const modalContent = document.getElementById('quick-add-modal-content');
-          if (modalContent) {
-            modalContent.innerHTML = productGrid.innerHTML;
-          }
-          
-          // Open the quick-add modal
-          if (typeof quickAddDialog.showDialog === 'function') {
-            quickAddDialog.showDialog();
-          }
+        if (productGrid && modalContent) {
+          // Replace loading with actual content
+          modalContent.innerHTML = productGrid.innerHTML;
         }
       } catch (error) {
         console.error('Failed to load quick-add modal:', error);
+        if (modalContent) {
+          modalContent.innerHTML = '<div style="padding: 40px; text-align: center;"><p>Failed to load product. Please try again.</p></div>';
+        }
       }
     };
 
