@@ -552,35 +552,34 @@
         .then((data) => {
           btnText.textContent = 'Added!';
           
-          // Horizon/Atelier specific cart drawer opening
+          // HORIZON THEME SPECIFIC: Dispatch CartAddEvent
+          // This is what Horizon theme listens for to auto-open the cart drawer
+          const cartAddEvent = new CustomEvent('theme:cart:add', {
+            bubbles: true,
+            detail: data
+          });
+          document.dispatchEvent(cartAddEvent);
           
-          // Trigger the cart icon click to open drawer (most reliable for Horizon)
-          const cartToggle = document.querySelector('[aria-controls="sidebar-cart"]') ||
-                            document.querySelector('.header__cart-toggle') ||
-                            document.querySelector('[data-action="toggle-cart"]');
-          
-          if (cartToggle) {
-            // Simulate actual click event
-            cartToggle.click();
-          } else {
-            // Fallback: manually open the cart drawer
-            const cartDrawer = document.getElementById('sidebar-cart') || 
-                             document.querySelector('[id*="cart"]');
-            if (cartDrawer) {
-              cartDrawer.classList.add('is-open');
-              cartDrawer.setAttribute('aria-hidden', 'false');
-            }
+          // Also manually open the cart drawer component
+          const cartDrawer = document.querySelector('cart-drawer-component');
+          if (cartDrawer && typeof cartDrawer.open === 'function') {
+            cartDrawer.open();
           }
           
-          // Update cart count in header
+          // Fallback: trigger the cart button click
+          const cartButton = document.querySelector('cart-drawer-component button[on\\:click*="open"]');
+          if (cartButton) {
+            cartButton.click();
+          }
+          
+          // Update cart count
           fetch('/cart.js')
             .then(res => res.json())
             .then(cart => {
-              const cartCount = document.querySelector('.header__cart-count') ||
-                              document.querySelector('[data-cart-count]');
-              if (cartCount) {
-                cartCount.textContent = cart.item_count;
-              }
+              const cartCounts = document.querySelectorAll('[data-cart-count], .cart-bubble');
+              cartCounts.forEach(el => {
+                el.textContent = cart.item_count;
+              });
             });
 
           setTimeout(() => {
