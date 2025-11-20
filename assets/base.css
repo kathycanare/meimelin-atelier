@@ -4283,3 +4283,21 @@ text-component {
     font-size: max(1rem, 100%);
   }
 }
+
+/* DISABLE MODAL ANIMATION - NO BACKGROUND MOVEMENT */
+.quick-add-modal[open] {
+  animation: none !important;
+}
+
+.quick-add-modal.dialog-closing {
+  animation: none !important;
+}
+
+.quick-add-modal::backdrop {
+  animation: none !important;
+}
+
+.quick-add-modal__content * {
+  animation: none !important;
+  animation-delay: 0s !important;
+}
