@@ -90,7 +90,7 @@
     }
   }
 
-  /* Tooltip - Redesigned with horizontal layout */
+  /* Tooltip - Horizontal layout with white background */
   .shop-the-look__tooltip {
     position: absolute;
     width: 320px;
@@ -455,13 +455,13 @@
 
     if (!button || !tooltip) return;
 
-    /* --- Swatch selection --- */
+    /* Swatch selection */
     if (swatches && variantInput) {
       swatches.forEach(swatch => {
         swatch.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-
+          
           swatches.forEach(s => s.classList.remove('is-selected'));
           swatch.classList.add('is-selected');
           variantInput.value = swatch.dataset.variantId;
@@ -469,13 +469,15 @@
       });
     }
 
-    /* --- MOBILE (tap to open) --- */
+    /* MOBILE = click */
     if (isMobile) {
       button.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (activeHotspot === hotspot) closeTooltip();
-        else {
+
+        if (activeHotspot === hotspot) {
+          closeTooltip();
+        } else {
           if (activeHotspot) closeTooltip();
           openTooltip(hotspot);
         }
@@ -491,29 +493,33 @@
       if (overlay) overlay.addEventListener('click', closeTooltip);
     }
 
-    /* --- DESKTOP (hover) --- */
+    /* DESKTOP = hover with delay to allow modal interaction */
     else {
       let closeTimer;
-
+      
       const handleMouseEnter = () => {
         clearTimeout(closeTimer);
         openTooltip(hotspot);
       };
-
+      
       const handleMouseLeave = () => {
-        closeTimer = setTimeout(closeTooltip, 120);
+        closeTimer = setTimeout(() => {
+          closeTooltip();
+        }, 100);
       };
-
+      
       hotspot.addEventListener('mouseenter', handleMouseEnter);
       hotspot.addEventListener('mouseleave', handleMouseLeave);
-
+      
       if (tooltip) {
-        tooltip.addEventListener('mouseenter', () => clearTimeout(closeTimer));
+        tooltip.addEventListener('mouseenter', () => {
+          clearTimeout(closeTimer);
+        });
         tooltip.addEventListener('mouseleave', handleMouseLeave);
       }
     }
 
-    /* --- AJAX ADD-TO-CART (Atelier + Horizon compatible) --- */
+    /* Cart add AJAX - FIXED FOR HORIZON THEME */
     if (form) {
       form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -521,61 +527,78 @@
         const formData = new FormData(form);
         const btn = form.querySelector('[type="submit"]');
         const btnText = btn.querySelector('span:first-child');
-        const originalText = btnText.textContent;
+        const original = btnText.textContent;
 
+        // Disable button during submission
         btn.disabled = true;
         btnText.textContent = 'Adding...';
 
         fetch('/cart/add.js', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+          },
           body: JSON.stringify({
-            id: formData.get('id'),
-            quantity: formData.get('quantity')
+            items: [{
+              id: formData.get('id'),
+              quantity: parseInt(formData.get('quantity'))
+            }]
           })
         })
         .then(res => {
           if (!res.ok) throw new Error('Cart add failed');
           return res.json();
         })
-        .then((item) => {
+        .then((data) => {
           btnText.textContent = 'Added!';
-
-          /* --- Atelier + Horizon cart drawer triggers --- */
-          document.dispatchEvent(new CustomEvent('cart:refresh'));
-          document.dispatchEvent(new CustomEvent('cart:open'));
-
-          /* --- Update cart count --- */
+          
+          // Horizon/Atelier specific cart drawer opening
+          
+          // Trigger the cart icon click to open drawer (most reliable for Horizon)
+          const cartToggle = document.querySelector('[aria-controls="sidebar-cart"]') ||
+                            document.querySelector('.header__cart-toggle') ||
+                            document.querySelector('[data-action="toggle-cart"]');
+          
+          if (cartToggle) {
+            // Simulate actual click event
+            cartToggle.click();
+          } else {
+            // Fallback: manually open the cart drawer
+            const cartDrawer = document.getElementById('sidebar-cart') || 
+                             document.querySelector('[id*="cart"]');
+            if (cartDrawer) {
+              cartDrawer.classList.add('is-open');
+              cartDrawer.setAttribute('aria-hidden', 'false');
+            }
+          }
+          
+          // Update cart count in header
           fetch('/cart.js')
             .then(res => res.json())
             .then(cart => {
-              document.querySelectorAll('[data-cart-count], .cart-count, .cart__count, [data-header-cart-count]')
-                .forEach(el => {
-                  el.textContent = cart.item_count;
-                  el.classList.toggle('visible', cart.item_count > 0);
-                });
+              const cartCount = document.querySelector('.header__cart-count') ||
+                              document.querySelector('[data-cart-count]');
+              if (cartCount) {
+                cartCount.textContent = cart.item_count;
+              }
             });
 
-          /* --- Reset button --- */
           setTimeout(() => {
-            btnText.textContent = originalText;
+            btnText.textContent = original;
             btn.disabled = false;
             if (isMobile) closeTooltip();
-          }, 1200);
+          }, 1500);
         })
         .catch((error) => {
           console.error('Cart error:', error);
-          btnText.textContent = 'Error!';
-          setTimeout(() => {
-            btnText.textContent = originalText;
-            btn.disabled = false;
-          }, 1500);
+          alert('Could not add to cart. Please try again.');
+          btnText.textContent = original;
+          btn.disabled = false;
         });
       });
     }
   });
 
-  /* --- Tooltip open/close helpers --- */
   function openTooltip(hotspot) {
     const tooltip = hotspot.querySelector('.shop-the-look__tooltip');
     if (!tooltip) return;
@@ -589,8 +612,8 @@
 
   function closeTooltip() {
     if (!activeHotspot) return;
-
     const tooltip = activeHotspot.querySelector('.shop-the-look__tooltip');
+
     activeHotspot.classList.remove('is-active');
     if (tooltip) tooltip.classList.remove('is-visible');
     if (overlay) overlay.classList.remove('is-visible');
@@ -604,7 +627,6 @@
 
 })();
 </script>
-
 
 {% schema %}
 {
