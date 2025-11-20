@@ -73,6 +73,11 @@
         "type": "shopify://apps/juniper-tiktok-feed/blocks/head-block/fa514c33-5475-4484-b270-5f1e7eb87a9a",
         "disabled": false,
         "settings": {}
+      },
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
