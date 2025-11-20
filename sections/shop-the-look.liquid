@@ -64,6 +64,13 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
 
+  .shop-the-look__hotspot-button:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+    transform: scale(1.1);
+  }
+
   .shop-the-look__hotspot-button--dot::after {
     content: '';
     width: 8px;
@@ -72,13 +79,7 @@
     border-radius: 50%;
   }
 
-  .shop-the-look__hotspot.is-active .shop-the-look__hotspot-button {
-    background: #000;
-    color: #fff;
-    border-color: #000;
-  }
-
-  .shop-the-look__hotspot.is-active .shop-the-look__hotspot-button--dot::after {
+  .shop-the-look__hotspot-button:hover.shop-the-look__hotspot-button--dot::after {
     background: #fff;
   }
 
@@ -88,226 +89,6 @@
       height: 28px;
       font-size: 12px;
     }
-  }
-
-  /* Tooltip - Horizontal layout with white background */
-  .shop-the-look__tooltip {
-    position: absolute;
-    width: 320px;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-    padding: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity .3s ease, visibility .3s ease;
-    pointer-events: none;
-    z-index: 100;
-    display: flex;
-    flex-direction: row;
-  }
-
-  .shop-the-look__tooltip.is-visible {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: all;
-  }
-
-  /* Desktop alignments - always position to the left */
-  .shop-the-look__tooltip--align-left   { right: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
-  .shop-the-look__tooltip--align-right  { right: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
-  .shop-the-look__tooltip--align-top    { right: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
-  .shop-the-look__tooltip--align-bottom { right: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
-
-  /* Mobile tooltips behave like modals */
-  @media (max-width: 768px) {
-    .shop-the-look__tooltip {
-      position: fixed !important;
-      top: 50% !important;
-      left: 50% !important;
-      transform: translate(-50%, -50%) !important;
-      width: calc(100vw - 32px);
-      max-width: 320px;
-      flex-direction: column;
-    }
-  }
-
-  .shop-the-look__tooltip-close {
-    display: none;
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    font-size: 20px;
-    color: #666;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    z-index: 10;
-  }
-
-  @media (max-width: 768px) {
-    .shop-the-look__tooltip-close { display: block; }
-  }
-
-  .shop-the-look__tooltip-content {
-    padding: 16px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .shop-the-look__tooltip-image {
-    width: 140px;
-    height: 140px;
-    min-width: 140px;
-    border-radius: 8px 0 0 8px;
-    object-fit: cover;
-    margin-bottom: 0;
-  }
-
-  @media (max-width: 768px) {
-    .shop-the-look__tooltip-image {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1;
-      border-radius: 8px 8px 0 0;
-    }
-  }
-
-  .shop-the-look__tooltip-collection {
-    font-size: 10px;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #666;
-    margin: 0 0 6px;
-  }
-
-  .shop-the-look__tooltip-title {
-    font-size: 14px;
-    font-weight: 600;
-    margin: 0 0 10px;
-    line-height: 1.3;
-  }
-
-  .shop-the-look__tooltip-price {
-    font-size: 13px;
-    margin-bottom: 10px;
-    color: #000;
-    font-weight: 500;
-  }
-
-  /* Swatch container */
-  .shop-the-look__tooltip-swatches {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 10px;
-    align-items: center;
-  }
-
-  .shop-the-look__tooltip-swatch {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-  }
-
-  .shop-the-look__tooltip-swatch.is-selected {
-    border: 2px solid #000;
-  }
-
-  .shop-the-look__tooltip-swatch.is-selected::after {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border: 1px solid #000;
-    border-radius: 50%;
-  }
-
-  /* Variant selector (fallback if no swatches) */
-  .shop-the-look__tooltip-variants { 
-    margin-bottom: 10px;
-    display: none;
-  }
-
-  .shop-the-look__tooltip-variant-select {
-    width: 100%;
-    padding: 6px 8px;
-    border-radius: 3px;
-    border: 1px solid #ddd;
-    font-size: 12px;
-  }
-
-  /* Remove quantity input */
-  .shop-the-look__tooltip-quantity {
-    display: none;
-  }
-
-  /* Single button with arrow and number */
-  .shop-the-look__tooltip-actions {
-    display: flex;
-    flex-direction: row;
-    gap: 0;
-    align-items: stretch;
-  }
-
-  .shop-the-look__tooltip-button {
-    padding: 8px 12px;
-    font-size: 12px;
-    font-weight: 600;
-    text-align: center;
-    cursor: pointer;
-    border: none;
-    transition: all 0.2s;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .shop-the-look__tooltip-button--primary { 
-    background: #000; 
-    color: #fff;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 3px 0 0 3px;
-  }
-
-  .shop-the-look__tooltip-button--primary:hover { 
-    background: #333; 
-  }
-
-  .shop-the-look__tooltip-button--number {
-    background: #000;
-    color: #fff;
-    width: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0 3px 3px 0;
-    border-left: 1px solid rgba(255,255,255,0.2);
-  }
-
-  .shop-the-look__tooltip-button--secondary {
-    display: none;
-  }
-
-  .shop-the-look__overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 99;
-  }
-
-  .shop-the-look__overlay.is-visible { display: block; }
-
-  @media (min-width: 769px) {
-    .shop-the-look__overlay { display: none !important; }
   }
 </style>
 
@@ -354,78 +135,13 @@
               <button 
                 class="shop-the-look__hotspot-button {% if block.settings.hotspot_style == 'dot' %}shop-the-look__hotspot-button--dot{% endif %}"
                 aria-label="View {{ product.title }}"
+                data-product-url="{{ product.url }}"
               >
                 {% unless block.settings.hotspot_style == 'dot' %}
                   {{ forloop.index }}
                 {% endunless %}
               </button>
 
-              {% if block.settings.enable_tooltip %}
-                <div class="shop-the-look__tooltip shop-the-look__tooltip--align-{{ block.settings.tooltip_horizontal }} shop-the-look__tooltip--align-{{ block.settings.tooltip_vertical }}"
-                  data-tooltip-id="{{ block.id }}"
-                >
-                  <button class="shop-the-look__tooltip-close">×</button>
-
-                  {% if product.featured_image %}
-                    <img 
-                      src="{{ product.featured_image | img_url: '400x' }}"
-                      class="shop-the-look__tooltip-image"
-                      alt="{{ product.featured_image.alt | escape }}"
-                    >
-                  {% endif %}
-
-                  <div class="shop-the-look__tooltip-content">
-                    <div>
-                      {% if product.vendor %}
-                        <div class="shop-the-look__tooltip-collection">{{ product.vendor }}</div>
-                      {% endif %}
-
-                      <h3 class="shop-the-look__tooltip-title">{{ product.title }}</h3>
-
-                      <div class="shop-the-look__tooltip-price">
-                        {{ product.price | money }}
-                        {% if product.compare_at_price > product.price %}
-                          <s style="color: #999; margin-left: 4px;">{{ product.compare_at_price | money }}</s>
-                        {% endif %}
-                      </div>
-
-                      <form class="shop-the-look__tooltip-form" action="/cart/add" method="POST">
-                        {% if product.variants.size > 1 %}
-                          <!-- Color swatches -->
-                          <div class="shop-the-look__tooltip-swatches">
-                            {% for variant in product.variants %}
-                              {% if variant.available %}
-                                <div class="shop-the-look__tooltip-swatch {% if forloop.first %}is-selected{% endif %}"
-                                  data-variant-id="{{ variant.id }}"
-                                  style="background-color: {{ variant.option1 | downcase | replace: ' ', '' }};"
-                                  title="{{ variant.title }}">
-                                </div>
-                              {% endif %}
-                            {% endfor %}
-                          </div>
-                          <input type="hidden" name="id" value="{{ product.variants.first.id }}" class="selected-variant-input">
-                        {% else %}
-                          <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-                        {% endif %}
-
-                        <input type="hidden" name="quantity" value="1">
-
-                        <div class="shop-the-look__tooltip-actions">
-                          <button type="submit" class="shop-the-look__tooltip-button shop-the-look__tooltip-button--primary">
-                            <span>Add to Cart</span>
-                            <span>→</span>
-                          </button>
-                          <div class="shop-the-look__tooltip-button shop-the-look__tooltip-button--number">
-                            {{ forloop.index }}
-                          </div>
-                        </div>
-
-                      </form>
-                    </div>
-                  </div>
-
-                </div>
-              {% endif %}
             </div>
           {% endif %}
         {% endfor %}
@@ -436,194 +152,55 @@
   </div>
 </div>
 
-<div class="shop-the-look__overlay"></div>
-
 <script>
 (function() {
-  const isMobile = window.innerWidth <= 768;
   const hotspots = document.querySelectorAll('.shop-the-look__hotspot');
-  const overlay = document.querySelector('.shop-the-look__overlay');
-  let activeHotspot = null;
 
   hotspots.forEach(hotspot => {
     const button = hotspot.querySelector('.shop-the-look__hotspot-button');
-    const tooltip = hotspot.querySelector('.shop-the-look__tooltip');
-    const closeBtn = tooltip ? tooltip.querySelector('.shop-the-look__tooltip-close') : null;
-    const form = tooltip ? tooltip.querySelector('.shop-the-look__tooltip-form') : null;
-    const swatches = tooltip ? tooltip.querySelectorAll('.shop-the-look__tooltip-swatch') : null;
-    const variantInput = tooltip ? tooltip.querySelector('.selected-variant-input') : null;
 
-    if (!button || !tooltip) return;
+    if (!button) return;
 
-    /* Swatch selection */
-    if (swatches && variantInput) {
-      swatches.forEach(swatch => {
-        swatch.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
+    /* TRIGGER QUICK-ADD MODAL ON HOTSPOT CLICK */
+    const productUrl = button.getAttribute('data-product-url');
+    
+    const openQuickAdd = async () => {
+      if (!productUrl) return;
+      
+      const quickAddDialog = document.getElementById('quick-add-dialog');
+      if (!quickAddDialog) return;
+      
+      try {
+        // Fetch product page
+        const response = await fetch(productUrl);
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const productGrid = doc.querySelector('[data-product-grid-content]');
+        
+        if (productGrid) {
+          const modalContent = document.getElementById('quick-add-modal-content');
+          if (modalContent) {
+            modalContent.innerHTML = productGrid.innerHTML;
+          }
           
-          swatches.forEach(s => s.classList.remove('is-selected'));
-          swatch.classList.add('is-selected');
-          variantInput.value = swatch.dataset.variantId;
-        });
-      });
-    }
-
-    /* MOBILE = click */
-    if (isMobile) {
-      button.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (activeHotspot === hotspot) {
-          closeTooltip();
-        } else {
-          if (activeHotspot) closeTooltip();
-          openTooltip(hotspot);
+          // Open the quick-add modal
+          if (typeof quickAddDialog.showDialog === 'function') {
+            quickAddDialog.showDialog();
+          }
         }
-      });
-
-      if (closeBtn) {
-        closeBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          closeTooltip();
-        });
+      } catch (error) {
+        console.error('Failed to load quick-add modal:', error);
       }
+    };
 
-      if (overlay) overlay.addEventListener('click', closeTooltip);
-    }
-
-    /* DESKTOP = hover with delay to allow modal interaction */
-    else {
-      let closeTimer;
-      
-      const handleMouseEnter = () => {
-        clearTimeout(closeTimer);
-        openTooltip(hotspot);
-      };
-      
-      const handleMouseLeave = () => {
-        closeTimer = setTimeout(() => {
-          closeTooltip();
-        }, 100);
-      };
-      
-      hotspot.addEventListener('mouseenter', handleMouseEnter);
-      hotspot.addEventListener('mouseleave', handleMouseLeave);
-      
-      if (tooltip) {
-        tooltip.addEventListener('mouseenter', () => {
-          clearTimeout(closeTimer);
-        });
-        tooltip.addEventListener('mouseleave', handleMouseLeave);
-      }
-    }
-
-    /* Cart add AJAX - FIXED FOR HORIZON THEME */
-    if (form) {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(form);
-        const btn = form.querySelector('[type="submit"]');
-        const btnText = btn.querySelector('span:first-child');
-        const original = btnText.textContent;
-
-        // Disable button during submission
-        btn.disabled = true;
-        btnText.textContent = 'Adding...';
-
-        fetch('/cart/add.js', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            items: [{
-              id: formData.get('id'),
-              quantity: parseInt(formData.get('quantity'))
-            }]
-          })
-        })
-        .then(res => {
-          if (!res.ok) throw new Error('Cart add failed');
-          return res.json();
-        })
-        .then((data) => {
-          btnText.textContent = 'Added!';
-          
-          // HORIZON THEME SPECIFIC: Dispatch CartAddEvent
-          // This is what Horizon theme listens for to auto-open the cart drawer
-          const cartAddEvent = new CustomEvent('theme:cart:add', {
-            bubbles: true,
-            detail: data
-          });
-          document.dispatchEvent(cartAddEvent);
-          
-          // Also manually open the cart drawer component
-          const cartDrawer = document.querySelector('cart-drawer-component');
-          if (cartDrawer && typeof cartDrawer.open === 'function') {
-            cartDrawer.open();
-          }
-          
-          // Fallback: trigger the cart button click
-          const cartButton = document.querySelector('cart-drawer-component button[on\\:click*="open"]');
-          if (cartButton) {
-            cartButton.click();
-          }
-          
-          // Update cart count
-          fetch('/cart.js')
-            .then(res => res.json())
-            .then(cart => {
-              const cartCounts = document.querySelectorAll('[data-cart-count], .cart-bubble');
-              cartCounts.forEach(el => {
-                el.textContent = cart.item_count;
-              });
-            });
-
-          setTimeout(() => {
-            btnText.textContent = original;
-            btn.disabled = false;
-            if (isMobile) closeTooltip();
-          }, 1500);
-        })
-        .catch((error) => {
-          console.error('Cart error:', error);
-          alert('Could not add to cart. Please try again.');
-          btnText.textContent = original;
-          btn.disabled = false;
-        });
-      });
-    }
+    /* MOBILE & DESKTOP = click to open quick-add */
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openQuickAdd();
+    });
   });
-
-  function openTooltip(hotspot) {
-    const tooltip = hotspot.querySelector('.shop-the-look__tooltip');
-    if (!tooltip) return;
-
-    activeHotspot = hotspot;
-    hotspot.classList.add('is-active');
-    tooltip.classList.add('is-visible');
-
-    if (isMobile && overlay) overlay.classList.add('is-visible');
-  }
-
-  function closeTooltip() {
-    if (!activeHotspot) return;
-    const tooltip = activeHotspot.querySelector('.shop-the-look__tooltip');
-
-    activeHotspot.classList.remove('is-active');
-    if (tooltip) tooltip.classList.remove('is-visible');
-    if (overlay) overlay.classList.remove('is-visible');
-
-    activeHotspot = null;
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeTooltip();
-  });
-
 })();
 </script>
 
@@ -764,36 +341,6 @@
             { "value": "dot", "label": "Dot" }
           ],
           "default": "number"
-        },
-        {
-          "type": "header",
-          "content": "Tooltip Options"
-        },
-        {
-          "type": "checkbox",
-          "id": "enable_tooltip",
-          "label": "Enable Tooltip",
-          "default": true
-        },
-        {
-          "type": "select",
-          "id": "tooltip_horizontal",
-          "label": "Tooltip Horizontal Align",
-          "options": [
-            { "value": "left", "label": "Left" },
-            { "value": "right", "label": "Right" }
-          ],
-          "default": "right"
-        },
-        {
-          "type": "select",
-          "id": "tooltip_vertical",
-          "label": "Tooltip Vertical Align",
-          "options": [
-            { "value": "top", "label": "Top" },
-            { "value": "bottom", "label": "Bottom" }
-          ],
-          "default": "top"
         }
       ]
     }
