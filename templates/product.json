@@ -834,8 +834,8 @@
           "type": "hotspot",
           "settings": {
             "product": "autumn-tones-brown-three-crystal-ring",
-            "position_x": 19,
-            "position_y": 50,
+            "position_x": 23,
+            "position_y": 81,
             "hotspot_style": "number",
             "enable_tooltip": true,
             "tooltip_horizontal": "right",
@@ -846,8 +846,8 @@
           "type": "hotspot",
           "settings": {
             "product": "",
-            "position_x": 50,
-            "position_y": 50,
+            "position_x": 60,
+            "position_y": 16,
             "hotspot_style": "number",
             "enable_tooltip": true,
             "tooltip_horizontal": "right",
