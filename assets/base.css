@@ -4283,3 +4283,59 @@ text-component {
     font-size: max(1rem, 100%);
   }
 }
+
+/* INSTANT MODAL - NO ANIMATIONS OR MOVEMENT */
+
+/* Disable modal animations */
+.quick-add-modal,
+.quick-add-modal[open],
+dialog.quick-add-modal,
+dialog.quick-add-modal[open] {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+}
+
+/* Disable closing animation */
+.quick-add-modal.dialog-closing {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Instant backdrop */
+.quick-add-modal::backdrop,
+dialog::backdrop {
+  animation: none !important;
+  transition: none !important;
+  opacity: 0.5 !important;
+}
+
+/* Disable all content animations */
+.quick-add-modal__content,
+.quick-add-modal__content *,
+#quick-add-modal-content,
+#quick-add-modal-content * {
+  animation: none !important;
+  animation-delay: 0s !important;
+  transition: none !important;
+  transition-delay: 0s !important;
+}
+
+/* Prevent any slideshow animations inside modal */
+.quick-add-modal slideshow-slide,
+.quick-add-modal .product-media {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Disable product details fade-in */
+.quick-add-modal .product-details {
+  animation: none !important;
+}
+
+/* Lock body scroll without shift */
+body:has(dialog[open]) {
+  overflow: hidden;
+  padding-right: 0 !important;
+}
