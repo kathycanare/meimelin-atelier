@@ -24,7 +24,7 @@
             "slideshow_controls_style": "thumbnails",
             "slideshow_mobile_controls_style": "hint",
             "thumbnail_position": "left",
-            "thumbnail_width": 72,
+            "thumbnail_width": 100,
             "aspect_ratio": "1/1.25",
             "constrain_to_viewport": false,
             "media_fit": "cover",
@@ -836,10 +836,7 @@
             "product": "autumn-tones-brown-three-crystal-ring",
             "position_x": 23,
             "position_y": 77,
-            "hotspot_style": "number",
-            "enable_tooltip": true,
-            "tooltip_horizontal": "right",
-            "tooltip_vertical": "top"
+            "hotspot_style": "number"
           }
         },
         "hotspot_UUnYzP": {
@@ -848,10 +845,7 @@
             "product": "neredzama-kaklarota-palete-pink-shade",
             "position_x": 55,
             "position_y": 72,
-            "hotspot_style": "number",
-            "enable_tooltip": true,
-            "tooltip_horizontal": "right",
-            "tooltip_vertical": "top"
+            "hotspot_style": "number"
           }
         },
         "hotspot_FcyrJN": {
@@ -860,10 +854,7 @@
             "product": "autumn-tones-brown-three-crystal-ring",
             "position_x": 63,
             "position_y": 16,
-            "hotspot_style": "number",
-            "enable_tooltip": true,
-            "tooltip_horizontal": "right",
-            "tooltip_vertical": "top"
+            "hotspot_style": "number"
           }
         }
       },
