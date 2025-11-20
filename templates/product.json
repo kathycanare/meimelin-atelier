@@ -71,7 +71,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "",
+                "text": "<p>KAKLAROTAS</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
