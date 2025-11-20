@@ -495,8 +495,28 @@
 
     /* DESKTOP = hover */
     else {
-      hotspot.addEventListener('mouseenter', () => openTooltip(hotspot));
-      hotspot.addEventListener('mouseleave', () => closeTooltip());
+      let closeTimer;
+      
+      const handleMouseEnter = () => {
+        clearTimeout(closeTimer);
+        openTooltip(hotspot);
+      };
+      
+      const handleMouseLeave = () => {
+        closeTimer = setTimeout(() => {
+          closeTooltip();
+        }, 100);
+      };
+      
+      hotspot.addEventListener('mouseenter', handleMouseEnter);
+      hotspot.addEventListener('mouseleave', handleMouseLeave);
+      
+      if (tooltip) {
+        tooltip.addEventListener('mouseenter', () => {
+          clearTimeout(closeTimer);
+        });
+        tooltip.addEventListener('mouseleave', handleMouseLeave);
+      }
     }
 
     /* Cart add AJAX */
