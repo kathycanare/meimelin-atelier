@@ -525,25 +525,73 @@
         e.preventDefault();
 
         const formData = new FormData(form);
+        const btn = form.querySelector('[type="submit"]');
+        const btnText = btn.querySelector('span:first-child');
+        const original = btnText.textContent;
+
+        // Disable button during submission
+        btn.disabled = true;
+        btnText.textContent = 'Adding...';
 
         fetch('/cart/add.js', {
           method: 'POST',
-          body: formData
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: formData.get('id'),
+            quantity: formData.get('quantity')
+          })
         })
-        .then(res => res.json())
+        .then(res => {
+          if (!res.ok) throw new Error('Cart add failed');
+          return res.json();
+        })
         .then(() => {
-          const btn = form.querySelector('[type="submit"]');
-          const btnText = btn.querySelector('span:first-child');
-          const original = btnText.textContent;
           btnText.textContent = 'Added!';
+          
+          // Trigger multiple cart update events for Atelier compatibility
+          document.dispatchEvent(new CustomEvent('cart:updated'));
+          document.dispatchEvent(new CustomEvent('cart:refresh'));
+          document.dispatchEvent(new CustomEvent('product:added'));
+          
+          // Try to trigger Atelier's cart drawer specifically
+          if (window.theme && window.theme.openCart) {
+            window.theme.openCart();
+          }
+          
+          // Alternative cart drawer triggers
+          const cartDrawer = document.querySelector('[data-cart-drawer]') || 
+                           document.querySelector('.cart-drawer') ||
+                           document.querySelector('#cart-drawer');
+          if (cartDrawer) {
+            cartDrawer.classList.add('is-visible', 'active');
+          }
+          
+          // Update cart count if available
+          fetch('/cart.js')
+            .then(res => res.json())
+            .then(cart => {
+              const cartCounts = document.querySelectorAll('[data-cart-count], .cart-count, .cart__count');
+              cartCounts.forEach(el => {
+                el.textContent = cart.item_count;
+              });
+            });
+
           setTimeout(() => {
             btnText.textContent = original;
+            btn.disabled = false;
             if (isMobile) closeTooltip();
           }, 1500);
-
-          document.dispatchEvent(new CustomEvent('cart:updated'));
         })
-        .catch(() => alert('Error adding product to cart.'));
+        .catch((error) => {
+          console.error('Cart error:', error);
+          btnText.textContent = 'Error!';
+          setTimeout(() => {
+            btnText.textContent = original;
+            btn.disabled = false;
+          }, 2000);
+        });
       });
     }
   });
