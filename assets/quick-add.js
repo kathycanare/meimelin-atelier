@@ -1,278 +1,359 @@
-import { morph } from '@theme/morph';
-import { Component } from '@theme/component';
-import { CartUpdateEvent, ThemeEvents } from '@theme/events';
-import { DialogComponent, DialogCloseEvent } from '@theme/dialog';
-import { mediaQueryLarge, isMobileBreakpoint, getIOSVersion } from '@theme/utilities';
+<style>
+  .shop-the-look-section {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
 
-export class QuickAddComponent extends Component {
-  /** @type {AbortController | null} */
-  #abortController = null;
-  /** @type {Map<string, Element>} */
-  #cachedContent = new Map();
+  .shop-the-look__container {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+  }
 
-  get productPageUrl() {
-    const productCard = /** @type {import('./product-card').ProductCard | null} */ (this.closest('product-card'));
-    const productLink = productCard?.getProductCardLink();
+  .shop-the-look__image-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
 
-    if (!productLink?.href) return '';
+  .shop-the-look__image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
 
-    const url = new URL(productLink.href);
+  .shop-the-look__image--desktop { display: block; }
+  .shop-the-look__image--mobile { display: none; }
 
-    if (url.searchParams.has('variant')) {
-      return url.toString();
+  @media (max-width: 768px) {
+    .shop-the-look__image--desktop { display: none; }
+    .shop-the-look__image--mobile { display: block; }
+  }
+
+  .shop-the-look__hotspots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .shop-the-look__hotspot {
+    position: absolute;
+    pointer-events: all;
+    z-index: 10;
+    transform: translate(-50%, -50%);
+  }
+
+  .shop-the-look__hotspot-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .shop-the-look__hotspot-button:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+    transform: scale(1.1);
+  }
+
+  .shop-the-look__hotspot-button--dot::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #000;
+    border-radius: 50%;
+  }
+
+  .shop-the-look__hotspot-button:hover.shop-the-look__hotspot-button--dot::after {
+    background: #fff;
+  }
+
+  @media (max-width: 768px) {
+    .shop-the-look__hotspot-button {
+      width: 28px;
+      height: 28px;
+      font-size: 12px;
     }
-
-    const selectedVariantId = this.#getSelectedVariantId();
-    if (selectedVariantId) {
-      url.searchParams.set('variant', selectedVariantId);
-    }
-
-    return url.toString();
   }
+</style>
 
-  /**
-   * Gets the currently selected variant ID from the product card
-   * @returns {string | null} The variant ID or null
-   */
-  #getSelectedVariantId() {
-    const productCard = /** @type {import('./product-card').ProductCard | null} */ (this.closest('product-card'));
-    return productCard?.getSelectedVariantId() || null;
-  }
+<div class="shop-the-look-section" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
+  <div class="shop-the-look__container">
 
-  connectedCallback() {
-    super.connectedCallback();
+    <!-- Main Image -->
+    <div class="shop-the-look__image-wrapper"
+      style="{% if section.settings.image_height == 'custom' %}height: {{ section.settings.custom_height }}px;{% elsif section.settings.image_height == 'viewport' %}height: {{ section.settings.viewport_height }}vh;{% endif %}"
+    >
 
-    mediaQueryLarge.addEventListener('change', this.#closeQuickAddModal);
-  }
+      {% if section.settings.background_image %}
+        <img 
+          src="{{ section.settings.background_image | img_url: '2000x' }}"
+          class="shop-the-look__image shop-the-look__image--desktop"
+          alt="{{ section.settings.background_image.alt | escape }}"
+          style="{% if section.settings.image_height != 'auto' %}object-fit: cover; height: 100%;{% endif %}"
+        >
+      {% endif %}
 
-  disconnectedCallback() {
-    super.disconnectedCallback();
+      {% if section.settings.mobile_background_image %}
+        <img 
+          src="{{ section.settings.mobile_background_image | img_url: '1000x' }}"
+          class="shop-the-look__image shop-the-look__image--mobile"
+          alt="{{ section.settings.mobile_background_image.alt | escape }}"
+          style="{% if section.settings.image_height != 'auto' %}object-fit: cover; height: 100%;{% endif %}"
+        >
+      {% endif %}
 
-    mediaQueryLarge.removeEventListener('change', this.#closeQuickAddModal);
-    this.#abortController?.abort();
-  }
+      <!-- Hotspots -->
+      <div class="shop-the-look__hotspots">
+        {% for block in section.blocks %}
+          {% if block.settings.product %}
+            {% assign product = block.settings.product %}
 
-  /**
-   * Handles quick add button click
-   * @param {Event} event - The click event
-   */
-  handleClick = async (event) => {
-    event.preventDefault();
+            <div class="shop-the-look__hotspot"
+              style="left: {{ block.settings.position_x }}%; top: {{ block.settings.position_y }}%;"
+              data-hotspot-id="{{ block.id }}"
+              data-hotspot-number="{{ forloop.index }}"
+              {{ block.shopify_attributes }}
+            >
 
-    const currentUrl = this.productPageUrl;
+              <!-- Hotspot button -->
+              <button 
+                class="shop-the-look__hotspot-button {% if block.settings.hotspot_style == 'dot' %}shop-the-look__hotspot-button--dot{% endif %}"
+                aria-label="View {{ product.title }}"
+                data-product-url="{{ product.url }}"
+              >
+                {% unless block.settings.hotspot_style == 'dot' %}
+                  {{ forloop.index }}
+                {% endunless %}
+              </button>
 
-    // Check if we have cached content for this URL
-    let productGrid = this.#cachedContent.get(currentUrl);
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
 
-    if (!productGrid) {
-      // Fetch and cache the content
-      const html = await this.fetchProductPage(currentUrl);
-      if (html) {
-        const gridElement = html.querySelector('[data-product-grid-content]');
-        if (gridElement) {
-          // Cache the cloned element to avoid modifying the original
-          productGrid = /** @type {Element} */ (gridElement.cloneNode(true));
-          this.#cachedContent.set(currentUrl, productGrid);
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  const hotspots = document.querySelectorAll('.shop-the-look__hotspot');
+
+  hotspots.forEach(hotspot => {
+    const button = hotspot.querySelector('.shop-the-look__hotspot-button');
+
+    if (!button) return;
+
+    /* TRIGGER QUICK-ADD MODAL ON HOTSPOT CLICK */
+    const productUrl = button.getAttribute('data-product-url');
+    
+    const openQuickAdd = async () => {
+      if (!productUrl) return;
+      
+      const quickAddDialog = document.getElementById('quick-add-dialog');
+      if (!quickAddDialog) return;
+      
+      try {
+        // Fetch product page
+        const response = await fetch(productUrl);
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const productGrid = doc.querySelector('[data-product-grid-content]');
+        
+        if (productGrid) {
+          const modalContent = document.getElementById('quick-add-modal-content');
+          if (modalContent) {
+            modalContent.innerHTML = productGrid.innerHTML;
+          }
+          
+          // Open the quick-add modal
+          if (typeof quickAddDialog.showDialog === 'function') {
+            quickAddDialog.showDialog();
+          }
         }
+      } catch (error) {
+        console.error('Failed to load quick-add modal:', error);
       }
-    }
+    };
 
-    if (productGrid) {
-      // Use a fresh clone from the cache
-      const freshContent = /** @type {Element} */ (productGrid.cloneNode(true));
-      await this.updateQuickAddModal(freshContent);
-    }
-
-    this.#openQuickAddModal();
-  };
-
-  /** @param {QuickAddDialog} dialogComponent */
-  #stayVisibleUntilDialogCloses(dialogComponent) {
-    this.toggleAttribute('stay-visible', true);
-
-    dialogComponent.addEventListener(DialogCloseEvent.eventName, () => this.toggleAttribute('stay-visible', false), {
-      once: true,
+    /* MOBILE & DESKTOP = click to open quick-add */
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openQuickAdd();
     });
-  }
+  });
+})();
+</script>
 
-  #openQuickAddModal = () => {
-    const dialogComponent = document.getElementById('quick-add-dialog');
-    if (!(dialogComponent instanceof QuickAddDialog)) return;
-
-    this.#stayVisibleUntilDialogCloses(dialogComponent);
-
-    dialogComponent.showDialog();
-  };
-
-  #closeQuickAddModal = () => {
-    const dialogComponent = document.getElementById('quick-add-dialog');
-    if (!(dialogComponent instanceof QuickAddDialog)) return;
-
-    dialogComponent.closeDialog();
-  };
-
-  /**
-   * Fetches the product page content
-   * @param {string} productPageUrl - The URL of the product page to fetch
-   * @returns {Promise<Document | null>}
-   */
-  async fetchProductPage(productPageUrl) {
-    if (!productPageUrl) return null;
-
-    // We use this to abort the previous fetch request if it's still pending.
-    this.#abortController?.abort();
-    this.#abortController = new AbortController();
-
-    try {
-      const response = await fetch(productPageUrl, {
-        signal: this.#abortController.signal,
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch product page: HTTP error ${response.status}`);
-      }
-
-      const responseText = await response.text();
-      const html = new DOMParser().parseFromString(responseText, 'text/html');
-
-      return html;
-    } catch (error) {
-      if (error.name === 'AbortError') {
-        return null;
-      } else {
-        throw error;
-      }
-    } finally {
-      this.#abortController = null;
+{% schema %}
+{
+  "name": "Shop the Look",
+  "tag": "section",
+  "class": "shop-the-look",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Desktop Background Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_background_image",
+      "label": "Mobile Background Image (Optional)"
+    },
+    {
+      "type": "select",
+      "id": "image_height",
+      "label": "Image Height",
+      "options": [
+        { "value": "auto", "label": "Auto" },
+        { "value": "custom", "label": "Custom Height (px)" },
+        { "value": "viewport", "label": "Viewport Height (vh)" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "range",
+      "id": "custom_height",
+      "min": 300,
+      "max": 1200,
+      "step": 50,
+      "label": "Custom Height",
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "viewport_height",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "label": "Viewport Height",
+      "unit": "vh",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "range",
+      "id": "mobile_hotspot_scale",
+      "min": 50,
+      "max": 150,
+      "step": 10,
+      "unit": "%",
+      "label": "Hotspot Size on Mobile",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "unit": "px",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "unit": "px",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 36
     }
-  }
+  ],
 
-  /**
-   * Re-renders the variant picker.
-   * @param {Element} productGrid - The product grid element
-   */
-  async updateQuickAddModal(productGrid) {
-    const modalContent = document.getElementById('quick-add-modal-content');
-
-    if (!productGrid || !modalContent) return;
-
-    if (isMobileBreakpoint()) {
-      const productDetails = productGrid.querySelector('.product-details');
-      if (!productDetails) return;
-      const productFormComponent = productGrid.querySelector('product-form-component');
-      const variantPicker = productGrid.querySelector('variant-picker');
-      const productPrice = productGrid.querySelector('product-price');
-      const productTitle = document.createElement('a');
-      productTitle.textContent = this.dataset.productTitle || '';
-
-      // Make product title as a link to the product page
-      productTitle.href = this.productPageUrl;
-
-      if (!productFormComponent || !variantPicker || !productPrice || !productTitle) return;
-
-      const productHeader = document.createElement('div');
-      productHeader.classList.add('product-header');
-
-      productHeader.appendChild(productTitle);
-      productHeader.appendChild(productPrice);
-      productGrid.appendChild(productHeader);
-      productGrid.appendChild(variantPicker);
-      productGrid.appendChild(productFormComponent);
-      productDetails.remove();
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Hotspot",
+      "limit": 15,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "header",
+          "content": "Hotspot Position"
+        },
+        {
+          "type": "range",
+          "id": "position_x",
+          "label": "Position X",
+          "min": 0,
+          "max": 100,
+          "unit": "%",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "position_y",
+          "label": "Position Y",
+          "min": 0,
+          "max": 100,
+          "unit": "%",
+          "default": 50
+        },
+        {
+          "type": "header",
+          "content": "Hotspot Style"
+        },
+        {
+          "type": "select",
+          "id": "hotspot_style",
+          "label": "Style",
+          "options": [
+            { "value": "number", "label": "Number" },
+            { "value": "dot", "label": "Dot" }
+          ],
+          "default": "number"
+        }
+      ]
     }
+  ],
 
-    morph(modalContent, productGrid);
-
-    this.#syncVariantSelection(modalContent);
-  }
-
-  /**
-   * Syncs the variant selection from the product card to the modal
-   * @param {Element} modalContent - The modal content element
-   */
-  #syncVariantSelection(modalContent) {
-    const selectedVariantId = this.#getSelectedVariantId();
-    if (!selectedVariantId) return;
-
-    // Find and check the corresponding input in the modal
-    const modalInputs = modalContent.querySelectorAll('input[type="radio"][data-variant-id]');
-    for (const input of modalInputs) {
-      if (input instanceof HTMLInputElement && input.dataset.variantId === selectedVariantId && !input.checked) {
-        input.checked = true;
-        input.dispatchEvent(new Event('change', { bubbles: true }));
-        break;
-      }
+  "presets": [
+    {
+      "name": "Shop the Look",
+      "blocks": [
+        { "type": "hotspot" },
+        { "type": "hotspot" }
+      ]
     }
-  }
+  ]
 }
-
-if (!customElements.get('quick-add-component')) {
-  customElements.define('quick-add-component', QuickAddComponent);
-}
-
-class QuickAddDialog extends DialogComponent {
-  #abortController = new AbortController();
-
-  connectedCallback() {
-    super.connectedCallback();
-
-    this.addEventListener(ThemeEvents.cartUpdate, this.handleCartUpdate, { signal: this.#abortController.signal });
-    this.addEventListener(ThemeEvents.variantUpdate, this.#updateProductTitleLink);
-
-    this.addEventListener(DialogCloseEvent.eventName, this.#handleDialogClose);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-
-    this.#abortController.abort();
-    this.removeEventListener(DialogCloseEvent.eventName, this.#handleDialogClose);
-  }
-
-  /**
-   * Closes the dialog
-   * @param {CartUpdateEvent} event - The cart update event
-   */
-  handleCartUpdate = (event) => {
-    if (event.detail.data.didError) return;
-    this.closeDialog();
-  };
-
-  #updateProductTitleLink = (/** @type {CustomEvent} */ event) => {
-    const anchorElement = /** @type {HTMLAnchorElement} */ (
-      event.detail.data.html?.querySelector('.view-product-title a')
-    );
-    const viewMoreDetailsLink = /** @type {HTMLAnchorElement} */ (this.querySelector('.view-product-title a'));
-    const mobileProductTitle = /** @type {HTMLAnchorElement} */ (this.querySelector('.product-header a'));
-
-    if (!anchorElement) return;
-
-    if (viewMoreDetailsLink) viewMoreDetailsLink.href = anchorElement.href;
-    if (mobileProductTitle) mobileProductTitle.href = anchorElement.href;
-  };
-
-  #handleDialogClose = () => {
-    const iosVersion = getIOSVersion();
-    /**
-     * This is a patch to solve an issue with the UI freezing when the dialog is closed.
-     * To reproduce it, use iOS 16.0.
-     */
-    if (!iosVersion || iosVersion.major >= 17 || (iosVersion.major === 16 && iosVersion.minor >= 4)) return;
-
-    requestAnimationFrame(() => {
-      /** @type {HTMLElement | null} */
-      const grid = document.querySelector('#ResultsList [product-grid-view]');
-      if (grid) {
-        const currentWidth = grid.getBoundingClientRect().width;
-        grid.style.width = `${currentWidth - 1}px`;
-        requestAnimationFrame(() => {
-          grid.style.width = '';
-        });
-      }
-    });
-  };
-}
-
-if (!customElements.get('quick-add-dialog')) {
-  customElements.define('quick-add-dialog', QuickAddDialog);
-}
+{% endschema %}
