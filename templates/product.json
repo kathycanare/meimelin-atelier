@@ -1053,22 +1053,25 @@
     "section_zyQBmY": {
       "type": "section",
       "blocks": {
-        "image_XUF6mr": {
-          "type": "image",
-          "name": "t:names.image",
+        "text_QBLHfc": {
+          "type": "text",
+          "name": "t:names.heading",
           "settings": {
-            "image": "shopify://shop_images/DSC04312.webp",
-            "link": "",
-            "image_ratio": "square",
-            "width": "custom",
-            "custom_width": 40,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
+            "text": "<h2><strong>FREQUENTLY ASKED QUESTIONS</strong></h2>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h2",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground-heading)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
@@ -1076,248 +1079,321 @@
           },
           "blocks": {}
         },
-        "accordion_iHnjmj": {
-          "type": "accordion",
-          "name": "t:names.accordion",
+        "group_eBwCdL": {
+          "type": "group",
+          "name": "t:names.group",
           "settings": {
-            "icon": "caret",
-            "dividers": true,
-            "type_preset": "h4",
+            "hide_container_on_mobile": false,
+            "hide_container_on_desktop": false,
+            "hide_content_on_mobile": false,
+            "hide_content_on_desktop": false,
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
             "inherit_color_scheme": true,
             "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
             "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
           "blocks": {
-            "accordion_row_rxMrJe": {
-              "type": "_accordion-row",
+            "image_htdGBz": {
+              "type": "image",
+              "name": "t:names.image",
               "settings": {
-                "heading": "Kādas ir piegādes iespējas un cik ilgi jāgaida, līdz prece tiek piegādāta?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
+                "image": "shopify://shop_images/DSC04312.webp",
+                "link": "",
+                "image_ratio": "square",
+                "width": "custom",
+                "custom_width": 40,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
-              "blocks": {
-                "text_KHmAKP": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Mēs piedāvājam piegādi visā Latvijā. Ja pasūtījums tiek veikts darba dienā līdz noteiktam laikam (piemēram, līdz 14:00), mēs to nosūtām tajā pašā dienā. Standarta piegādes laiks parasti ir 1-3 darba dienas, atkarībā no jūsu atrašanās vietas. Ja pasūtījuma summa sasniedz noteiktu slieksni (piemēram, no 50 EUR), piegāde tiek bez maksas. (Šāds nosacījums redzams jūsu mājaslapā: “BEZMAKSAS PIEGĀDE NO 50 EUR”.)</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_KHmAKP"
-              ]
+              "blocks": {}
             },
-            "accordion_row_htkczq": {
-              "type": "_accordion-row",
+            "accordion_JcGzyi": {
+              "type": "accordion",
+              "name": "t:names.accordion",
               "settings": {
-                "heading": "Vai ir iespējams personalizēt rotaslietu?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
+                "icon": "caret",
+                "dividers": true,
+                "type_preset": "h4",
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {
-                "text_jPhVyz": {
-                  "type": "text",
+                "accordion_row_rxMrJe": {
+                  "type": "_accordion-row",
                   "settings": {
-                    "text": "<p>We are unable to accept returns on certain items. These will be carefully marked before purchase.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
+                    "heading": "Kādas ir piegādes iespējas un cik ilgi jāgaida, līdz prece tiek piegādāta?",
+                    "open_by_default": true,
+                    "icon": "none",
+                    "width": 20
                   },
-                  "blocks": {}
+                  "blocks": {
+                    "text_KHmAKP": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Mēs piedāvājam piegādi visā Latvijā. Ja pasūtījums tiek veikts darba dienā līdz noteiktam laikam (piemēram, līdz 14:00), mēs to nosūtām tajā pašā dienā. Standarta piegādes laiks parasti ir 1-3 darba dienas, atkarībā no jūsu atrašanās vietas. Ja pasūtījuma summa sasniedz noteiktu slieksni (piemēram, no 50 EUR), piegāde tiek bez maksas. (Šāds nosacījums redzams jūsu mājaslapā: “BEZMAKSAS PIEGĀDE NO 50 EUR”.)</p>",
+                        "width": "100%",
+                        "max_width": "none",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "var(--color-foreground)",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_KHmAKP"
+                  ]
+                },
+                "accordion_row_htkczq": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Vai ir iespējams personalizēt rotaslietu?",
+                    "open_by_default": false,
+                    "icon": "none",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "text_jPhVyz": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>We are unable to accept returns on certain items. These will be carefully marked before purchase.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "var(--color-foreground)",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_jPhVyz"
+                  ]
+                },
+                "accordion_row_rKF6qh": {
+                  "type": "_accordion-row",
+                  "name": "t:names.accordion_dash_row",
+                  "settings": {
+                    "heading": "Vai rotaslietas piegādājas kādā dāvanu iesaiņojumā?",
+                    "open_by_default": false,
+                    "icon": "none",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "text_4z3nWj": {
+                      "type": "text",
+                      "name": "t:names.text",
+                      "settings": {
+                        "text": "<p>We will work quickly to ship your order as soon as possible. Once your order has shipped, you will receive an email with further information. Delivery times vary depending on your location.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "var(--color-foreground)",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_4z3nWj"
+                  ]
+                },
+                "accordion_row_dTQGVH": {
+                  "type": "_accordion-row",
+                  "name": "t:names.accordion_dash_row",
+                  "settings": {
+                    "heading": "Vai piedāvājat dāvanu kartes?",
+                    "open_by_default": false,
+                    "icon": "none",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "text_gL8HM6": {
+                      "type": "text",
+                      "name": "t:names.text",
+                      "settings": {
+                        "text": "<p>Our products are manufactured both locally and globally. We carefully select our manufacturing partners to ensure our products are high quality and a fair value. </p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "var(--color-foreground)",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_gL8HM6"
+                  ]
+                },
+                "accordion_row_DCwTY7": {
+                  "type": "_accordion-row",
+                  "name": "t:names.accordion_dash_row",
+                  "settings": {
+                    "heading": "No kādiem materiāliem ir izgatavotas jūsu rotaslietas?",
+                    "open_by_default": false,
+                    "icon": "none",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "text_rjYrCw": {
+                      "type": "text",
+                      "name": "t:names.text",
+                      "settings": {
+                        "text": "<p>Shipping is calculated based on your location and the items in your order. You will always know the shipping price before you purchase.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "color": "var(--color-foreground)",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "text_rjYrCw"
+                  ]
                 }
               },
               "block_order": [
-                "text_jPhVyz"
-              ]
-            },
-            "accordion_row_rKF6qh": {
-              "type": "_accordion-row",
-              "name": "t:names.accordion_dash_row",
-              "settings": {
-                "heading": "Vai rotaslietas piegādājas kādā dāvanu iesaiņojumā?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_4z3nWj": {
-                  "type": "text",
-                  "name": "t:names.text",
-                  "settings": {
-                    "text": "<p>We will work quickly to ship your order as soon as possible. Once your order has shipped, you will receive an email with further information. Delivery times vary depending on your location.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_4z3nWj"
-              ]
-            },
-            "accordion_row_dTQGVH": {
-              "type": "_accordion-row",
-              "name": "t:names.accordion_dash_row",
-              "settings": {
-                "heading": "Vai piedāvājat dāvanu kartes?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_gL8HM6": {
-                  "type": "text",
-                  "name": "t:names.text",
-                  "settings": {
-                    "text": "<p>Our products are manufactured both locally and globally. We carefully select our manufacturing partners to ensure our products are high quality and a fair value. </p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_gL8HM6"
-              ]
-            },
-            "accordion_row_DCwTY7": {
-              "type": "_accordion-row",
-              "name": "t:names.accordion_dash_row",
-              "settings": {
-                "heading": "No kādiem materiāliem ir izgatavotas jūsu rotaslietas?",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20
-              },
-              "blocks": {
-                "text_rjYrCw": {
-                  "type": "text",
-                  "name": "t:names.text",
-                  "settings": {
-                    "text": "<p>Shipping is calculated based on your location and the items in your order. You will always know the shipping price before you purchase.</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_rjYrCw"
+                "accordion_row_rxMrJe",
+                "accordion_row_htkczq",
+                "accordion_row_rKF6qh",
+                "accordion_row_dTQGVH",
+                "accordion_row_DCwTY7"
               ]
             }
           },
           "block_order": [
-            "accordion_row_rxMrJe",
-            "accordion_row_htkczq",
-            "accordion_row_rKF6qh",
-            "accordion_row_dTQGVH",
-            "accordion_row_DCwTY7"
+            "image_htdGBz",
+            "accordion_JcGzyi"
           ]
         }
       },
       "block_order": [
-        "image_XUF6mr",
-        "accordion_iHnjmj"
+        "text_QBLHfc",
+        "group_eBwCdL"
       ],
       "name": "t:names.faq_section",
       "settings": {
-        "content_direction": "row",
+        "content_direction": "column",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
+        "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
         "gap": 32,
         "section_width": "page-width",
@@ -1663,13 +1739,39 @@
     "section_kG7tGf": {
       "type": "section",
       "blocks": {
+        "text_3XGpBG": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>PIESEKO MUMS</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 50,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
         "text_ExmVXw": {
           "type": "text",
           "name": "t:names.heading",
           "settings": {
             "text": "<h2><strong>Abonē mūsu jaunumu lapu unuzzini par akcijām pirmais!</strong></h2>",
-            "width": "100%",
-            "max_width": "normal",
+            "width": "fit-content",
+            "max_width": "narrow",
             "alignment": "center",
             "type_preset": "h2",
             "font": "var(--font-body--family)",
@@ -1716,6 +1818,7 @@
         }
       },
       "block_order": [
+        "text_3XGpBG",
         "text_ExmVXw",
         "email_signup_pxEWHw"
       ],
