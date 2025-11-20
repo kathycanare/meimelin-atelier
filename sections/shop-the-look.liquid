@@ -90,14 +90,14 @@
     }
   }
 
-  /* Tooltip */
+  /* Tooltip - Redesigned to match reference */
   .shop-the-look__tooltip {
     position: absolute;
-    width: 280px;
+    width: 200px;
     background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    padding: 16px;
+    border-radius: 4px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    padding: 0;
     opacity: 0;
     visibility: hidden;
     transition: opacity .3s ease, visibility .3s ease;
@@ -111,11 +111,11 @@
     pointer-events: all;
   }
 
-  /* Desktop alignments */
-  .shop-the-look__tooltip--align-left   { right: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
-  .shop-the-look__tooltip--align-right  { left: calc(100% + 12px);  top: 50%; transform: translateY(-50%); }
-  .shop-the-look__tooltip--align-top    { bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); }
-  .shop-the-look__tooltip--align-bottom { top: calc(100% + 12px);    left: 50%; transform: translateX(-50%); }
+  /* Desktop alignments - keep within image bounds */
+  .shop-the-look__tooltip--align-left   { right: calc(100% + 8px); top: 50%; transform: translateY(-50%); }
+  .shop-the-look__tooltip--align-right  { left: calc(100% + 8px);  top: 50%; transform: translateY(-50%); }
+  .shop-the-look__tooltip--align-top    { bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); }
+  .shop-the-look__tooltip--align-bottom { top: calc(100% + 8px);    left: 50%; transform: translateX(-50%); }
 
   /* Mobile tooltips behave like modals */
   @media (max-width: 768px) {
@@ -125,8 +125,7 @@
       left: 50% !important;
       transform: translate(-50%, -50%) !important;
       width: calc(100vw - 32px);
-      max-width: 320px;
-      padding: 14px;
+      max-width: 280px;
     }
   }
 
@@ -140,87 +139,144 @@
     cursor: pointer;
     background: transparent;
     border: none;
+    z-index: 10;
   }
 
   @media (max-width: 768px) {
     .shop-the-look__tooltip-close { display: block; }
   }
 
+  .shop-the-look__tooltip-content {
+    padding: 12px;
+  }
+
   .shop-the-look__tooltip-image {
     width: 100%;
     aspect-ratio: 1;
-    border-radius: 4px;
+    border-radius: 4px 4px 0 0;
     object-fit: cover;
-    margin-bottom: 12px;
+    margin-bottom: 0;
+  }
+
+  .shop-the-look__tooltip-collection {
+    font-size: 10px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #666;
+    margin: 0 0 4px;
   }
 
   .shop-the-look__tooltip-title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     margin: 0 0 8px;
+    line-height: 1.3;
   }
 
   .shop-the-look__tooltip-price {
-    font-size: 14px;
-    margin-bottom: 12px;
-    color: #666;
+    font-size: 13px;
+    margin-bottom: 10px;
+    color: #000;
+    font-weight: 500;
   }
 
-  .shop-the-look__tooltip-variants { margin-bottom: 12px; }
+  /* Swatch container */
+  .shop-the-look__tooltip-swatches {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+    align-items: center;
+  }
 
-  .shop-the-look__tooltip-variant-label {
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 6px;
+  .shop-the-look__tooltip-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .shop-the-look__tooltip-swatch.is-selected {
+    border: 2px solid #000;
+  }
+
+  .shop-the-look__tooltip-swatch.is-selected::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border: 1px solid #000;
+    border-radius: 50%;
+  }
+
+  /* Variant selector (fallback if no swatches) */
+  .shop-the-look__tooltip-variants { 
+    margin-bottom: 10px;
+    display: none;
   }
 
   .shop-the-look__tooltip-variant-select {
     width: 100%;
-    padding: 8px 12px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-  }
-
-  .shop-the-look__tooltip-quantity {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-
-  .shop-the-look__tooltip-quantity-input {
-    width: 60px;
     padding: 6px 8px;
-    text-align: center;
-    border-radius: 4px;
+    border-radius: 3px;
     border: 1px solid #ddd;
+    font-size: 12px;
   }
 
+  /* Remove quantity input */
+  .shop-the-look__tooltip-quantity {
+    display: none;
+  }
+
+  /* Single button with arrow and number */
   .shop-the-look__tooltip-actions {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    flex-direction: row;
+    gap: 0;
+    align-items: stretch;
   }
 
   .shop-the-look__tooltip-button {
-    padding: 10px 16px;
-    border-radius: 4px;
-    font-size: 14px;
+    padding: 8px 12px;
+    font-size: 12px;
     font-weight: 600;
     text-align: center;
     cursor: pointer;
     border: none;
-    width: 100%;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
-  .shop-the-look__tooltip-button--primary { background: #000; color: #fff; }
-  .shop-the-look__tooltip-button--primary:hover { background: #333; }
+  .shop-the-look__tooltip-button--primary { 
+    background: #000; 
+    color: #fff;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 3px 0 0 3px;
+  }
+
+  .shop-the-look__tooltip-button--primary:hover { 
+    background: #333; 
+  }
+
+  .shop-the-look__tooltip-button--number {
+    background: #000;
+    color: #fff;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 3px 3px 0;
+    border-left: 1px solid rgba(255,255,255,0.2);
+  }
 
   .shop-the-look__tooltip-button--secondary {
-    background: transparent;
-    color: #000;
-    border: 1px solid #ddd;
+    display: none;
   }
 
   .shop-the-look__overlay {
@@ -237,6 +293,7 @@
     .shop-the-look__overlay { display: none !important; }
   }
 </style>
+
 <div class="shop-the-look-section" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px;">
   <div class="shop-the-look__container">
 
@@ -272,6 +329,7 @@
             <div class="shop-the-look__hotspot"
               style="left: {{ block.settings.position_x }}%; top: {{ block.settings.position_y }}%;"
               data-hotspot-id="{{ block.id }}"
+              data-hotspot-number="{{ forloop.index }}"
               {{ block.shopify_attributes }}
             >
 
@@ -299,47 +357,53 @@
                     >
                   {% endif %}
 
-                  <h3 class="shop-the-look__tooltip-title">{{ product.title }}</h3>
-
-                  <div class="shop-the-look__tooltip-price">
-                    {{ product.price | money }}
-                    {% if product.compare_at_price > product.price %}
-                      <s>{{ product.compare_at_price | money }}</s>
+                  <div class="shop-the-look__tooltip-content">
+                    {% if product.vendor %}
+                      <div class="shop-the-look__tooltip-collection">{{ product.vendor }}</div>
                     {% endif %}
-                  </div>
 
-                  <form class="shop-the-look__tooltip-form" action="/cart/add" method="POST">
-                    {% if product.variants.size > 1 %}
-                      <div class="shop-the-look__tooltip-variants">
-                        <label class="shop-the-look__tooltip-variant-label">Select option</label>
-                        <select name="id" class="shop-the-look__tooltip-variant-select">
+                    <h3 class="shop-the-look__tooltip-title">{{ product.title }}</h3>
+
+                    <div class="shop-the-look__tooltip-price">
+                      {{ product.price | money }}
+                      {% if product.compare_at_price > product.price %}
+                        <s style="color: #999; margin-left: 4px;">{{ product.compare_at_price | money }}</s>
+                      {% endif %}
+                    </div>
+
+                    <form class="shop-the-look__tooltip-form" action="/cart/add" method="POST">
+                      {% if product.variants.size > 1 %}
+                        <!-- Color swatches -->
+                        <div class="shop-the-look__tooltip-swatches">
                           {% for variant in product.variants %}
-                            <option value="{{ variant.id }}" {% unless variant.available %}disabled{% endunless %}>
-                              {{ variant.title }}
-                            </option>
+                            {% if variant.available %}
+                              <div class="shop-the-look__tooltip-swatch {% if forloop.first %}is-selected{% endif %}"
+                                data-variant-id="{{ variant.id }}"
+                                style="background-color: {{ variant.option1 | downcase | replace: ' ', '' }};"
+                                title="{{ variant.title }}">
+                              </div>
+                            {% endif %}
                           {% endfor %}
-                        </select>
+                        </div>
+                        <input type="hidden" name="id" value="{{ product.variants.first.id }}" class="selected-variant-input">
+                      {% else %}
+                        <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                      {% endif %}
+
+                      <input type="hidden" name="quantity" value="1">
+
+                      <div class="shop-the-look__tooltip-actions">
+                        <button type="submit" class="shop-the-look__tooltip-button shop-the-look__tooltip-button--primary">
+                          <span>Add to Cart</span>
+                          <span>→</span>
+                        </button>
+                        <div class="shop-the-look__tooltip-button shop-the-look__tooltip-button--number">
+                          {{ forloop.index }}
+                        </div>
                       </div>
-                    {% else %}
-                      <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-                    {% endif %}
 
-                    <div class="shop-the-look__tooltip-quantity">
-                      <label class="shop-the-look__tooltip-quantity-label">Qty</label>
-                      <input type="number" name="quantity" value="1" min="1" class="shop-the-look__tooltip-quantity-input">
-                    </div>
-
-                    <div class="shop-the-look__tooltip-actions">
-                      <button type="submit" class="shop-the-look__tooltip-button shop-the-look__tooltip-button--primary">
-                        Add to Cart
-                      </button>
-
-                      <a href="{{ product.url }}" class="shop-the-look__tooltip-button shop-the-look__tooltip-button--secondary">
-                        View Product
-                      </a>
-                    </div>
-
-                  </form>
+                    </form>
+                  </div>
 
                 </div>
               {% endif %}
@@ -354,6 +418,7 @@
 </div>
 
 <div class="shop-the-look__overlay"></div>
+
 <script>
 (function() {
   const isMobile = window.innerWidth <= 768;
@@ -366,8 +431,24 @@
     const tooltip = hotspot.querySelector('.shop-the-look__tooltip');
     const closeBtn = tooltip ? tooltip.querySelector('.shop-the-look__tooltip-close') : null;
     const form = tooltip ? tooltip.querySelector('.shop-the-look__tooltip-form') : null;
+    const swatches = tooltip ? tooltip.querySelectorAll('.shop-the-look__tooltip-swatch') : null;
+    const variantInput = tooltip ? tooltip.querySelector('.selected-variant-input') : null;
 
     if (!button || !tooltip) return;
+
+    /* Swatch selection */
+    if (swatches && variantInput) {
+      swatches.forEach(swatch => {
+        swatch.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          swatches.forEach(s => s.classList.remove('is-selected'));
+          swatch.classList.add('is-selected');
+          variantInput.value = swatch.dataset.variantId;
+        });
+      });
+    }
 
     /* MOBILE = click */
     if (isMobile) {
@@ -413,10 +494,11 @@
         .then(res => res.json())
         .then(() => {
           const btn = form.querySelector('[type="submit"]');
-          const original = btn.textContent;
-          btn.textContent = 'Added!';
+          const btnText = btn.querySelector('span:first-child');
+          const original = btnText.textContent;
+          btnText.textContent = 'Added!';
           setTimeout(() => {
-            btn.textContent = original;
+            btnText.textContent = original;
             if (isMobile) closeTooltip();
           }, 1500);
 
@@ -429,7 +511,6 @@
 
   function openTooltip(hotspot) {
     const tooltip = hotspot.querySelector('.shop-the-look__tooltip');
-    const button = hotspot.querySelector('.shop-the-look__hotspot-button');
     if (!tooltip) return;
 
     activeHotspot = hotspot;
@@ -456,6 +537,7 @@
 
 })();
 </script>
+
 {% schema %}
 {
   "name": "Shop the Look",
